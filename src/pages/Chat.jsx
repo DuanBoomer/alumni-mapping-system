@@ -98,7 +98,7 @@ export default function Chat() {
 
   return (
 
-    <div style={{ padding: "1em 1em 3em 1em", height: "70vh" }}>
+    <div style={{ padding: "1em 1em 3em 1em", height: "75vh" }}>
       <Header text={"Chat"} />
       <div style={styles.chat}>
         <div style={{ height: "92%", overflowY: 'scroll' }}>
