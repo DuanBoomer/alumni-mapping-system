@@ -1,14 +1,19 @@
-// import React from 'react'
-// import "../styling/profile.css"
 import Header from '../components/Header'
 import Button from '../components/Button'
 import profile_image from "../assets/person.jpeg"
-// import perso from "../assets/chat-icon.svg"
+
+import { useLocation, useNavigate } from 'react-router-dom'
+import { getAlumniDetails } from '../back/User'
 
 function Profile({ logo, person }) {
+
+  const location = useLocation()
+  const navigate = useNavigate()
+  const alumni = getAlumniDetails(location.state.userID)
+
   const styles = {
     profile_div: {
-      display: "flex", 
+      display: "flex",
       flexDirection: "column",
       alignItems: "center",
       padding: "2em",
@@ -45,22 +50,26 @@ function Profile({ logo, person }) {
       lineHeight: "normal",
     }
   }
+
+  function handleClick(path) {
+    navigate(path, { state: { id: location.state.userID } })
+  }
   return (
-    <div style={{ padding: "1em 1em 3em 1em", overflowY: "scroll"}}>
+    <div style={{ padding: "1em 1em 3em 1em" }}>
       <Header text={'Profile'} />
 
       <div style={styles.profile_div}>
-        <img style={styles.profile_image} src={profile_image} />
-        <p style={styles.name}>Chirag</p>
-        <p style={styles.text}>Blockchain | AI expert</p>
-        <p style={styles.text}>Wipro.inc</p>
+        <img style={styles.profile_image} src={profile_image} alt='profile'/>
+        <p style={styles.name}>{alumni.name}</p>
+        <p style={styles.text}>{alumni.expertise.join(" | ")}</p>
+        <p style={styles.text}>{alumni.company}</p>
       </div>
 
-      <div style={{display: "flex", flexDirection: "column", gap: "1em"}}>
-        <Button text={"Downloads"} type="light" size="large" path="/downloads"/>
-        <Button text={"Edit Profile"} type="light" size="large" path="/editprofile"/>
-        <Button text={"Schedule Meet"} type="light" size="large" path="/schedulemeet"/>
-        <Button text={"Log Out"} type="light" size="large" path="/"/>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1em" }}>
+        <Button text={"Downloads"} type="light" size="large" onClick={() => handleClick("/downloads")} />
+        <Button text={"Edit Profile"} type="light" size="large" onClick={() => handleClick("/editprofile")} />
+        <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />
+        <Button text={"Log Out"} type="light" size="large" onClick={() => handleClick("/")} />
       </div>
     </div>
   )

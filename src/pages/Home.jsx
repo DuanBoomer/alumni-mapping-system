@@ -1,5 +1,3 @@
-// import React from 'react'
-// import "../styling/home.css"
 import Header from '../components/Header'
 import EventCard from '../components/EventCard'
 import ProfileCard from '../components/ProfileCard'
@@ -50,7 +48,7 @@ function Home() {
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
           </div>
-          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={userID}/>
+          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={userID} eventid={event.id}/>
 
       }
 
@@ -59,8 +57,8 @@ function Home() {
       <p style={styles.text}>Students</p>
 
       {
-        students.map((student) => {
-          return <ProfileCard name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.id} type={"student"}/>
+        students.map((student, index) => {
+          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.id} type={"student"}/>
         })
       }
 

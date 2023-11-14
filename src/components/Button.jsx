@@ -3,9 +3,10 @@ import { Link } from "react-router-dom"
 export default function Button({ text, type, size, path, onClick }) {
     const styles = {
         button: {
+            width: "fit-content",
             border: "none",
             padding: size === "big" ? "0.5rem 3rem" : "0.25rem 1.5rem",
-            margin: size === "big" ? "0.5em 0em" : "0",
+            margin: size === "big" ? "0.3em 0em" : "0",
             color: type === "light" ? "var(--text-color-dark)" : "#E0E0E0",
             transition: "0.3s",
             textAlign: "center",

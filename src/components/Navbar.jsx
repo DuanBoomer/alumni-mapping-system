@@ -1,5 +1,3 @@
-// import React from 'react'
-// import "../styling/header.css";
 import home from "../assets/home-icon.svg";
 import chats from "../assets/chat-icon.svg";
 import profile from "../assets/profile-icon.svg";

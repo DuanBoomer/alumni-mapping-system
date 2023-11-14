@@ -1,7 +1,13 @@
 import Header from "../components/Header";
 import Doc from "../components/Doc";
 
+import { useLocation } from "react-router-dom";
+import { getEventsHistory } from "../back/Events";
+
 export default function Downloads() {
+
+  const location = useLocation()
+  const events = getEventsHistory(location.state.id)
 
   const styles = {
     date: {
@@ -17,12 +23,20 @@ export default function Downloads() {
   return (
     <div style={{ padding: "1em 1em 3em 1em" }}>
       <Header text={"Download"} />
-      <p style={styles.date}>20 aug 2023</p>
-      <Doc text={"sample-resume.pdf"} />
-      <Doc text={"job-market-analysis.pdf"} />
-      <Doc text={"interview-questions.pdf"} />
-      <p style={styles.date}>22 aug 2023</p>
-      <Doc text={"technical-industry-map.pdf"} />
+      {
+        events.map((event, index) => {
+          return (
+            <div>
+              <p key={index} style={styles.date}>{event.date}</p>
+              {
+                event.docs.map((doc, index) => {
+                  return <Doc key={index} text={doc} />
+                })
+              }
+            </div>
+          )
+        })
+      }
     </div>
   )
 }

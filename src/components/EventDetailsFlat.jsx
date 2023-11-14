@@ -1,6 +1,3 @@
-// import Button from "../components/Button";
-// import Header from "../components/Header";
-
 export default function EventDetailsFlat({ time, day, date, title }) {
 
     const styles = {

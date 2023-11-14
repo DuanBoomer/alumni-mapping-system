@@ -31,7 +31,7 @@ export default function EventDetails() {
 
             <p style={styles.small_text}>{location.state.desc}</p>
 
-            <div style={{display: "flex", gap: "1em"}}>
+            <div style={{display: "flex", flexDirection: "column"}}>
                 <Button text={"Join"} type={"light"} size={"big"} onClick={handleClick}/>
                 <Button text={"Cancel"} type={"dark"} size={"big"} onClick={handleClick}/>
             </div>

@@ -1,4 +1,3 @@
-// import React from "react";
 import { useState } from "react";
 import Header from "../components/Header";
 import profile_image from "../assets/person.jpeg";
@@ -14,14 +13,14 @@ function ChatBox({ text, profile_image, type }) {
     text: {
       padding: '1em',
       margin: "0",
-      borderRadius: type == "sent" ? "18px 18px 0px 18px" : "18px 18px 18px 0px",
+      borderRadius: type === "sent" ? "18px 18px 0px 18px" : "18px 18px 18px 0px",
       background: "#E0E0E0",
       boxShadow: "-5px -5px 10px 0px #FFF inset, 5px 5px 10px 0px #BEBEBE inset",
     },
 
     div: {
       display: "flex",
-      justifyContent: type == "sent" ? "end" : "start",
+      justifyContent: type === "sent" ? "end" : "start",
       alignItems: "end",
       gap: '0.75em',
       margin: "0.75em 1em 0.75em 0em"
@@ -31,14 +30,14 @@ function ChatBox({ text, profile_image, type }) {
   return (
     <div style={styles.div}>
       {
-        type == "sent"
+        type === "sent"
           ? <>
             <p style={styles.text}>{text}</p>
-            <img style={styles.profile_image} src={profile_image} />
+            <img style={styles.profile_image} src={profile_image} alt="profile"/>
           </>
 
           : <>
-            <img style={styles.profile_image} src={profile_image} />
+            <img style={styles.profile_image} src={profile_image} alt="profile" />
             <p style={styles.text}>{text}</p>
           </>
       }
@@ -52,7 +51,7 @@ export default function Chat() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      height: "90%",
+      height: "calc(100% - 18em)",
       borderRadius: "18px",
       padding: "1em",
       background: "#E0E0E0",
@@ -100,10 +99,10 @@ export default function Chat() {
 
   return (
 
-    <div style={{ padding: "1em 1em 3em 1em", height: "70vh" }}>
+    <div style={{ padding: "1em 1em 1em 1em", height: "100vh" }}>
       <Header text={"Chat"} />
       <div style={styles.chat}>
-        <div style={{ height: "92%", overflowY: 'scroll' }}>
+        <div style={{ height: "100%", overflowY: 'scroll' }}>
           {/* <ChatBox text={"chat"} profile_image={profile_image} type={'sent'} /> */}
           {
             history.map((chat, index) => {

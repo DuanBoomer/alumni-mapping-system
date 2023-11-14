@@ -1,7 +1,7 @@
 import Button from "./Button"
 import { useNavigate } from "react-router-dom"
 
-export default function EventCard({ time, day, date, title, type, desc, link, id }) {
+export default function EventCard({ time, day, date, title, type, desc, link, id, eventid }) {
 
     const navigate = useNavigate();
 
@@ -69,24 +69,6 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
             letterSpacing: "-0.333px",
         },
 
-        // button: {
-        //     margin: "0",
-        //     padding: "0.25rem 1.5rem",
-        //     borderRadius: "9px",
-        //     background: "#37352F",
-        //     boxShadow: "5px 5px 5px 0px #161513 inset, -5px -5px 5px 0px #58554B inset",
-        //     width: "fit-content",
-
-        //     border: "none",
-        //     color: "#E0E0E0",
-        //     fontFamily: "Poppins",
-        //     fontSize: "18px",
-        //     fontStyle: "normal",
-        //     fontWeight: 400,
-        //     lineHeight: "normal",
-        //     letterSpacing: "-0.333px",
-        // },
-
         line: {
             width: "10px",
             margin: "0em 1em",
@@ -115,6 +97,15 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
             }
         })
     }
+
+    function handleDocsClick() {
+        navigate("/docs", {
+            state: {
+                id: id,
+                eventid: eventid,
+            }
+        })
+    }
     return (
         <div style={styles.card}>
             <div style={styles.partition}>
@@ -125,7 +116,7 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
                     <p style={styles.date}>{date}</p>
 
                     {
-                        type == "pending"
+                        type === "pending"
                             ? <Button text={"View"} type={"dark"} size={"small"} onClick={handleViewClick} />
                             : <></>
                     }
@@ -138,9 +129,9 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
                 <p style={styles.title}>{title}</p>
 
                 {
-                    type == "pending"
+                    type === "pending"
                         ? <Button text={"History"} type={"dark"} size={"small"} onClick={handleHistoryClick} />
-                        : <Button text={"Documents"} type={"dark"} size={"small"} path={"/docs"} />
+                        : <Button text={"Documents"} type={"dark"} size={"small"} onClick={handleDocsClick} />
                 }
 
             </div>

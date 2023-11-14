@@ -1,7 +1,5 @@
-// import person from "./assets/person.jpeg";
 import profile_img from "../assets/person.jpeg"
 import arrow from "../assets/arrow.svg"
-// import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 export default function ProfileCard({ name, expertise, company, id, type }) {

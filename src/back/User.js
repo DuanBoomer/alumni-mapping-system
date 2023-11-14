@@ -7,6 +7,8 @@ export function getAlumniDetails(userID) {
         "name": "",
         "expertise": [],
         "company": "",
+        "desc": "",
+        "email": "",
         "response": "not found"
     }
 
@@ -15,6 +17,8 @@ export function getAlumniDetails(userID) {
             returnVal.name = alumni.name
             returnVal.expertise = alumni.expertise
             returnVal.company = alumni.company
+            returnVal.desc = alumni.desc
+            returnVal.email = alumni.email
             returnVal.response = "found"
         }
     })
@@ -88,7 +92,7 @@ export function getFullDetails(userID, type){
     }
 
     data.forEach((person) => {
-        if (person.id === userID && type == "alumni"){
+        if (person.id === userID && type === "alumni"){
             returnVal.name = person.name
             returnVal.desc = person.desc
             returnVal.email = person.email
@@ -96,7 +100,7 @@ export function getFullDetails(userID, type){
             returnVal.company = person.company
         }
 
-        if (person.id === userID && type == "student"){
+        if (person.id === userID && type === "student"){
             returnVal.name = person.name
             returnVal.email = person.email
             returnVal.course = person.course

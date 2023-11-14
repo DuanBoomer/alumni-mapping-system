@@ -6,7 +6,7 @@ export default function Header({ text }) {
         h1: {
             color: "var(--text-color-dark)",
             fontFamily: "Poppins",
-            fontSize: "55px",
+            fontSize: "clamp(2rem, 8vw + 1rem, 6rem)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "42px",

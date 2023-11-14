@@ -3,7 +3,17 @@ import profile_image from "../assets/person.jpeg"
 import Button from "../components/Button";
 import InputField from "../components/InputField";
 
+import { useLocation } from "react-router-dom";
+import { getAlumniDetails } from "../back/User";
+import { useState } from "react";
+
 export default function EditProfile() {
+
+    const location = useLocation()
+    const alumni = getAlumniDetails(location.state.id)
+
+    const [alumniData, setAlumniData] = useState(alumni)
+
     const styles = {
         profile_image: {
             height: "180px",
@@ -35,21 +45,19 @@ export default function EditProfile() {
             <div style={{ display: "flex", alignItems: "flex-start" }}>
 
                 <div>
-                    <img style={styles.profile_image} src={profile_image} />
+                    <img style={styles.profile_image} src={profile_image} alt="profile"/>
                     <Button text={"Upload"} type={"dark"} size={"big"} />
                 </div>
 
                 <div>
-                    {/* <InputField placeholder={"name"} /> */}
-                    <input style={styles.long_input} placeholder={"name"} />
-                    <textarea style={styles.long_input} rows={'3'} placeholder="desc"/>
-                    {/* <InputField placeholder={"description"} /> */}
+                    <input style={styles.long_input} value={alumniData.name} onChange={(event) => setAlumniData({...alumniData, name: event.target.value})} placeholder={"name"} />
+                    <textarea style={styles.long_input} value={alumniData.desc} onChange={(event) => setAlumniData({ ...alumniData, desc: event.target.value })} rows={'3'} placeholder="desc"/>
                 </div>
             </div>
 
-            <InputField title={"Email"} placeholder={"enter your email"} />
-            <InputField title={"Company Name"} placeholder={"where you work?"} />
-            <InputField title={"Expertise"} placeholder={"enter everything you love"} />
+            <InputField title={"Email"} placeholder={"enter your email"} state={alumniData.email} setState={(val) => setAlumniData({ ...alumniData, email: val })}/>
+            <InputField title={"Company Name"} placeholder={"where you work?"} state={alumniData.company} setState={(val) => setAlumniData({ ...alumniData, company: val })} />
+            <InputField title={"Expertise"} placeholder={"enter everything you love"} state={alumniData.expertise.join(",")} setState={(val) => setAlumniData({ ...alumniData, expertise: val.split(",") })} />
             
         </div>
     )
