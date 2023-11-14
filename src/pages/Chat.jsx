@@ -52,7 +52,7 @@ export default function Chat() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      height: "100%",
+      height: "90%",
       borderRadius: "18px",
       padding: "1em",
       background: "#E0E0E0",
@@ -112,7 +112,7 @@ export default function Chat() {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <input style={styles.input} placeholder="Type a message" value={chatInput} onChange={(event) => { setChatInput(event.target.value) }} />
-          <div onClick={() => { addChat(chatInput) }}>
+          <div style={{ display: "flex" }} onClick={() => { addChat(chatInput) }}>
             <img src={arrow} alt="" />
             <img src={arrow} alt="" />
           </div>
