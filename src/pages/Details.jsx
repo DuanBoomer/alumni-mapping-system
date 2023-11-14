@@ -31,7 +31,7 @@ export default function Details() {
     }
 
     return (
-        <div style={{ padding: "1em" }}>
+        <div style={{ padding: "1em", overflowY: "scroll" }}>
             <Header text={"Details"} />
 
             <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5em", marginBottom: "2em" }}>
