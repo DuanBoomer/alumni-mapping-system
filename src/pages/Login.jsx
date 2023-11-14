@@ -16,12 +16,12 @@ function Login({ onLogin }) {
     var loggedIn = login(email, password)
 
     // dev code (comment when pushing)
-    navigate("/home", {state: {userID: "123"}})
-    onLogin(true, "123")
+    // navigate("/home", {state: {userID: "123"}})
+    // onLogin(true, "123")
 
     // actual code
-    // if (loggedIn.response){ navigate("/home", {state: {userID: loggedIn.userID}}) }
-    // onLogin(loggedIn.response, loggedIn.userID)
+    if (loggedIn.response){ navigate("/home", {state: {userID: loggedIn.userID}}) }
+    onLogin(loggedIn.response, loggedIn.userID)
   }
 
   return (
