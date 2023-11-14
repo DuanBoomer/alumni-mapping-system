@@ -70,6 +70,8 @@ export default function Chat() {
       lineHeight: "normal",
       border: "none",
       outline: "none",
+
+      width: "80%"
     }
   }
 
@@ -98,7 +100,7 @@ export default function Chat() {
 
   return (
 
-    <div style={{ padding: "1em 1em 3em 1em", height: "75vh" }}>
+    <div style={{ padding: "1em 1em 3em 1em", height: "70vh" }}>
       <Header text={"Chat"} />
       <div style={styles.chat}>
         <div style={{ height: "92%", overflowY: 'scroll' }}>
