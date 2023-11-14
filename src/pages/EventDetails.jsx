@@ -1,8 +1,12 @@
 import Button from "../components/Button";
 import Header from "../components/Header";
 import EventDetailsFlat from "../components/EventDetailsFlat";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function EventDetails() {
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const styles = {
         small_text: {
@@ -15,17 +19,21 @@ export default function EventDetails() {
             lineHeight: "87%",
         }
     }
+
+    function handleClick(){
+        window.open(location.state.link)
+    }
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
 
             <Header text={"Event Details"} />
-            <EventDetailsFlat time="12:00 to 1:00" day="Friday" date="23 oct 2023" title="Blockchain and AI in Digital Marketing"/>
+            <EventDetailsFlat time={location.state.time} day={location.state.day} date={location.state.date} title={location.state.title}/>
 
-            <p style={styles.small_text}>Wolfram language is a advanced mathematical programming language which is used in academic and research fields for complex calculations and analysis</p>
+            <p style={styles.small_text}>{location.state.desc}</p>
 
             <div style={{display: "flex", gap: "1em"}}>
-                <Button text={"Join"} type={"light"} size={"big"} />
-                <Button text={"Cancel"} type={"dark"} size={"big"} />
+                <Button text={"Join"} type={"light"} size={"big"} onClick={handleClick}/>
+                <Button text={"Cancel"} type={"dark"} size={"big"} onClick={handleClick}/>
             </div>
 
         </div>

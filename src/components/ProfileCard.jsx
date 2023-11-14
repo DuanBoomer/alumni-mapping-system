@@ -1,9 +1,12 @@
 // import person from "./assets/person.jpeg";
 import profile_img from "../assets/person.jpeg"
 import arrow from "../assets/arrow.svg"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-export default function ProfileCard({ name, expertise, company }) {
+export default function ProfileCard({ name, expertise, company, id, type }) {
+
+    const navigate = useNavigate()
 
     const styles = {
         profile_image: {
@@ -46,9 +49,14 @@ export default function ProfileCard({ name, expertise, company }) {
             letterSpacing: "-0.333px",
         }
     }
+
+    function handleClick(){
+        navigate("/details", { state: { userID: id, type: type } })
+        // console.log("clicked")
+    }
     return (
-        <Link to={"/details"} style={{textDecoration: "none"}}>
-        <div style={styles.card}>
+        // <Link to={"/details"} style={{textDecoration: "none"}}>
+        <div style={styles.card} onClick={handleClick}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
                 <img style={styles.profile_image} src={profile_img} alt="" />
                 <p style={styles.name}>{name}</p>
@@ -68,6 +76,6 @@ export default function ProfileCard({ name, expertise, company }) {
             </div>
 
         </div>
-    </Link>
+    // </Link>
     )
 }

@@ -16,12 +16,13 @@ import { useState } from 'react';
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [userID, setUserID] = useState("")
   return (
     <>
       <Main>
         <Routes>
-          <Route path='/' element={<Login onLogin={setLoggedIn} />} />
+          <Route path='/' element={<Login onLogin={(login, id) => {setLoggedIn(login); setUserID(id)}} />} />
           <Route path='/home' element={<Home />} />
           <Route path='/chat' element={<Chat />} />
           <Route path='/details' element={<Details />} />
@@ -35,7 +36,7 @@ function App() {
         </Routes>
         {
           loggedIn
-            ? <Navbar />
+            ? <Navbar id={userID}/>
             : <></>
         }
       </Main>

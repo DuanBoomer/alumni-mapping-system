@@ -1,0 +1,68 @@
+[
+    {
+        "id": "1",
+        "alumni": "123",
+        "name": "Kapil",
+        "email": "kapil@sdiet",
+        "desc": "looking forward to a great future ahead",
+        "password": "123",
+        "course": "BTech",
+        "stream": "CSE",
+        "year": "3"
+    },
+    {
+        "id": "2",
+        "desc": "looking forward to a great future ahead",
+        "alumni": "123",
+        "name": "Govinda",
+        "email": "govinda@sdiet",
+        "password": "123",
+        "course": "BTech",
+        "stream": "CSE",
+        "year": "3"
+    },
+    {
+        "id": "3",
+        "desc": "looking forward to a great future ahead",
+        "alumni": "123",
+        "name": "Mansi",
+        "email": "mansi@sdiet",
+        "password": "123",
+        "course": "BBA",
+        "stream": "DM",
+        "year": "3"
+    },
+    {
+        "id": "1",
+        "alumni": "234",
+        "desc": "looking forward to a great future ahead",
+        "name": "Kapil",
+        "email": "kapil@sdiet",
+        "password": "123",
+        "course": "BTech",
+        "stream": "CSE",
+        "year": "3"
+    },
+    {
+        "id": "2",
+        "alumni": "234",
+        "name": "Govinda",
+        "email": "govinda@sdiet",
+        "password": "123",
+        "desc": "looking forward to a great future ahead",
+        "course": "BTech",
+        "stream": "CSE",
+        "year": "3"
+    },
+    {
+        "id": "3",
+        "alumni": "234",
+        "name": "Mansi",
+        "email": "mansi@sdiet",
+        "desc": "looking forward to a great future ahead",
+        "password": "123",
+        "course": "BBA",
+        "stream": "DM",
+        "year": "3"
+    }
+]

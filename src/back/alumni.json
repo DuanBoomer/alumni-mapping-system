@@ -4,6 +4,17 @@
         "name": "Chirag",
         "email": "test@sdiet",
         "password": "Aa@1234567890",
+        "expertise": [
+            "AI",
+            "Blockchain"
+        ],
+        "company": "Wipro.inc",
+        "desc": "Blockchain and AI expert, currently working at Wipro",
+        "students": [
+            "1",
+            "2",
+            "3"
+        ],
         "event_history": [
             {
                 "title": "Blockchain & AI in Digital Marketing",
@@ -11,6 +22,13 @@
                 "end_time": "1:00",
                 "day": "Friday",
                 "date": "23 oct 2023",
+                "desc": "Wolfram language is a advanced mathematical programming language which is used in academic and research fields for complex calculations and analysis",
+                "link": "https://meet.google.com/",
+                "docs": [
+                    "sample-resume.pdf",
+                    "jog-market-analysis.pdf",
+                    "interview-questions.doc"
+                ],
                 "type": "pending"
             },
             {
@@ -18,6 +36,13 @@
                 "start_time": "2:00",
                 "end_time": "4:00",
                 "day": "Monday",
+                "desc": "Wolfram language is a advanced mathematical programming language which is used in academic and research fields for complex calculations and analysis",
+                "link": "https://meet.google.com/",
+                "docs": [
+                    "sample-resume.pdf",
+                    "jog-market-analysis.pdf",
+                    "interview-questions.doc"
+                ],
                 "date": "20 aug 2023",
                 "type": "done"
             },
@@ -26,6 +51,13 @@
                 "start_time": "6:00",
                 "end_time": "7:30",
                 "day": "Sunday",
+                "desc": "Wolfram language is a advanced mathematical programming language which is used in academic and research fields for complex calculations and analysis",
+                "link": "https://meet.google.com/",
+                "docs": [
+                    "sample-resume.pdf",
+                    "jog-market-analysis.pdf",
+                    "interview-questions.doc"
+                ],
                 "date": "22 jan 2023",
                 "type": "done"
             }

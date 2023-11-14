@@ -3,9 +3,11 @@
 import home from "../assets/home-icon.svg";
 import chats from "../assets/chat-icon.svg";
 import profile from "../assets/profile-icon.svg";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ id }) {
+
+  const navigate = useNavigate();
 
   const styles = {
     div: {
@@ -23,20 +25,16 @@ function Navbar() {
 
     }
   }
+
+  function handleClick(path) {
+    navigate(path, { state: { userID: id } })
+  }
+
   return (
     <div style={styles.div}>
-
-      <Link to="/home">
-          <img src={home} alt="" />
-      </Link>
-
-      <Link to="/chat">
-          <img src={chats} alt="" />
-      </Link>
-
-      <Link to="/profile">
-          <img src={profile} alt="" />
-      </Link>
+      <img onClick={() => { handleClick("/home") }} src={home} alt="" />
+      <img onClick={() => { handleClick("/chat") }} src={chats} alt="" />
+      <img onClick={() => { handleClick("/profile") }} src={profile} alt="" />
     </div>
   )
 }

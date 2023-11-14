@@ -1,6 +1,9 @@
 import Button from "./Button"
+import { useNavigate } from "react-router-dom"
 
-export default function EventCard({time, day, date, title, type}) {
+export default function EventCard({ time, day, date, title, type, desc, link, id }) {
+
+    const navigate = useNavigate();
 
     const styles = {
         card: {
@@ -91,6 +94,27 @@ export default function EventCard({time, day, date, title, type}) {
             boxShadow: "2px 2px 4px 0px #BEBEBE inset, -2px -2px 4px 0px #FFF inset",
         }
     }
+
+    function handleViewClick() {
+        navigate("/eventdetails", {
+            state: {
+                time: time,
+                day: day,
+                date: date,
+                title: title,
+                desc: desc,
+                link: link
+            }
+        })
+    }
+
+    function handleHistoryClick() {
+        navigate("/history", {
+            state: {
+                id: id
+            }
+        })
+    }
     return (
         <div style={styles.card}>
             <div style={styles.partition}>
@@ -101,9 +125,9 @@ export default function EventCard({time, day, date, title, type}) {
                     <p style={styles.date}>{date}</p>
 
                     {
-                        type == "pending" 
-                        ? <Button text={"View"} type={"dark"} size={"small"} path={"/eventdetails"} />
-                        : <></>
+                        type == "pending"
+                            ? <Button text={"View"} type={"dark"} size={"small"} onClick={handleViewClick} />
+                            : <></>
                     }
                 </div>
             </div>
@@ -115,10 +139,10 @@ export default function EventCard({time, day, date, title, type}) {
 
                 {
                     type == "pending"
-                        ? <Button text={"History"} type={"dark"} size={"small"} path={"/history"} />
+                        ? <Button text={"History"} type={"dark"} size={"small"} onClick={handleHistoryClick} />
                         : <Button text={"Documents"} type={"dark"} size={"small"} path={"/docs"} />
                 }
-                
+
             </div>
 
         </div>

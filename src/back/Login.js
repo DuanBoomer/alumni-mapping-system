@@ -13,7 +13,7 @@ export function login(email, password){
     alumniData.forEach((alumni, index) => {
         if (alumni.email == email && alumni.password == password){
             returnVal.response = true
-            returnVal.userID = alumni.userID
+            returnVal.userID = alumni.id
         }
     });
 

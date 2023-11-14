@@ -1,7 +1,8 @@
 import Header from "../components/Header";
 import OutputField from "../components/OutputField";
 import person from "../assets/person.jpeg"
-
+import { useLocation } from "react-router-dom";
+import { getFullDetails } from "../back/User";
 
 
 // webpack compiled with 1 warning
@@ -18,6 +19,10 @@ import person from "../assets/person.jpeg"
 // go away.
 
 export default function Details() {
+
+    const location = useLocation()
+    const personData = getFullDetails(location.state.userID, location.state.type)
+
     const styles = {
         profile_image: {
             width: "179px",
@@ -52,13 +57,27 @@ export default function Details() {
             <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5em", marginBottom: "2em" }}>
                 <img style={styles.profile_image} src={person} />
                 <div>
-                    <p style={styles.name}>Chirag</p>
-                    <p style={styles.desc}>Blockchain and AI Expert, Currently working at Wipro</p>
+                    <p style={styles.name}>{personData.name}</p>
+                    <p style={styles.desc}>{personData.desc}</p>
                 </div>
             </div>
-            <OutputField text={"chirag@wipro.org"} title={"Email"} />
-            <OutputField text={"Wipro.inc"} title={"Company Name"} />
-            <OutputField text={"AI, Blockchain"} title={"Expertise"} />
+
+            {
+                location.state.type === "alumni"
+                    ? <div>
+                        <OutputField text={personData.email} title={"Email"} />
+                        <OutputField text={personData.company} title={"Company Name"} />
+                        <OutputField text={personData.expertise.join(', ')} title={"Expertise"} />
+                    </div>
+
+                    : <div>
+                        <OutputField text={personData.email} title={"Email"} />
+                        <OutputField text={personData.course + " " + personData.stream} title={"Course"} />
+                        <OutputField text={personData.year} title={"Year"} />
+                    </div>
+            }
+
+
         </div>
     )
 }
