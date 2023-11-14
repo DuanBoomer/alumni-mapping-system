@@ -29,7 +29,7 @@ export default function EditProfile() {
         }
     }
     return (
-        <div style={{ padding: "1em" }}>
+        <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"Edit Profile"} />
 
             <div style={{ display: "flex", alignItems: "flex-start" }}>

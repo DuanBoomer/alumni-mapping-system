@@ -46,7 +46,7 @@ function Profile({ logo, person }) {
     }
   }
   return (
-    <div style={{padding: "1em", overflowY: "scroll"}}>
+    <div style={{ padding: "1em 1em 3em 1em", overflowY: "scroll"}}>
       <Header text={'Profile'} />
 
       <div style={styles.profile_div}>

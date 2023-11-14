@@ -4,7 +4,7 @@ import Doc from "../components/Doc";
 
 export default function Docs() {
     return (
-        <div style={{ padding: "1em" }}>
+        <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"Docs"} />
             <EventDetailsFlat time={"2:00 to 4:00"} day={"Monday"} date={"20 aug 2023"} title={"Job market and how to set yourself apart"} />
             <Doc text={"sample-resume.pdf"}/>

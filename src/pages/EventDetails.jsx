@@ -16,7 +16,7 @@ export default function EventDetails() {
         }
     }
     return (
-        <div style={{ padding: "1em" }}>
+        <div style={{ padding: "1em 1em 3em 1em" }}>
 
             <Header text={"Event Details"} />
             <EventDetailsFlat time="12:00 to 1:00" day="Friday" date="23 oct 2023" title="Blockchain and AI in Digital Marketing"/>

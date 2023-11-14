@@ -29,7 +29,7 @@ function Home() {
   }
 
   return (
-    <div style={{ padding: "1em" }}>
+    <div style={{ padding: "1em 1em 3em 1em" }}>
       <Header text={"Home"} />
       <EventCard time="12:00 to 1:00" day="Friday" date="23 oct 2023" title="Blockchain & AI in Digital Marketing" type="pending"/>
       <ProfileCard name="Chirag" expertise={['Blockchain', 'AI']} company="Wipro.inc" />
