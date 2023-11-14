@@ -50,6 +50,7 @@ export default function EditProfile() {
             <InputField title={"Email"} placeholder={"enter your email"} />
             <InputField title={"Company Name"} placeholder={"where you work?"} />
             <InputField title={"Expertise"} placeholder={"enter everything you love"} />
+            
         </div>
     )
 }
