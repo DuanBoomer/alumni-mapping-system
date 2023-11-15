@@ -18,6 +18,10 @@ html {
     background: var(--main-bg-color);
 }
 
+input::-ms-reveal {
+    display: none;
+}
+
 *{
     transition: 0.3s;
 }

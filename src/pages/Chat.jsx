@@ -2,6 +2,8 @@ import { useState } from "react";
 import Header from "../components/Header";
 import profile_image from "../assets/person.jpeg";
 import arrow from "../assets/arrow.svg";
+import back_button from "../assets/back-button.svg"
+import { useNavigate, useLocation } from "react-router-dom";
 
 function ChatBox({ text, profile_image, type }) {
   const styles = {
@@ -47,13 +49,17 @@ function ChatBox({ text, profile_image, type }) {
 }
 
 export default function Chat() {
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const styles = {
     chat: {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
       // height: "80vh",
-      height: "calc(100vh - 2*75px - 20px - 60px)", // total height - twice header height - bottom offset -browser offset
+      height: "calc(100vh - 2*75px - 20px - 60px - 25px)", // total height - twice header height - bottom offset -browser offset -back button size
       borderRadius: "18px",
       padding: "1em",
       background: "#E0E0E0",
@@ -99,12 +105,17 @@ export default function Chat() {
   const [chatInput, setChatInput] = useState("")
 
   function addChat(text) {
-    setHistory((prev) => {
-      return [
-        ...prev,
-        text
-      ]
-    })
+
+    if (text !== "") {
+      setHistory((prev) => {
+        return [
+          ...prev,
+          text
+        ]
+      })
+    }
+    else { }
+
 
     setChatInput("")
   }
@@ -112,7 +123,18 @@ export default function Chat() {
   return (
 
     <div style={{ padding: "1em" }}>
+      {/* <div style={{ display: "flex" }}> */}
+      <img
+        style={{ width: "25px" }}
+        src={back_button}
+        alt="go back"
+        onClick={() =>
+          navigate('/home', {
+            state: { userID: location.state.userID }
+          })} />
       <Header text={"Chat"} />
+
+      {/* </div> */}
       <div style={styles.chat}>
         <div style={{ height: "100%", overflowY: 'scroll' }}>
           <ChatBox text={"sent by you mf"} profile_image={profile_image} type={'sent'} />

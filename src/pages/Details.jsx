@@ -77,6 +77,8 @@ export default function Details() {
                     </div>
             }
 
+            <div style={{height: "calc(0.5em + 26px)"}}></div>
+
 
         </div>
     )
