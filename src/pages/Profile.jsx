@@ -9,7 +9,7 @@ function Profile({ logo, person }) {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const alumni = getAlumniDetails(location.state.userID)
+  const alumni = getAlumniDetails(location.state.id)
 
   const styles = {
     profile_div: {
@@ -52,7 +52,7 @@ function Profile({ logo, person }) {
   }
 
   function handleClick(path) {
-    navigate(path, { state: { id: location.state.userID } })
+    navigate(path, { state: { id: location.state.id } })
   }
   return (
     <div style={{ padding: "1em 1em 3em 1em" }}>

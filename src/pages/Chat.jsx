@@ -130,7 +130,7 @@ export default function Chat() {
         alt="go back"
         onClick={() =>
           navigate('/home', {
-            state: { userID: location.state.userID }
+            state: { id: location.state.id }
           })} />
       <Header text={"Chat"} />
 

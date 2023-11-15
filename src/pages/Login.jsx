@@ -22,7 +22,7 @@ function Login({ onLogin }) {
 
     // actual code
     if (loggedIn.response) {
-      navigate("/home", { state: { userID: loggedIn.userID } })
+      navigate("/home", { state: { id: loggedIn.userID } })
       setErr(false)
       setEmail("")
       setPassword("")

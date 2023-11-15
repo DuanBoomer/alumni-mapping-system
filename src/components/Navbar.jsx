@@ -30,7 +30,7 @@ function Navbar({ id }) {
   }
 
   function handleClick(path) {
-    navigate(path, { state: { userID: id } })
+    navigate(path, { state: { id: id } })
   }
 
   return (

@@ -9,7 +9,7 @@ import { getAlumniDetails, getStudentDetails } from '../back/User'
 function Home() {
 
   const location = useLocation()
-  const userID = location.state.userID
+  const userID = location.state.id
   const event = getOngoingEvent(userID)
   const alumni = getAlumniDetails(userID)
   const students = getStudentDetails(userID)

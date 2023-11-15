@@ -25,7 +25,7 @@ export default function EventDetails() {
     }
 
     function handleCancelClick(){
-        navigate('/home', {state: {userID: location.state.id}})
+        navigate('/home', {state: {id: location.state.id}})
     }
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>

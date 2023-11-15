@@ -21,7 +21,7 @@ import { getFullDetails } from "../back/User";
 export default function Details() {
 
     const location = useLocation()
-    const personData = getFullDetails(location.state.userID, location.state.type)
+    const personData = getFullDetails(location.state.id, location.state.type)
 
     const styles = {
         profile_image: {

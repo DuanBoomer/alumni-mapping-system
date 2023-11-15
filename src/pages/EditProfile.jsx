@@ -83,6 +83,10 @@ export default function EditProfile() {
             <InputField title={"Company Name"} placeholder={"where you work?"} state={alumniData.company} setState={(val) => setAlumniData({ ...alumniData, company: val })} />
             <InputField title={"Expertise"} placeholder={"enter everything you love"} state={alumniData.expertise.join(",")} setState={(val) => setAlumniData({ ...alumniData, expertise: val.split(",") })} />
 
+            <Button text={"Submit"} type={"light"} size={"big"} onClick={() => handleImageUpload("/profile")} />
+
+            <div style={{ height: "calc(0.5em + 26px)" }}></div>
+
         </div>
     )
 }

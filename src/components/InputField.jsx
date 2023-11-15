@@ -55,8 +55,8 @@ export default function InputField({ title, placeholder, type, state, setState }
                 type={
                     type === "password"
                         ? passwordShown
-                            ? "password"
-                            : "text"
+                            ? "text"
+                            : "password"
                         : "text"
                 }
                 value={state}

@@ -49,7 +49,7 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
     }
 
     function handleClick() {
-        navigate("/details", { state: { userID: id, type: type } })
+        navigate("/details", { state: { id: id, type: type } })
         // console.log("clicked")
     }
     return (
