@@ -1,11 +1,16 @@
 import home from "../assets/home-icon.svg";
 import chats from "../assets/chat-icon.svg";
 import profile from "../assets/profile-icon.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Navbar({ id }) {
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log(id);
+
+  const notAllowedRoutes = ['/', '/chat']
 
   const styles = {
     div: {
@@ -29,11 +34,18 @@ function Navbar({ id }) {
   }
 
   return (
-    <div style={styles.div}>
-      <img onClick={() => { handleClick("/home") }} src={home} alt="" />
-      <img onClick={() => { handleClick("/chat") }} src={chats} alt="" />
-      <img onClick={() => { handleClick("/profile") }} src={profile} alt="" />
+    <div>
+      {
+        notAllowedRoutes.includes(location.pathname)
+        ? <></>
+          : <div style={styles.div}>
+            <img onClick={() => { handleClick("/home") }} src={home} alt="" />
+            <img onClick={() => { handleClick("/chat") }} src={chats} alt="" />
+            <img onClick={() => { handleClick("/profile") }} src={profile} alt="" />
+          </div>
+      }
     </div>
+    
   )
 }
 

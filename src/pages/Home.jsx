@@ -22,7 +22,7 @@ function Home() {
       padding: "0 0.5em",
       color: "var(--text-color-dark)",
       fontFamily: "Poppins",
-      fontSize: "1.75rem",
+      fontSize: "var(--font-size-xl)",
       fontStyle: "normal",
       fontWeight: 400,
       lineHeight: "normal",
@@ -48,17 +48,17 @@ function Home() {
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
           </div>
-          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={userID} eventid={event.id}/>
+          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={userID} eventid={event.id} />
 
       }
 
       <p style={styles.text}>Alumni</p>
-      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={userID} type={"alumni"}/>
+      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={userID} type={"alumni"} />
       <p style={styles.text}>Students</p>
 
       {
         students.map((student, index) => {
-          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.id} type={"student"}/>
+          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.id} type={"student"} />
         })
       }
 

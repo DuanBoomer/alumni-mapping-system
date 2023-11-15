@@ -16,15 +16,15 @@ function Profile({ logo, person }) {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      padding: "2em",
-      marginBottom: "2em",
+      padding: "1.5em",
+      marginBottom: "1.5em",
 
       borderRadius: "18px",
       background: "#E0E0E0",
       boxShadow: "-8px -8px 16px 0px #FFF, 8px 8px 16px 0px #BEBEBE"
     },
     profile_image: {
-      height: "180px",
+      height: "150px",
       borderRadius: "10px",
     },
 
@@ -33,7 +33,7 @@ function Profile({ logo, person }) {
       color: "#37352F",
       textAlign: "center",
       fontFamily: "Poppins",
-      fontSize: "28px",
+      fontSize: "var(--font-size-lg)",
       fontStyle: "normal",
       fontWeight: "400",
       lineHeight: "normal",
@@ -44,7 +44,7 @@ function Profile({ logo, person }) {
       color: "#5B574E",
       textAlign: "center",
       fontFamily: "Poppins",
-      fontSize: "18px",
+      fontSize: "var(--font-size-sm)",
       fontStyle: "normal",
       fontWeight: "400",
       lineHeight: "normal",
@@ -65,7 +65,7 @@ function Profile({ logo, person }) {
         <p style={styles.text}>{alumni.company}</p>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "1em" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.75em" }}>
         <Button text={"Downloads"} type="light" size="large" onClick={() => handleClick("/downloads")} />
         <Button text={"Edit Profile"} type="light" size="large" onClick={() => handleClick("/editprofile")} />
         <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />

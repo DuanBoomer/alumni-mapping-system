@@ -2,10 +2,9 @@ export default function EventDetailsFlat({ time, day, date, title }) {
 
     const styles = {
         big_text: {
-            margin: "0",
             color: "#37352F",
             fontFamily: "Poppins",
-            fontSize: "32px",
+            fontSize: "var(--font-size-lg)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "114%",
@@ -16,7 +15,7 @@ export default function EventDetailsFlat({ time, day, date, title }) {
             margin: "0",
             color: "#37352F",
             fontFamily: "Poppins",
-            fontSize: "28px",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal",

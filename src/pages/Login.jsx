@@ -10,9 +10,10 @@ function Login({ onLogin }) {
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [err, setErr] = useState(false)
 
 
-  function handleClick(){
+  function handleClick() {
     var loggedIn = login(email, password)
 
     // dev code (comment when pushing)
@@ -20,15 +21,28 @@ function Login({ onLogin }) {
     // onLogin(true, "123")
 
     // actual code
-    if (loggedIn.response){ navigate("/home", {state: {userID: loggedIn.userID}}) }
+    if (loggedIn.response) {
+      navigate("/home", { state: { userID: loggedIn.userID } })
+      setErr(false)
+      setEmail("")
+      setPassword("")
+    }
+    else {
+      setErr(true)
+    }
     onLogin(loggedIn.response, loggedIn.userID)
   }
 
   return (
     <div style={{ padding: "1em 1em 3em 1em", display: "flex", flexDirection: "column" }}>
       <Header text={'Login'} />
-      <InputField title={"Email"} placeholder={"enter your email"} state={email} setState={setEmail}/>
+      <InputField title={"Email"} placeholder={"enter your email"} state={email} setState={setEmail} />
       <InputField title={"Password"} placeholder={"something secret"} type={"password"} state={password} setState={setPassword} />
+      {
+        err
+          ? <p style={{ color: "red", fontSize: "var(--font-size-sm)" }}>email or password incorrect</p>
+          : <></>
+      }
       <Button text={"Login"} type={"light"} size={"big"} onClick={handleClick} />
     </div>
   )

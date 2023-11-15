@@ -13,7 +13,7 @@ export default function Downloads() {
     date: {
       color: "#37352F",
       fontFamily: "Poppins",
-      fontSize: "24px",
+      fontSize: "var(--font-size-lg)",
       fontStyle: "normal",
       fontWeight: "400",
       lineHeight: "normal",

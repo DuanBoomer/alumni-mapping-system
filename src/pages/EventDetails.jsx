@@ -13,15 +13,19 @@ export default function EventDetails() {
             margin: "1em 0",
             color: "#5B574E",
             fontFamily: "Poppins",
-            fontSize: "18px",
+            fontSize: "var(--font-size-sm)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "87%",
         }
     }
 
-    function handleClick(){
-        window.open(location.state.link)
+    function handleJoinClick(){
+        window.open("https://calendar.google.com/calendar/u/0/r/eventedit?vcon=meet&dates=now&hl=enn")
+    }
+
+    function handleCancelClick(){
+        navigate('/home', {state: {userID: location.state.id}})
     }
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
@@ -32,8 +36,8 @@ export default function EventDetails() {
             <p style={styles.small_text}>{location.state.desc}</p>
 
             <div style={{display: "flex", flexDirection: "column"}}>
-                <Button text={"Join"} type={"light"} size={"big"} onClick={handleClick}/>
-                <Button text={"Cancel"} type={"dark"} size={"big"} onClick={handleClick}/>
+                <Button text={"Join"} type={"light"} size={"big"} onClick={handleJoinClick}/>
+                <Button text={"Cancel"} type={"dark"} size={"big"} onClick={handleCancelClick}/>
             </div>
 
         </div>

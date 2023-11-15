@@ -8,7 +8,7 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
 
     const styles = {
         profile_image: {
-            height: "57px",
+            height: "50px",
             borderRadius: "10px",
         },
 
@@ -28,7 +28,7 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
             padding: "0 0.5em",
             color: "var(--text-color-dark)",
             fontFamily: "Poppins",
-            fontSize: "1.75rem",
+            fontSize: "var(--font-size-lg)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "normal",
@@ -40,7 +40,7 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
             padding: "0",
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
-            fontSize: "1.25rem",
+            fontSize: "var(--font-size-sm)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "normal",
@@ -48,7 +48,7 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
         }
     }
 
-    function handleClick(){
+    function handleClick() {
         navigate("/details", { state: { userID: id, type: type } })
         // console.log("clicked")
     }
@@ -59,21 +59,25 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
                 <img style={styles.profile_image} src={profile_img} alt="" />
                 <p style={styles.name}>{name}</p>
             </div>
-            {
-                expertise
-                ? <p style={styles.text}>{expertise.join(" | ") + " Expert"}</p>
-                : <></>
-            }
 
-            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <p style={styles.text}>{company}</p>
-                <div>
-                    <img src={arrow} alt="" />
-                    <img src={arrow} alt="" />
+            <div style={{ margin: "5px" }}>
+                {
+                    expertise
+                        ? <p style={styles.text}>{expertise.join(" | ") + " Expert"}</p>
+                        : <></>
+                }
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <p style={styles.text}>{company}</p>
+                    <div>
+                        <img src={arrow} alt="" />
+                        <img src={arrow} alt="" />
+                    </div>
                 </div>
+
             </div>
 
         </div>
-    // </Link>
+        // </Link>
     )
 }

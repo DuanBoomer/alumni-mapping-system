@@ -34,11 +34,9 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/schedulemeet' element={<ScheduleMeet />} />
         </Routes>
-        {
-          loggedIn
-            ? <Navbar id={userID}/>
-            : <></>
-        }
+
+        <Navbar id={userID} />
+        
       </Main>
     </>
   );

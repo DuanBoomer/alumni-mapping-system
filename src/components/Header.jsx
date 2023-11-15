@@ -12,6 +12,8 @@ export default function Header({ text }) {
             lineHeight: "42px",
             letterSpacing: "-0.333px",
 
+            margin: "0",
+
             width: "60%"
         },
 
@@ -24,6 +26,7 @@ export default function Header({ text }) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            marginBottom: "1rem",
             // margin: "0rem 1rem"
 
         },

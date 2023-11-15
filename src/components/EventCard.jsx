@@ -29,7 +29,7 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
             margin: "0 0 1em 0",
             color: "var(--text-color-dark)",
             fontFamily: "Poppins",
-            fontSize: "1.5rem",
+            fontSize: "var(--font-size-lg)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "normal",
@@ -40,7 +40,7 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
             margin: "0",
             color: "var(--text-color-dark)",
             fontFamily: "Poppins",
-            fontSize: "1.25rem",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "normal",
@@ -51,7 +51,7 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
             color: "var(--text-color-dark)",
             fontFamily: "Poppins",
             textAlign: "right",
-            fontSize: "1.25rem",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "normal",
@@ -62,7 +62,7 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
             margin: "0",
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
-            fontSize: "1.25rem",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: 400,
             lineHeight: "normal",
@@ -70,8 +70,8 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
         },
 
         line: {
-            width: "10px",
-            margin: "0em 1em",
+            width: "7px",
+            margin: "0em 0.5em",
             borderRadius: "100px",
             boxShadow: "2px 2px 4px 0px #BEBEBE inset, -2px -2px 4px 0px #FFF inset",
         }
@@ -85,7 +85,9 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
                 date: date,
                 title: title,
                 desc: desc,
-                link: link
+                link: link,
+                id: id,
+                eventid: eventid
             }
         })
     }

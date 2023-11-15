@@ -6,10 +6,9 @@ export default function InputField({ title, placeholder, type, state, setState }
             border: "none",
             outline: "none",
             marginBottom: "0.5em",
-            width: "85%",
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
-            fontSize: "18px",
+            fontSize: "var(--font-size-sm)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal",
@@ -21,7 +20,7 @@ export default function InputField({ title, placeholder, type, state, setState }
         title: {
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
-            fontSize: "24px",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal",
@@ -29,7 +28,7 @@ export default function InputField({ title, placeholder, type, state, setState }
         }
     }
     return (
-        <div>
+        <div style={{display: "flex", flexDirection: "column"}}>
             <p style={styles.title}>{title}</p>
             <input style={styles.input} placeholder={placeholder} type={type} value={state} onChange={(event) => { setState(event.target.value) }} />
         </div>

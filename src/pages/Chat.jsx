@@ -6,13 +6,14 @@ import arrow from "../assets/arrow.svg";
 function ChatBox({ text, profile_image, type }) {
   const styles = {
     profile_image: {
-      height: "45px",
+      height: "40px",
       borderRadius: "10px",
     },
 
     text: {
       padding: '1em',
       margin: "0",
+      fontSize: "var(--font-size-sm)",
       borderRadius: type === "sent" ? "18px 18px 0px 18px" : "18px 18px 18px 0px",
       background: "#E0E0E0",
       boxShadow: "-5px -5px 10px 0px #FFF inset, 5px 5px 10px 0px #BEBEBE inset",
@@ -33,7 +34,7 @@ function ChatBox({ text, profile_image, type }) {
         type === "sent"
           ? <>
             <p style={styles.text}>{text}</p>
-            <img style={styles.profile_image} src={profile_image} alt="profile"/>
+            <img style={styles.profile_image} src={profile_image} alt="profile" />
           </>
 
           : <>
@@ -51,26 +52,37 @@ export default function Chat() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      height: "calc(100% - 18em)",
+      // height: "80vh",
+      height: "calc(100vh - 2*75px - 20px)", // total height - twice header height - bottom offset
       borderRadius: "18px",
       padding: "1em",
       background: "#E0E0E0",
       boxShadow: "-8px -8px 16px 0px #FFF, 8px 8px 16px 0px #BEBEBE",
+
+      // position: "absolute",
+      // bottom: "1000px",
+      // top: "0",
     },
 
     input: {
-      color: "#5B574E",
+      color: "var(--test-color-light)",
       verticalAlign: "middle",
       background: "var(--main-bg-color)",
       fontFamily: "Poppins",
-      fontSize: "18px",
+      fontSize: "var(--font-size-sm)",
       fontStyle: "normal",
       fontWeight: "400",
       lineHeight: "normal",
       border: "none",
       outline: "none",
 
-      width: "80%"
+      width: "100%",
+      borderBottom: "2px solid var(--text-color-light)"
+      // padding: "1em 1em 0 0",
+    },
+
+    send_icon: {
+      width: "var(--font-size-sm)"
     }
   }
 
@@ -99,11 +111,11 @@ export default function Chat() {
 
   return (
 
-    <div style={{ padding: "1em 1em 1em 1em", height: "100vh" }}>
+    <div style={{ padding: "1em" }}>
       <Header text={"Chat"} />
       <div style={styles.chat}>
         <div style={{ height: "100%", overflowY: 'scroll' }}>
-          {/* <ChatBox text={"chat"} profile_image={profile_image} type={'sent'} /> */}
+          <ChatBox text={"sent by you mf"} profile_image={profile_image} type={'sent'} />
           {
             history.map((chat, index) => {
               return <ChatBox key={index} text={chat} profile_image={profile_image} type={"recieved"} />
@@ -111,11 +123,11 @@ export default function Chat() {
           }
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1em", padding: "1em 0 0 0" }}>
           <input style={styles.input} placeholder="Type a message" value={chatInput} onChange={(event) => { setChatInput(event.target.value) }} />
           <div style={{ display: "flex" }} onClick={() => { addChat(chatInput) }}>
-            <img src={arrow} alt="" />
-            <img src={arrow} alt="" />
+            <img style={styles.send_icon} src={arrow} alt="" />
+            <img style={styles.send_icon} src={arrow} alt="" />
           </div>
         </div>
       </div>
