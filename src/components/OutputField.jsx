@@ -8,7 +8,7 @@ export default function OutputField({ title, text }) {
             margin: "0.5em 0",
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
-            fontSize: "18px",
+            fontSize: "var(--font-size-sm)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal",
@@ -20,7 +20,7 @@ export default function OutputField({ title, text }) {
         title: {
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
-            fontSize: "24px",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal",

@@ -33,7 +33,7 @@ export default function Details() {
             margin: "0.5em 0",
             color: "#37352F",
             fontFamily: "Poppins",
-            fontSize: "28px",
+            fontSize: "var(--font-size-xxl)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal"
@@ -43,7 +43,7 @@ export default function Details() {
             margin: "0",
             color: "#5B574E",
             fontFamily: "Poppins",
-            fontSize: "18px",
+            fontSize: "var(--font-size-md)",
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "105%",

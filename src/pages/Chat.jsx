@@ -53,7 +53,7 @@ export default function Chat() {
       flexDirection: "column",
       justifyContent: "space-between",
       // height: "80vh",
-      height: "calc(100vh - 2*75px - 20px)", // total height - twice header height - bottom offset
+      height: "calc(100vh - 2*75px - 20px - 20px)", // total height - twice header height - bottom offset -browser offset
       borderRadius: "18px",
       padding: "1em",
       background: "#E0E0E0",

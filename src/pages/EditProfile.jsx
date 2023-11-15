@@ -19,6 +19,7 @@ export default function EditProfile() {
         profile_image: {
             // height: "150px",
             width: "100%",
+            minWidth: "100px",
             borderRadius: "10px",
         },
 
@@ -29,10 +30,11 @@ export default function EditProfile() {
 
             // cols:"10rem",
             padding: "0.75rem 1.25rem",
-            // width: "100%",
+            // margin: "0 0 0.5em 0.5em",
+            width: "calc(100% - 3em)",
+
             border: "none",
             outline: "none",
-            // margin: "0 0 0.5em 0.5em",
             color: "var(--text-color-light)",
             fontFamily: "Poppins",
             fontSize: "var(--font-size-sm)",
@@ -71,7 +73,7 @@ export default function EditProfile() {
                 </div>
 
                 <div style={styles.partition}>
-                    <input style={{ ...styles.long_input, flexGrow: "0" }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} />
+                    <input style={{ ...styles.long_input }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} />
                     <textarea style={styles.long_input} value={alumniData.desc} onChange={(event) => setAlumniData({ ...alumniData, desc: event.target.value })} rows={'3'} placeholder="desc" />
                 </div>
             </div>
