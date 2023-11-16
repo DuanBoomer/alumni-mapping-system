@@ -123,7 +123,7 @@ export default function Chat({id}) {
   return (
 
     <div style={{ padding: "1em" }}>
-      <div style={{ display: "flex", cursor: "pointer" }}
+      <div style={{ display: "flex", cursor: "pointer", zIndex: "2",position: "relative" }}
         onClick={() =>
           navigate('/home')}>
         <img
