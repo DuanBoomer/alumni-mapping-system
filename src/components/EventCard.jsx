@@ -93,17 +93,12 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
     }
 
     function handleHistoryClick() {
-        navigate("/history", {
-            state: {
-                id: id
-            }
-        })
+        navigate("/history")
     }
 
     function handleDocsClick() {
         navigate("/docs", {
             state: {
-                id: id,
                 eventid: eventid,
             }
         })

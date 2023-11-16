@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import OutputField from "../components/OutputField";
 import person from "../assets/person.jpeg"
 import { useLocation } from "react-router-dom";
-import { getFullDetails } from "../back/User";
+import { getAlumniDetails, getFullDetails } from "../back/User";
 
 
 // webpack compiled with 1 warning
@@ -18,10 +18,18 @@ import { getFullDetails } from "../back/User";
 // your devDependencies to work around this error.This will make this message
 // go away.
 
-export default function Details() {
+export default function Details({id}) {
 
     const location = useLocation()
-    const personData = getFullDetails(location.state.id, location.state.type)
+    var personData = {};
+
+    if (location.state.type == "alumni"){
+        personData = getAlumniDetails(id)
+    }
+
+    else{
+        personData = getFullDetails(location.state.id)
+    }
 
     const styles = {
         profile_image: {

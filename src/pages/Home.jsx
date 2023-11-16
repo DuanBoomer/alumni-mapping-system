@@ -6,13 +6,13 @@ import { useLocation } from 'react-router-dom'
 import { getOngoingEvent } from '../back/Events'
 import { getAlumniDetails, getStudentDetails } from '../back/User'
 
-function Home() {
+function Home({id}) {
 
-  const location = useLocation()
-  const userID = location.state.id
-  const event = getOngoingEvent(userID)
-  const alumni = getAlumniDetails(userID)
-  const students = getStudentDetails(userID)
+  // const location = useLocation()
+  // const userID = location.state.id
+  const event = getOngoingEvent(id)
+  const alumni = getAlumniDetails(id)
+  const students = getStudentDetails(id)
 
   // console.log(students);
 
@@ -48,12 +48,12 @@ function Home() {
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
           </div>
-          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={userID} eventid={event.id} />
+          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={id} eventid={event.id} />
 
       }
 
       <p style={styles.text}>Alumni</p>
-      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={userID} type={"alumni"} />
+      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={id} type={"alumni"} />
       <p style={styles.text}>Students</p>
 
       {

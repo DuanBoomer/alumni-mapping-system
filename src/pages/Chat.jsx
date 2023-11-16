@@ -48,7 +48,7 @@ function ChatBox({ text, profile_image, type }) {
   )
 }
 
-export default function Chat() {
+export default function Chat({id}) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -125,9 +125,7 @@ export default function Chat() {
     <div style={{ padding: "1em" }}>
       <div style={{ display: "flex", cursor: "pointer" }}
         onClick={() =>
-          navigate('/home', {
-            state: { id: location.state.id }
-          })}>
+          navigate('/home')}>
         <img
           style={{ width: "20px", marginRight: "5px" }}
           src={back_button}
@@ -138,7 +136,7 @@ export default function Chat() {
 
       <div style={styles.chat}>
         <div style={{ height: "100%", overflowY: 'scroll' }}>
-          <ChatBox text={"sent by you mf"} profile_image={profile_image} type={'sent'} />
+          <ChatBox text={"sent by you"} profile_image={profile_image} type={'sent'} />
           {
             history.map((chat, index) => {
               return <ChatBox key={index} text={chat} profile_image={profile_image} type={"recieved"} />

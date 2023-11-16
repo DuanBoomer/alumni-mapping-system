@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import EventDetailsFlat from "../components/EventDetailsFlat";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function EventDetails() {
+export default function EventDetails({id}) {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function EventDetails() {
     }
 
     function handleCancelClick(){
-        navigate('/home', {state: {id: location.state.id}})
+        navigate('/home')
     }
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>

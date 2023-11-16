@@ -33,7 +33,9 @@ export function getStudentDetails(userID) {
         "name": "",
         "course": "",
         "stream": "",
-        "year": ""
+        "year": "",
+        "email": "",
+        "desc": ""
     }
 
     var returnVal = []
@@ -46,6 +48,8 @@ export function getStudentDetails(userID) {
             studentVal.course = student.course
             studentVal.stream = student.stream
             studentVal.year = student.year
+            studentVal.email = student.email
+            studentVal.desc = student.desc
 
             returnVal.push({ ...studentVal })
 
@@ -54,53 +58,22 @@ export function getStudentDetails(userID) {
     return returnVal
 }
 
-export function getFullDetails(userID, type){
-
-    // "alumni": "123",
-    // id
-    // "name": "Kapil",
-    // "email": "kapil@sdiet",
-    // "password": "123",
-    // "course": "BTech",
-    // "stream": "CSE",
-    // "year": "3"
-
-    
+export function getFullDetails(userID) {
     var returnVal;
-    var data = alumniData;
+    var data = studentData;
 
-    if (type === "alumni"){
-        data = alumniData
-        returnVal = {
-            "name": "",
-            "desc": "",
-            "email": "",
-            "expertise": "",
-            "company": "",
-        }
-    }
-    if (type === 'student'){
-        data = studentData
-        returnVal = {
-            "name": "",
-            "email": "",
-            "course": "",
-            "stream": "",
-            "year": "",
-            "desc": ""
-        }
+    data = studentData
+    returnVal = {
+        "name": "",
+        "email": "",
+        "course": "",
+        "stream": "",
+        "year": "",
+        "desc": ""
     }
 
     data.forEach((person) => {
-        if (person.id === userID && type === "alumni"){
-            returnVal.name = person.name
-            returnVal.desc = person.desc
-            returnVal.email = person.email
-            returnVal.expertise = person.expertise
-            returnVal.company = person.company
-        }
-
-        if (person.id === userID && type === "student"){
+        if (person.id === userID) {
             returnVal.name = person.name
             returnVal.email = person.email
             returnVal.course = person.course

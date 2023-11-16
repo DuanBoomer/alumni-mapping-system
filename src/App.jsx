@@ -22,21 +22,21 @@ function App() {
     <>
       <Main>
         <Routes>
-          <Route path='/' element={<Login onLogin={(login, id) => {setLoggedIn(login); setUserID(id)}} />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/chat' element={<Chat />} />
-          <Route path='/details' element={<Details />} />
-          <Route path='/docs' element={<Docs />} />
-          <Route path='/downloads' element={<Downloads />} />
-          <Route path='/editprofile' element={<EditProfile />} />
-          <Route path='/eventdetails' element={<EventDetails />} />
-          <Route path='/history' element={<History />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/schedulemeet' element={<ScheduleMeet />} />
+          <Route path='/' element={<Login onLogin={(login, id) => { setLoggedIn(login); setUserID(id) }} />} />
+          <Route path='/home' element={<Home id={userID} />} />
+          <Route path='/chat' element={<Chat id={userID} />} />
+          <Route path='/details' element={<Details id={userID} />} />
+          <Route path='/docs' element={<Docs id={userID} />} />
+          <Route path='/downloads' element={<Downloads id={userID} />} />
+          <Route path='/editprofile' element={<EditProfile id={userID} />} />
+          <Route path='/eventdetails' element={<EventDetails id={userID} />} />
+          <Route path='/history' element={<History id={userID} />} />
+          <Route path='/profile' element={<Profile id={userID} />} />
+          <Route path='/schedulemeet' element={<ScheduleMeet id={userID} />} />
         </Routes>
 
         <Navbar id={userID} />
-        
+
       </Main>
     </>
   );

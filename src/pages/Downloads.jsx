@@ -4,10 +4,10 @@ import Doc from "../components/Doc";
 import { useLocation } from "react-router-dom";
 import { getEventsHistory } from "../back/Events";
 
-export default function Downloads() {
+export default function Downloads({id}) {
 
   const location = useLocation()
-  const events = getEventsHistory(location.state.id)
+  const events = getEventsHistory(id)
 
   const styles = {
     date: {

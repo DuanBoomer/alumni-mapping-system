@@ -5,11 +5,11 @@ import profile_image from "../assets/person.jpeg"
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getAlumniDetails } from '../back/User'
 
-function Profile({ logo, person }) {
+function Profile({ id }) {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const alumni = getAlumniDetails(location.state.id)
+  const alumni = getAlumniDetails(id)
 
   const styles = {
     profile_div: {
@@ -52,7 +52,7 @@ function Profile({ logo, person }) {
   }
 
   function handleClick(path) {
-    navigate(path, { state: { id: location.state.id } })
+    navigate(path)
   }
   return (
     <div style={{ padding: "1em 1em 3em 1em" }}>

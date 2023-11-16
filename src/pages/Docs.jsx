@@ -5,10 +5,10 @@ import Doc from "../components/Doc";
 import { useLocation } from "react-router-dom";
 import { getEvent } from "../back/Events";
 
-export default function Docs() {
+export default function Docs({id}) {
 
     const location = useLocation()
-    const event = getEvent(location.state.id, location.state.eventid)
+    const event = getEvent(id, location.state.eventid)
 
     console.log(event);
 

@@ -7,11 +7,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getAlumniDetails } from "../back/User";
 import { useState } from "react";
 
-export default function EditProfile() {
+export default function EditProfile({id}) {
 
     const location = useLocation()
     const navigate = useNavigate()
-    const alumni = getAlumniDetails(location.state.id)
+    const alumni = getAlumniDetails(id)
 
     const [alumniData, setAlumniData] = useState(alumni)
 
@@ -56,7 +56,7 @@ export default function EditProfile() {
     }
 
     function handleImageUpload(path) {
-        navigate(path, { state: { id: location.state.id } })
+        navigate(path)
     }
 
     return (
@@ -71,19 +71,20 @@ export default function EditProfile() {
                 </div>
 
                 <div style={styles.partition}>
-                    <InputField placeholder={"name"} type={"text"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} />
+                    {/* <InputField placeholder={"name"} type={"text"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} /> */}
                     {/* <InputField placeholder={"name"} type={"textarea"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} /> */}
-                    {/* <input style={{ ...styles.long_input }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} /> */}
+                    <input style={{ ...styles.long_input }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} />
                     <textarea style={styles.long_input} value={alumniData.desc} onChange={(event) => setAlumniData({ ...alumniData, desc: event.target.value })} rows={'3'} placeholder="desc" />
                 </div>
             </div>
+
             <Button text={"Upload"} type={"dark"} size={"small"} onClick={() => handleImageUpload("/editprofile")} />
 
             <InputField title={"Email"} placeholder={"enter your email"} state={alumniData.email} setState={(val) => setAlumniData({ ...alumniData, email: val })} />
             <InputField title={"Company Name"} placeholder={"where you work?"} state={alumniData.company} setState={(val) => setAlumniData({ ...alumniData, company: val })} />
             <InputField title={"Expertise"} placeholder={"enter everything you love"} state={alumniData.expertise.join(",")} setState={(val) => setAlumniData({ ...alumniData, expertise: val.split(",") })} />
 
-            <Button text={"Submit"} type={"light"} size={"big"} onClick={() => navigate("/profile", { state: { id: location.state.id } })} />
+            <Button text={"Submit"} type={"light"} size={"big"} onClick={() => navigate("/profile")} />
 
             <div style={{ height: "calc(0.5em + 26px)" }}></div>
 
