@@ -123,18 +123,19 @@ export default function Chat() {
   return (
 
     <div style={{ padding: "1em" }}>
-      {/* <div style={{ display: "flex" }}> */}
-      <img
-        style={{ width: "25px" }}
-        src={back_button}
-        alt="go back"
+      <div style={{ display: "flex", cursor: "pointer" }}
         onClick={() =>
           navigate('/home', {
             state: { id: location.state.id }
-          })} />
+          })}>
+        <img
+          style={{ width: "20px", marginRight: "5px" }}
+          src={back_button}
+          alt="go back" />
+        <p style={{ margin: 0, padding: 0 }}>back</p>
+      </div>
       <Header text={"Chat"} />
 
-      {/* </div> */}
       <div style={styles.chat}>
         <div style={{ height: "100%", overflowY: 'scroll' }}>
           <ChatBox text={"sent by you mf"} profile_image={profile_image} type={'sent'} />

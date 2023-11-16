@@ -28,10 +28,8 @@ export default function EditProfile() {
             flexBasis: 0,
             flexShrink: 0,
 
-            // cols:"10rem",
-            padding: "0.75rem 1.25rem",
-            // margin: "0 0 0.5em 0.5em",
-            width: "calc(100% - 3em)",
+            padding: "1rem 2rem",
+            width: "calc(100% - 4.5em)",
 
             border: "none",
             outline: "none",
@@ -57,8 +55,8 @@ export default function EditProfile() {
         },
     }
 
-    function handleImageUpload(path){
-        navigate(path, { state: { id: alumni } })
+    function handleImageUpload(path) {
+        navigate(path, { state: { id: location.state.id } })
     }
 
     return (
@@ -69,11 +67,13 @@ export default function EditProfile() {
 
                 <div style={styles.partition}>
                     <img style={styles.profile_image} src={profile_image} alt="profile" />
-                    
+
                 </div>
 
                 <div style={styles.partition}>
-                    <input style={{ ...styles.long_input }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} />
+                    <InputField placeholder={"name"} type={"text"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} />
+                    {/* <InputField placeholder={"name"} type={"textarea"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} /> */}
+                    {/* <input style={{ ...styles.long_input }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} /> */}
                     <textarea style={styles.long_input} value={alumniData.desc} onChange={(event) => setAlumniData({ ...alumniData, desc: event.target.value })} rows={'3'} placeholder="desc" />
                 </div>
             </div>
@@ -83,7 +83,7 @@ export default function EditProfile() {
             <InputField title={"Company Name"} placeholder={"where you work?"} state={alumniData.company} setState={(val) => setAlumniData({ ...alumniData, company: val })} />
             <InputField title={"Expertise"} placeholder={"enter everything you love"} state={alumniData.expertise.join(",")} setState={(val) => setAlumniData({ ...alumniData, expertise: val.split(",") })} />
 
-            <Button text={"Submit"} type={"light"} size={"big"} onClick={() => handleImageUpload("/profile")} />
+            <Button text={"Submit"} type={"light"} size={"big"} onClick={() => navigate("/profile", { state: { id: location.state.id } })} />
 
             <div style={{ height: "calc(0.5em + 26px)" }}></div>
 

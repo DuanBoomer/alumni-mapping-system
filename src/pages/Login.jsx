@@ -36,7 +36,7 @@ function Login({ onLogin }) {
   return (
     <div style={{ padding: "1em 1em 3em 1em", display: "flex", flexDirection: "column" }}>
       <Header text={'Login'} />
-      <InputField title={"Email"} placeholder={"enter your email"} state={email} setState={setEmail} />
+      <InputField title={"Email"} placeholder={"enter your email"} type={"email"} state={email} setState={setEmail} />
       <InputField title={"Password"} placeholder={"something secret"} type={"password"} state={password} setState={setPassword} />
       {
         err
