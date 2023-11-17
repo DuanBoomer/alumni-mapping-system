@@ -12,7 +12,7 @@ function Login() {
   const [err, setErr] = useState(false)
 
   useEffect(() => {
-    if (localStorage.getItem("userID") !== null) {
+    if (!localStorage.getItem("userID")) {
       navigate("/home")
     }
   }, [])
@@ -32,6 +32,7 @@ function Login() {
         }
       })
       .catch((error) => {
+        setErr(true)
         console.log(error);
       });
   }
