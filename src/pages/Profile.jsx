@@ -66,7 +66,7 @@ function Profile() {
   }
 
   function handleLogout() {
-    localStorage.setItem("userID", "")
+    localStorage.setItem("userID", null)
     navigate("/")
   }
 

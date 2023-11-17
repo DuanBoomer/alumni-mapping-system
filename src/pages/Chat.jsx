@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Header from "../components/Header";
 import profile_image from "../assets/person.jpeg";
 import arrow from "../assets/arrow.svg";
 import back_button from "../assets/back-button.svg"
 import { useNavigate, useLocation } from "react-router-dom";
+
+// ------------------------------
+
+// import { Socket } from "socket.io";
+// import { createServer } from "http";
+
+// ------------------------------
 
 function ChatBox({ text, profile_image, type }) {
   const styles = {
@@ -48,10 +55,29 @@ function ChatBox({ text, profile_image, type }) {
   )
 }
 
-export default function Chat({id}) {
+export default function Chat() {
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
+  const btn = useRef(null)
+  const chatDiv = useRef(null)
+
+  // const http = createServer();
+  // const io = Socket(http, {
+  //   cors: { origin: "*" }
+  // });
+
+  // io.on('connection', (socket) => {
+  //   console.log('a user connected');
+
+  //   socket.on('message', (message) => {
+  //     console.log(message);
+  //     io.emit('message', `${socket.id.substr(0, 2)} said ${message}`);
+  //   });
+  // });
+
+  // http.listen(8080, () => console.log('listening on http://localhost:8080'));
+
 
   const styles = {
     chat: {
@@ -116,6 +142,13 @@ export default function Chat({id}) {
     }
     else { }
 
+    console.log(chatDiv.current.scrollHeight);
+    chatDiv.current.scrollTop = chatDiv.current.scrollHeight
+
+    // if (currChat){
+    //   currChat.current.scrollIntoView({ behavior: "smooth" })
+    // }
+
 
     setChatInput("")
   }
@@ -123,7 +156,7 @@ export default function Chat({id}) {
   return (
 
     <div style={{ padding: "1em" }}>
-      <div style={{ display: "flex", cursor: "pointer", zIndex: "2",position: "relative" }}
+      <div style={{ display: "flex", cursor: "pointer", zIndex: "2", position: "relative" }}
         onClick={() =>
           navigate('/home')}>
         <img
@@ -135,7 +168,7 @@ export default function Chat({id}) {
       <Header text={"Chat"} />
 
       <div style={styles.chat}>
-        <div style={{ height: "100%", overflowY: 'scroll' }}>
+        <div ref={chatDiv} style={{ height: "100%", overflowY: 'scroll' }}>
           <ChatBox text={"sent by you"} profile_image={profile_image} type={'sent'} />
           {
             history.map((chat, index) => {
@@ -145,11 +178,19 @@ export default function Chat({id}) {
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1em", padding: "1em 0 0 0" }}>
-          <input style={styles.input} placeholder="Type a message" value={chatInput} onChange={(event) => { setChatInput(event.target.value) }} />
-          <div style={{ display: "flex" }} onClick={() => { addChat(chatInput) }}>
+
+          <input 
+          style={styles.input} 
+          placeholder="Type a message" 
+          value={chatInput} 
+          onKeyDown={(e) => e.key === "Enter" ? btn.current.click() : {}} 
+          onChange={(event) => { setChatInput(event.target.value) }} />
+
+          <button ref={btn} style={{ display: "flex" }} onClick={() => { addChat(chatInput) }} >
             <img style={styles.send_icon} src={arrow} alt="" />
             <img style={styles.send_icon} src={arrow} alt="" />
-          </div>
+          </button>
+
         </div>
       </div>
     </div>
