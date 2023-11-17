@@ -3,21 +3,28 @@ import profile_image from "../assets/person.jpeg"
 import Button from "../components/Button";
 import InputField from "../components/InputField";
 
-import { useLocation, useNavigate } from "react-router-dom";
-import { getAlumniDetails } from "../back/User";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export default function EditProfile({id}) {
+export default function EditProfile() {
 
-    const location = useLocation()
     const navigate = useNavigate()
-    const alumni = getAlumniDetails(id)
+    const [alumniData, setAlumniData] = useState({ "expertise": [] })
 
-    const [alumniData, setAlumniData] = useState(alumni)
+    useEffect(() => {
+        axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
+            .then((response) => {
+                setAlumniData(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
 
     const styles = {
         profile_image: {
-            // height: "150px",
             width: "100%",
             minWidth: "100px",
             borderRadius: "10px",
@@ -51,7 +58,6 @@ export default function EditProfile({id}) {
 
             display: "flex",
             flexDirection: "column",
-            // justifyContent: "space-between",
         },
     }
 
@@ -71,8 +77,6 @@ export default function EditProfile({id}) {
                 </div>
 
                 <div style={styles.partition}>
-                    {/* <InputField placeholder={"name"} type={"text"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} /> */}
-                    {/* <InputField placeholder={"name"} type={"textarea"} state={alumniData.name} setState={(val) => setAlumniData({ ...alumniData, name: val })} /> */}
                     <input style={{ ...styles.long_input }} value={alumniData.name} onChange={(event) => setAlumniData({ ...alumniData, name: event.target.value })} placeholder={"name"} />
                     <textarea style={styles.long_input} value={alumniData.desc} onChange={(event) => setAlumniData({ ...alumniData, desc: event.target.value })} rows={'3'} placeholder="desc" />
                 </div>

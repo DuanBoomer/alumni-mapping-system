@@ -79,11 +79,11 @@ export default function InputField({ title, placeholder, type, state, setState }
             break;
 
         case "date":
-            InputTag = <input style={styles.input} type={"date"} value={state} onChange={(event) => setState(event.target.value)} />
+            InputTag = <input style={styles.input} placeholder={placeholder} type={"date"} value={state} onChange={(event) => setState(event.target.value)} />
             break;
 
         case "time":
-            InputTag = <input style={styles.input} type={"time"} value={state} onChange={(event) => setState(event.target.value)} />
+            InputTag = <input style={styles.input} placeholder={placeholder} type={"time"} value={state} onChange={(event) => setState(event.target.value)} />
             break;
 
         case "url":

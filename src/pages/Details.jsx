@@ -2,34 +2,22 @@ import Header from "../components/Header";
 import OutputField from "../components/OutputField";
 import person from "../assets/person.jpeg"
 import { useLocation } from "react-router-dom";
-import { getAlumniDetails, getFullDetails } from "../back/User";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-
-// webpack compiled with 1 warning
-// One of your dependencies, babel - preset - react - app, is importing the
-// "@babel/plugin-proposal-private-property-in-object" package without
-// declaring it in its dependencies.This is currently working because
-// "@babel/plugin-proposal-private-property-in-object" is already in your
-// node_modules folder for unrelated reasons, but it may break at any time.
-
-//     babel - preset - react - app is part of the create - react - app project, which
-// is not maintianed anymore.It is thus unlikely that this bug will
-// ever be fixed.Add "@babel/plugin-proposal-private-property-in-object" to
-// your devDependencies to work around this error.This will make this message
-// go away.
-
-export default function Details({id}) {
+export default function Details() {
 
     const location = useLocation()
-    var personData = {};
+    const [personData, setPersonData] = useState({ "expertise": [] });
 
-    if (location.state.type == "alumni"){
-        personData = getAlumniDetails(id)
-    }
+    console.log(personData);
 
-    else{
-        personData = getFullDetails(location.state.id)
-    }
+    useEffect(() => {
+        axios.get(`https://ams-backend-bdx5.onrender.com/${location.state.type}/${location.state.id}`)
+            .then((response) => {
+                setPersonData(response.data)
+            })
+    }, [])
 
     const styles = {
         profile_image: {
@@ -63,7 +51,7 @@ export default function Details({id}) {
             <Header text={"Details"} />
 
             <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5em", marginBottom: "2em" }}>
-                <img style={styles.profile_image} src={person} />
+                <img style={styles.profile_image} src={person} alt="profile" />
                 <div>
                     <p style={styles.name}>{personData.name}</p>
                     <p style={styles.desc}>{personData.desc}</p>
@@ -85,7 +73,7 @@ export default function Details({id}) {
                     </div>
             }
 
-            <div style={{height: "calc(0.5em + 26px)"}}></div>
+            <div style={{ height: "calc(0.5em + 26px)" }}></div>
 
 
         </div>

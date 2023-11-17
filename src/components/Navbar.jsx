@@ -3,12 +3,10 @@ import chats from "../assets/chat-icon.svg";
 import profile from "../assets/profile-icon.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 
-function Navbar({ id }) {
+function Navbar() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(id);
 
   const notAllowedRoutes = ['/', '/chat']
 

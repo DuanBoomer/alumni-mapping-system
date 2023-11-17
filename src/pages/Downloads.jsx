@@ -1,13 +1,22 @@
 import Header from "../components/Header";
 import Doc from "../components/Doc";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-import { useLocation } from "react-router-dom";
-import { getEventsHistory } from "../back/Events";
+export default function Downloads() {
 
-export default function Downloads({id}) {
+  const [events, setEvents] = useState([{ "docs": [] }])
 
-  const location = useLocation()
-  const events = getEventsHistory(id)
+  useEffect(() => {
+    axios.get(`https://ams-backend-bdx5.onrender.com/events/alumni/${localStorage.getItem("userID")}`)
+      .then((response) => {
+        setEvents(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
+
 
   const styles = {
     date: {

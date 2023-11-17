@@ -1,36 +1,39 @@
 import Header from '../components/Header';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-import { login } from '../back/Login';
-
-function Login({ onLogin }) {
+function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [err, setErr] = useState(false)
 
+  useEffect(() => {
+    if (localStorage.getItem("userID") !== "") {
+      navigate("/home")
+    }
+  }, [])
 
   function handleClick() {
-    var loggedIn = login(email, password)
-
-    // dev code (comment when pushing)
-    // navigate("/home", {state: {userID: "123"}})
-    // onLogin(true, "123")
-
-    // actual code
-    if (loggedIn.response) {
-      navigate("/home", { state: { id: loggedIn.userID } })
-      setErr(false)
-      setEmail("")
-      setPassword("")
-    }
-    else {
-      setErr(true)
-    }
-    onLogin(loggedIn.response, loggedIn.userID)
+    axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${email}/${password}`)
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/home")
+          setErr(false)
+          setEmail("")
+          setPassword("")
+          localStorage.setItem("userID", response.data.email);
+        }
+        else {
+          setErr(true)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (

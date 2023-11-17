@@ -2,19 +2,41 @@ import Header from '../components/Header'
 import EventCard from '../components/EventCard'
 import ProfileCard from '../components/ProfileCard'
 
-import { useLocation } from 'react-router-dom'
-import { getOngoingEvent } from '../back/Events'
-import { getAlumniDetails, getStudentDetails } from '../back/User'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-function Home({id}) {
+function Home() {
 
-  // const location = useLocation()
-  // const userID = location.state.id
-  const event = getOngoingEvent(id)
-  const alumni = getAlumniDetails(id)
-  const students = getStudentDetails(id)
+  const [students, setStudents] = useState([])
+  const [alumni, setAlumni] = useState({})
+  const [event, setEvent] = useState({})
 
-  // console.log(students);
+  useEffect(() => {
+    axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
+      .then((response) => {
+        setStudents(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+    axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
+      .then((response) => {
+        setAlumni(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+    axios.get(`https://ams-backend-bdx5.onrender.com/ongoing_event/alumni/${localStorage.getItem("userID")}`)
+      .then((response) => {
+        setEvent(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  }, [])
 
   const styles = {
     text: {
@@ -48,17 +70,17 @@ function Home({id}) {
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
           </div>
-          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} id={id} eventid={event.id} />
+          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} />
 
       }
 
       <p style={styles.text}>Alumni</p>
-      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={id} type={"alumni"} />
+      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={localStorage.getItem("userID")} type={"alumni"} />
       <p style={styles.text}>Students</p>
 
       {
         students.map((student, index) => {
-          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.id} type={"student"} />
+          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.email} type={"student"} />
         })
       }
 

@@ -1,7 +1,7 @@
 import Button from "./Button"
 import { useNavigate } from "react-router-dom"
 
-export default function EventCard({ time, day, date, title, type, desc, link, id, eventid }) {
+export default function EventCard({ time, day, date, title, type, desc, link }) {
 
     const navigate = useNavigate();
 
@@ -86,8 +86,6 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
                 title: title,
                 desc: desc,
                 link: link,
-                id: id,
-                eventid: eventid
             }
         })
     }
@@ -99,7 +97,7 @@ export default function EventCard({ time, day, date, title, type, desc, link, id
     function handleDocsClick() {
         navigate("/docs", {
             state: {
-                eventid: eventid,
+                title: title,
             }
         })
     }

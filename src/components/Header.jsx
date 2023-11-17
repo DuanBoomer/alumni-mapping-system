@@ -1,6 +1,12 @@
 import logo from "../assets/logo.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Header({ text }) {
+
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const notAllowedRoutes = ['/']
 
     const styles = {
         h1: {
@@ -45,7 +51,7 @@ export default function Header({ text }) {
     return (
         <div style={styles.div}>
             <h1 style={styles.h1}>{text}</h1>
-            <div style={styles.img_div}>
+            <div style={styles.img_div} onClick={() => notAllowedRoutes.includes(location.pathname) ? {} : navigate("/home")}>
                 <img style={styles.img} src={logo} />
             </div>
         </div>

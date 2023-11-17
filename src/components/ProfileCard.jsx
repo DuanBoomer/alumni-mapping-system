@@ -13,10 +13,8 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
         },
 
         card: {
-            // display: "flex",
             margin: "2em 0",
             width: "75%",
-            // height: "75%",
             padding: "1em",
             borderRadius: "18px",
             background: "var(--main-bg-color)",
@@ -50,10 +48,8 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
 
     function handleClick() {
         navigate("/details", { state: { id: id, type: type } })
-        // console.log("clicked")
     }
     return (
-        // <Link to={"/details"} style={{textDecoration: "none"}}>
         <div style={styles.card} onClick={handleClick}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
                 <img style={styles.profile_image} src={profile_img} alt="" />
@@ -78,6 +74,5 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
             </div>
 
         </div>
-        // </Link>
     )
 }

@@ -2,14 +2,24 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import profile_image from "../assets/person.jpeg"
 
-import { useLocation, useNavigate } from 'react-router-dom'
-import { getAlumniDetails } from '../back/User'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-function Profile({ id }) {
+function Profile() {
 
-  const location = useLocation()
   const navigate = useNavigate()
-  const alumni = getAlumniDetails(id)
+  const [alumni, setAlumni] = useState({ "expertise": [] })
+
+  useEffect(() => {
+    axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
+      .then((response) => {
+        setAlumni(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }, [])
 
   const styles = {
     profile_div: {
@@ -54,12 +64,18 @@ function Profile({ id }) {
   function handleClick(path) {
     navigate(path)
   }
+
+  function handleLogout() {
+    localStorage.setItem("userID", "")
+    navigate("/")
+  }
+
   return (
     <div style={{ padding: "1em 1em 3em 1em" }}>
       <Header text={'Profile'} />
 
       <div style={styles.profile_div}>
-        <img style={styles.profile_image} src={profile_image} alt='profile'/>
+        <img style={styles.profile_image} src={profile_image} alt='profile' />
         <p style={styles.name}>{alumni.name}</p>
         <p style={styles.text}>{alumni.expertise.join(" | ")}</p>
         <p style={styles.text}>{alumni.company}</p>
@@ -69,7 +85,7 @@ function Profile({ id }) {
         <Button text={"Downloads"} type="light" size="large" onClick={() => handleClick("/downloads")} />
         <Button text={"Edit Profile"} type="light" size="large" onClick={() => handleClick("/editprofile")} />
         <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />
-        <Button text={"Log Out"} type="light" size="large" onClick={() => handleClick("/")} />
+        <Button text={"Log Out"} type="light" size="large" onClick={handleLogout} />
       </div>
     </div>
   )
