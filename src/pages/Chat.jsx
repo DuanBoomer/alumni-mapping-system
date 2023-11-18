@@ -96,6 +96,7 @@ export default function Chat() {
       lineHeight: "normal",
       border: "none",
       outline: "none",
+      wordWrap: "break-word",
 
       width: "100%",
       borderBottom: "2px solid var(--text-color-light)"
@@ -111,12 +112,14 @@ export default function Chat() {
     console.log(chatInput)
     if (chatInput) {
       socket.emit('msg', chatInput)
-      setHistory((prev) => {
-        return [
-          ...prev,
-          chatInput
-        ]
-      })
+      // setHistory((prev) => {
+      //   return [
+      //     ...prev,
+      //     chatInput
+      //   ]
+      // })
+      chatInput("")
+      // chatDiv.current.scrollTop = chatDiv.current.scrollHeight
     }
   }
 
