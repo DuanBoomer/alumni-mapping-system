@@ -28,7 +28,8 @@ function ChatBox({ text, profile_image, type }) {
       justifyContent: type === "sent" ? "end" : "start",
       alignItems: "end",
       gap: '0.75em',
-      margin: "0.75em 1em 0.75em 0em"
+      margin: "0.75em 1em 0.75em 0em",
+      wordBreak: "break-word",
     }
   }
 
@@ -96,7 +97,8 @@ export default function Chat() {
       lineHeight: "normal",
       border: "none",
       outline: "none",
-      wordWrap: "break-word",
+      
+      // wordWrap: "break-word",
 
       width: "100%",
       borderBottom: "2px solid var(--text-color-light)"
