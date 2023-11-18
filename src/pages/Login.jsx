@@ -12,7 +12,9 @@ function Login() {
   const [err, setErr] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem("userID")) {
+    console.log("useEffect", localStorage.getItem("userID"), typeof (localStorage.getItem("userID")));
+    if (localStorage.getItem("userID")) {
+      // console.log("true");
       navigate("/home")
     }
   }, [])
@@ -20,6 +22,7 @@ function Login() {
   function handleClick() {
     axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${email}/${password}`)
       .then((response) => {
+        console.log(response);
         if (response.status === 200) {
           navigate("/home")
           setErr(false)

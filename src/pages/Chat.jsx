@@ -1,16 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Header from "../components/Header";
 import profile_image from "../assets/person.jpeg";
 import arrow from "../assets/arrow.svg";
 import back_button from "../assets/back-button.svg"
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-// ------------------------------
-
-// import { Socket } from "socket.io";
-// import { createServer } from "http";
-
-// ------------------------------
+import { socket } from "../socket";
 
 function ChatBox({ text, profile_image, type }) {
   const styles = {
@@ -58,26 +53,20 @@ function ChatBox({ text, profile_image, type }) {
 export default function Chat() {
 
   const navigate = useNavigate();
-  // const location = useLocation();
   const btn = useRef(null)
   const chatDiv = useRef(null)
 
-  // const http = createServer();
-  // const io = Socket(http, {
-  //   cors: { origin: "*" }
-  // });
-
-  // io.on('connection', (socket) => {
-  //   console.log('a user connected');
-
-  //   socket.on('message', (message) => {
-  //     console.log(message);
-  //     io.emit('message', `${socket.id.substr(0, 2)} said ${message}`);
-  //   });
-  // });
-
-  // http.listen(8080, () => console.log('listening on http://localhost:8080'));
-
+  var dummyChat = [
+    "I just gave swt 16 DBMS they are so many  mistakes in questions even solution are not explained properly",
+    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it! Studetns as well as sir’s time is very precious stop wasting it god dawn it",
+    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
+    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
+    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
+    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
+    // "Tomorrow sir class is cancelled we all pray for sir and her family "
+  ]
+  const [history, setHistory] = useState(dummyChat)
+  const [chatInput, setChatInput] = useState("")
 
   const styles = {
     chat: {
@@ -118,40 +107,30 @@ export default function Chat() {
     }
   }
 
-  var dummyChat = [
-    "I just gave swt 16 DBMS they are so many  mistakes in questions even solution are not explained properly",
-    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it! Studetns as well as sir’s time is very precious stop wasting it god dawn it",
-    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    "Tomorrow sir class is cancelled we all pray for sir and her family "
-  ]
-  const [history, setHistory] = useState(dummyChat)
-  const [chatInput, setChatInput] = useState("")
-
-  function addChat(text) {
-
-    if (text !== "") {
+  function handleSendClick() {
+    console.log(chatInput)
+    if (chatInput) {
+      socket.emit('msg', chatInput)
       setHistory((prev) => {
         return [
           ...prev,
-          text
+          chatInput
         ]
       })
     }
-    else { }
-
-    console.log(chatDiv.current.scrollHeight);
-    chatDiv.current.scrollTop = chatDiv.current.scrollHeight
-
-    // if (currChat){
-    //   currChat.current.scrollIntoView({ behavior: "smooth" })
-    // }
-
-
-    setChatInput("")
   }
+
+  useEffect(() => {
+    socket.on("msg", (data) => {
+      console.log(data);
+      setHistory((prev) => {
+        return [
+          ...prev,
+          data
+        ]
+      })
+    })
+  }, [])
 
   return (
 
@@ -179,14 +158,14 @@ export default function Chat() {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1em", padding: "1em 0 0 0" }}>
 
-          <input 
-          style={styles.input} 
-          placeholder="Type a message" 
-          value={chatInput} 
-          onKeyDown={(e) => e.key === "Enter" ? btn.current.click() : {}} 
-          onChange={(event) => { setChatInput(event.target.value) }} />
+          <input
+            style={styles.input}
+            placeholder="Type a message"
+            value={chatInput}
+            onKeyDown={(e) => e.key === "Enter" ? btn.current.click() : {}}
+            onChange={(event) => { setChatInput(event.target.value) }} />
 
-          <button ref={btn} style={{ display: "flex" }} onClick={() => { addChat(chatInput) }} >
+          <button ref={btn} style={{ display: "flex" }} onClick={handleSendClick} >
             <img style={styles.send_icon} src={arrow} alt="" />
             <img style={styles.send_icon} src={arrow} alt="" />
           </button>
@@ -196,6 +175,3 @@ export default function Chat() {
     </div>
   );
 }
-
-// export default Chat;
-// homepage, history, login, eventdetails

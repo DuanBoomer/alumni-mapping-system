@@ -4,17 +4,27 @@ import ProfileCard from '../components/ProfileCard'
 
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { useNavigate } from "react-router-dom"
 function Home() {
+
+  const navigate = useNavigate()
+
+  // if (!localStorage.getItem("userID")){
+  //   navigate("/")
+  // }
 
   const [students, setStudents] = useState([])
   const [alumni, setAlumni] = useState({})
   const [event, setEvent] = useState({})
 
+  // console.log(students);
+
   useEffect(() => {
     axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
       .then((response) => {
-        setStudents(response.data)
+        if (response.status_code === 200){
+          setStudents(response.data)
+        }
       })
       .catch((error) => {
         console.log(error);
