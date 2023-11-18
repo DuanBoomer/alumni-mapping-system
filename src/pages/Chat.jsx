@@ -118,7 +118,7 @@ export default function Chat() {
       //     chatInput
       //   ]
       // })
-      chatInput("")
+      setChatInput("")
       // chatDiv.current.scrollTop = chatDiv.current.scrollHeight
     }
   }
