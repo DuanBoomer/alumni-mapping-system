@@ -22,7 +22,8 @@ function Home() {
   useEffect(() => {
     axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
       .then((response) => {
-        if (response.status_code === 200){
+        console.log(response);
+        if (response.status === 200){
           setStudents(response.data)
         }
       })
