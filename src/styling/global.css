@@ -22,6 +22,25 @@ input::-ms-reveal {
     display: none;
 }
 
-*{
+input[type="file"]::file-selector-button {
+    width: -moz-fit-content;
+    width: fit-content;
+    border: none;
+    padding: 0.25rem 1.5rem;
+    margin: 0.2em 1em 0em 0em;
+    border-radius: 9px;
+    color: #E0E0E0;
+    text-align: center;
+    font-family: Poppins;
+    font-size: var(--font-size-sm);
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.333px;
+    background: #37352F;
+    box-shadow: 5px 5px 5px 0px #161513 inset, -5px -5px 5px 0px #58554B inset;
+}
+
+* {
     transition: 0.3s;
 }

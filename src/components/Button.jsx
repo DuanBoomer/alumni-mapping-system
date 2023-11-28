@@ -6,7 +6,7 @@ export default function Button({ text, type, size, path, onClick }) {
             width: "fit-content",
             border: "none",
             padding: size === "big" ? "0.5rem 3rem" : "0.25rem 1.5rem",
-            margin: size === "big" ? "0.3em 0em" : "0.2em 0em",
+            margin: size === "big" ? "0.3em 0.1em" : "0.2em 0em",
             color: type === "light" ? "var(--text-color-dark)" : "#E0E0E0",
             textAlign: "center",
             fontFamily: "Poppins",
@@ -35,20 +35,21 @@ export default function Button({ text, type, size, path, onClick }) {
                 onClick
                     ? <button
                         style={styles.button}
-                        onMouseEnter={go_in}
-                        onMouseLeave={come_out}
-                        onTouchStart={go_in}
-                        onTouchEnd={come_out}
+                        // onMouseEnter={go_in}
+                        // onMouseLeave={come_out}
+                        // onTouchStart={go_in}
+                        // onTouchEnd={come_out}
                         onClick={() => onClick()}>
                         {text}
                     </button>
                     : <Link to={path}>
                         <button
                             style={styles.button}
-                            onMouseEnter={go_in}
-                            onMouseLeave={come_out}
-                            onTouchStart={go_in}
-                            onTouchEnd={come_out} >
+                            // onMouseEnter={go_in}
+                            // onMouseLeave={come_out}
+                            // onTouchStart={go_in}
+                            // onTouchEnd={come_out} 
+                            >
                             {text}
                         </button>
                     </Link>

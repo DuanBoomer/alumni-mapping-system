@@ -27,9 +27,11 @@ export default function Docs() {
             <EventDetailsFlat time={`${event.start_time} to ${event.end_time}`} day={event.day} date={event.date} title={event.title} />
 
             {
-                event.docs.map((item) => {
+                event.docs.length !== 0 
+                ? event.docs.map((item) => {
                     return <Doc text={item} />
                 })
+                : <p>No documents</p>
             }
 
         </div>

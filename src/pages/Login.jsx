@@ -19,7 +19,29 @@ function Login() {
     }
   }, [])
 
+  function loginStudent(email, password){
+    axios.get(`https://ams-backend-bdx5.onrender.com/student/${email}/${password}`)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          navigate("/home")
+          setErr(false)
+          setEmail("")
+          setPassword("")
+          localStorage.setItem("userID", response.data.alumni);
+          localStorage.setItem("studentID", response.data.email);
+        } else {
+          setErr(true)
+        }
+      })
+      .catch((error) => {
+        setErr(true)
+        console.log(error);
+      })
+  }
+
   function handleClick() {
+    // console.log("clicked");
     axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${email}/${password}`)
       .then((response) => {
         console.log(response);
@@ -31,10 +53,13 @@ function Login() {
           localStorage.setItem("userID", response.data.email);
         }
         else {
+          loginStudent(email, password)
           setErr(true)
+          
         }
       })
       .catch((error) => {
+        loginStudent(email, password)
         setErr(true)
         console.log(error);
       });

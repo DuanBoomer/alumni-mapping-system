@@ -12,13 +12,26 @@ function Profile() {
   const [alumni, setAlumni] = useState({ "expertise": [] })
 
   useEffect(() => {
-    axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
-      .then((response) => {
-        setAlumni(response.data)
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    if (localStorage.getItem("studentID")) {
+      axios.get(`https://ams-backend-bdx5.onrender.com/student/${localStorage.getItem("studentID")}`)
+        .then((response) => {
+          console.log(response.data);
+          setAlumni(response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+    else {
+      axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
+        .then((response) => {
+          setAlumni(response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
   }, [])
 
   const styles = {
@@ -67,6 +80,7 @@ function Profile() {
 
   function handleLogout() {
     localStorage.setItem("userID", "")
+    localStorage.setItem("studentID", "")
     navigate("/")
   }
 
@@ -75,16 +89,32 @@ function Profile() {
       <Header text={'Profile'} />
 
       <div style={styles.profile_div}>
-        <img style={styles.profile_image} src={profile_image} alt='profile' />
+        <img style={styles.profile_image} src={alumni.image} alt='profile' />
         <p style={styles.name}>{alumni.name}</p>
-        <p style={styles.text}>{alumni.expertise.join(" | ")}</p>
-        <p style={styles.text}>{alumni.company}</p>
+
+        {
+          alumni.alumni
+            ? <div>
+              <p style={styles.text}>{alumni.roll_no}</p>
+              <p style={styles.text}>{alumni.course + " " + alumni.stream}</p>
+            </div>
+            : <div>
+              <p style={styles.text}>{alumni.expertise.join(" | ")}</p>
+              <p style={styles.text}>{alumni.company}</p>
+            </div>
+        }
+
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "0.75em" }}>
         <Button text={"Downloads"} type="light" size="large" onClick={() => handleClick("/downloads")} />
         <Button text={"Edit Profile"} type="light" size="large" onClick={() => handleClick("/editprofile")} />
-        <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />
+        {
+          alumni.alumni
+            ? <></>
+            : <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />
+        }
+
         <Button text={"Log Out"} type="light" size="large" onClick={handleLogout} />
       </div>
     </div>

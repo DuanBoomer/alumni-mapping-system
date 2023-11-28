@@ -32,7 +32,8 @@ export default function Details() {
             fontSize: "var(--font-size-xxl)",
             fontStyle: "normal",
             fontWeight: "400",
-            lineHeight: "normal"
+            lineHeight: "30px",
+            letterSpacing: "-0.333px",
         },
 
         desc: {
@@ -62,14 +63,16 @@ export default function Details() {
                 location.state.type === "alumni"
                     ? <div>
                         <OutputField text={personData.email} title={"Email"} />
+                        <OutputField text={personData.position} title={"Position"} />
                         <OutputField text={personData.company} title={"Company Name"} />
                         <OutputField text={personData.expertise.join(', ')} title={"Expertise"} />
+                        <OutputField text={personData.batch} title={"Batch"} />
                     </div>
 
                     : <div>
                         <OutputField text={personData.email} title={"Email"} />
                         <OutputField text={personData.course + " " + personData.stream} title={"Course"} />
-                        <OutputField text={personData.year} title={"Year"} />
+                        <OutputField text={personData.roll_no} title={"Roll Number"} />
                     </div>
             }
 

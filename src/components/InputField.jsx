@@ -3,7 +3,7 @@ import eye_closed from "../assets/eye-closed.svg"
 
 import { useState } from "react"
 
-export default function InputField({ title, placeholder, type, state, setState }) {
+export default function InputField({ title, placeholder, type, state, setState, button }) {
 
     const [passwordShown, setPasswordShown] = useState(false)
 
@@ -31,7 +31,7 @@ export default function InputField({ title, placeholder, type, state, setState }
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "normal",
-            margin: "0em"
+            margin: "0em 1em 0em 0em"
         },
 
         icon: {
@@ -56,6 +56,23 @@ export default function InputField({ title, placeholder, type, state, setState }
             borderRadius: "13px",
             background: "var(--main-bg-color)",
             boxShadow: "-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset"
+        },
+        file: {
+            // padding: "1em",
+            // boxShadow: "none"
+        }
+    }
+
+    function convertImageToBase64(e) {
+        var reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0])
+        reader.onload = () => {
+            // console.log(reader.result);
+            setState(reader.result)
+
+        }
+        reader.onerror = (error) => {
+            console.log("File upload error", error);
         }
     }
 
@@ -67,7 +84,7 @@ export default function InputField({ title, placeholder, type, state, setState }
 
     switch (type) {
         case "textarea":
-            InputTag = <textarea style={styles.textarea} rows={'4'} placeholder="desc" />
+            InputTag = <textarea style={styles.textarea} rows={'4'} placeholder="desc" value={state} onChange={(event) => setState(event.target.value)} />
             break;
 
         case "password":
@@ -91,7 +108,7 @@ export default function InputField({ title, placeholder, type, state, setState }
             break;
 
         case "file":
-            InputTag = <input style={styles.input} type={"file"} onChange={(event) => setState(event.target.value)} />
+            InputTag = <input accept="image/" style={{ ...styles.input, ...styles.file }} type={"file"} onChange={convertImageToBase64} />
             break;
 
         default:
@@ -102,7 +119,10 @@ export default function InputField({ title, placeholder, type, state, setState }
 
     return (
         <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-            <p style={styles.title}>{title}</p>
+            <div style={{ display: "flex" }}>
+                <p style={styles.title}>{title}</p>
+                {button}
+            </div>
 
             {InputTag}
 

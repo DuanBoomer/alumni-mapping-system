@@ -2,7 +2,7 @@ import profile_img from "../assets/person.jpeg"
 import arrow from "../assets/arrow.svg"
 import { useNavigate } from "react-router-dom"
 
-export default function ProfileCard({ name, expertise, company, id, type }) {
+export default function ProfileCard({ name, expertise, company, id, type, image, position }) {
 
     const navigate = useNavigate()
 
@@ -52,14 +52,18 @@ export default function ProfileCard({ name, expertise, company, id, type }) {
     return (
         <div style={styles.card} onClick={handleClick}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
-                <img style={styles.profile_image} src={profile_img} alt="" />
+                <img style={styles.profile_image} src={image ? image: profile_img} alt="" />
                 <p style={styles.name}>{name}</p>
             </div>
 
             <div style={{ margin: "5px" }}>
                 {
                     expertise
-                        ? <p style={styles.text}>{expertise.join(" | ") + " Expert"}</p>
+                        ? <div>
+                            <p style={styles.text}>{expertise.join(" | ") + " Expert"}</p>
+                            <p style={styles.text}>{position}</p>
+
+                        </div>
                         : <></>
                 }
 

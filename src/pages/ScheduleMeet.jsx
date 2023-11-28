@@ -4,6 +4,7 @@ import OutputField from "../components/OutputField"
 import Button from "../components/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function ScheduleMeet() {
 
@@ -22,6 +23,31 @@ export default function ScheduleMeet() {
         return weekday[date.getUTCDay()]
     }
 
+    function handleSubmitClick(){
+        axios.post(`https://ams-backend-bdx5.onrender.com/schedule_event/alumni/${localStorage.getItem("userID")}`, 
+        {
+            title: title,
+            start_time: startTime,
+            end_time: endTime,
+            day: day_of_week(date),
+            date: date,
+            desc: desc,
+            link: link,
+            type: "pending",
+            docs: []
+        }
+        ).then((response) => {
+            console.log(response);
+            navigate("/home")
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    function get_meet_link(){
+        window.open("https://meet.google.com/")
+    }
+
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
 
@@ -32,10 +58,10 @@ export default function ScheduleMeet() {
             <InputField title={"End Time"} placeholder={"end time"} type={"time"} state={endTime} setState={setEndTime} />
             <InputField title={"Date"} placeholder={"date"} type={"date"} state={date} setState={setDate} />
 
-            <OutputField title={"Day"} text={day_of_week(date)} />
-            <InputField title={"Link"} placeholder={"meet link"} type={"url"} state={link} setState={setLink} />
+            <OutputField title={"Day"} text={day_of_week(date) ? day_of_week(date): "choose a date"} />
+            <InputField title={"Link"} placeholder={"meet link"} type={"url"} state={link} setState={setLink} button={<Button text={"get link"} type={"dark"} size={"small"} onClick={get_meet_link}/>} />
 
-            <Button text={"Schedule"} type={"light"} size={"big"} onClick={() => navigate("/home")} />
+            <Button text={"Schedule"} type={"light"} size={"big"} onClick={handleSubmitClick} />
 
             <div style={{ height: "calc(0.5em + 26px)" }}></div>
         </div>

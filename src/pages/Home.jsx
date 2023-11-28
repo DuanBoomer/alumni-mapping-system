@@ -5,6 +5,7 @@ import ProfileCard from '../components/ProfileCard'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
+import Button from '../components/Button'
 function Home() {
 
   const navigate = useNavigate()
@@ -15,14 +16,12 @@ function Home() {
 
   const [students, setStudents] = useState([])
   const [alumni, setAlumni] = useState({})
-  const [event, setEvent] = useState({})
-
-  // console.log(students);
+  const [event, setEvent] = useState({ type: "no ongoing event" })
 
   useEffect(() => {
     axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 200){
           setStudents(response.data)
         }
@@ -41,13 +40,20 @@ function Home() {
 
     axios.get(`https://ams-backend-bdx5.onrender.com/ongoing_event/alumni/${localStorage.getItem("userID")}`)
       .then((response) => {
-        setEvent(response.data)
+        if (response.data){
+          setEvent(response.data[response.data.length - 1])
+        }
+        // else{
+        //   setEvent({ "type": "no ongoing event"})
+        // }
       })
       .catch((error) => {
         console.log(error);
       })
 
   }, [])
+
+  console.log(event);
 
   const styles = {
     text: {
@@ -75,23 +81,25 @@ function Home() {
   return (
     <div style={{ padding: "1em 1em 3em 1em" }}>
       <Header text={"Home"} />
+      {/* <p>{...event}</p> */}
 
       {
-        event.type === "no ongoing event"
+        !event
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
+            <Button text={"History"} type={"dark"} size={"small"} onClick={() => navigate("/history")} />
           </div>
           : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} />
 
       }
 
       <p style={styles.text}>Alumni</p>
-      <ProfileCard name={alumni.name} expertise={alumni.expertise} company={alumni.company} id={localStorage.getItem("userID")} type={"alumni"} />
+      <ProfileCard name={alumni.name} expertise={alumni.expertise} position={alumni.position} company={alumni.company} id={localStorage.getItem("userID")} type={"alumni"} image={alumni.image} />
       <p style={styles.text}>Students</p>
 
       {
         students.map((student, index) => {
-          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream} | ${student.year} year`} id={student.email} type={"student"} />
+          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream}`} id={student.email} type={"student"} />
         })
       }
 
