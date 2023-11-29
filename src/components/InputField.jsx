@@ -88,7 +88,8 @@ export default function InputField({ title, placeholder, type, state, setState, 
             break;
 
         case "password":
-            InputTag = <input style={styles.input} placeholder={placeholder} type={passwordShown ? "text" : "password"} value={state} onChange={(event) => setState(event.target.value)} />
+            InputTag = <><input style={styles.input} placeholder={placeholder} type={passwordShown ? "text" : "password"} value={state} onChange={(event) => setState(event.target.value)} />
+                <img onClick={togglePassword} style={styles.icon} src={passwordShown ? eye_opened : eye_closed} alt="show password" /></>
             break;
 
         case "email":
@@ -123,14 +124,7 @@ export default function InputField({ title, placeholder, type, state, setState, 
                 <p style={styles.title}>{title}</p>
                 {button}
             </div>
-
             {InputTag}
-
-            {
-                type === "password"
-                    ? <img onClick={togglePassword} style={styles.icon} src={passwordShown ? eye_opened : eye_closed} alt="show password" />
-                    : <></>
-            }
         </div>
     )
 }

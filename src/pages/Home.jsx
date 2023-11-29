@@ -2,11 +2,11 @@ import Header from '../components/Header'
 import EventCard from '../components/EventCard'
 import ProfileCard from '../components/ProfileCard'
 
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
+// import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import Button from '../components/Button'
-function Home() {
+function Home({ alumniData, studentsData }) {
 
   const navigate = useNavigate()
 
@@ -14,46 +14,46 @@ function Home() {
   //   navigate("/")
   // }
 
-  const [students, setStudents] = useState([])
-  const [alumni, setAlumni] = useState({})
-  const [event, setEvent] = useState({ type: "no ongoing event" })
+  // const [students, setStudents] = useState([])
+  // const [alumni, setAlumni] = useState({})
+  // const [event, setEvent] = useState({ type: "no ongoing event" })
 
-  useEffect(() => {
-    axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
-      .then((response) => {
-        // console.log(response);
-        if (response.status === 200){
-          setStudents(response.data)
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+  // useEffect(() => {
+  //   axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
+  //     .then((response) => {
+  //       // console.log(response);
+  //       if (response.status === 200){
+  //         setStudents(response.data)
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
 
-    axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
-      .then((response) => {
-        setAlumni(response.data)
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+  //   axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
+  //     .then((response) => {
+  //       setAlumni(response.data)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
 
-    axios.get(`https://ams-backend-bdx5.onrender.com/ongoing_event/alumni/${localStorage.getItem("userID")}`)
-      .then((response) => {
-        if (response.data){
-          setEvent(response.data[response.data.length - 1])
-        }
-        // else{
-        //   setEvent({ "type": "no ongoing event"})
-        // }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+  //   axios.get(`https://ams-backend-bdx5.onrender.com/ongoing_event/alumni/${localStorage.getItem("userID")}`)
+  //     .then((response) => {
+  //       if (response.data){
+  //         setEvent(response.data[response.data.length - 1])
+  //       }
+  //       // else{
+  //       //   setEvent({ "type": "no ongoing event"})
+  //       // }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
 
-  }, [])
+  // }, [])
 
-  console.log(event);
+  // console.log(event);
 
   const styles = {
     text: {
@@ -79,11 +79,19 @@ function Home() {
   }
 
   return (
-    <div style={{ padding: "1em 1em 3em 1em" }}>
-      <Header text={"Home"} />
-      {/* <p>{...event}</p> */}
+    <div>
 
       {
+        alumniData && studentsData
+          ? <div style={{ padding: "1em 1em 3em 1em" }}>
+            <Header text={"Home"} />
+
+            <div style={styles.shadow_div}>
+              <p style={styles.text}>No ongoing Event</p>
+              <Button text={"History"} type={"dark"} size={"small"} onClick={() => navigate("/history")} />
+            </div>
+
+            {/* {
         !event
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
@@ -91,19 +99,23 @@ function Home() {
           </div>
           : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} />
 
+      } */}
+
+            <p style={styles.text}>Alumni</p>
+            <ProfileCard data={alumniData} />
+
+            <p style={styles.text}>Students</p>
+            {
+              studentsData.map((student, index) => {
+                return <ProfileCard key={index} data={student} />
+              })
+            }
+
+          </div>
+          : <></>
       }
-
-      <p style={styles.text}>Alumni</p>
-      <ProfileCard name={alumni.name} expertise={alumni.expertise} position={alumni.position} company={alumni.company} id={localStorage.getItem("userID")} type={"alumni"} image={alumni.image} />
-      <p style={styles.text}>Students</p>
-
-      {
-        students.map((student, index) => {
-          return <ProfileCard key={index} name={student.name} company={`${student.course} ${student.stream}`} id={student.email} type={"student"} />
-        })
-      }
-
     </div>
+
   )
 }
 

@@ -15,6 +15,8 @@ export default function OutputField({ title, text }) {
             borderRadius: "13px",
             background: "var(--main-bg-color)",
             boxShadow: "-5px -5px 10px 0px var(--light-shadow), 5px 5px 10px 0px var(--dark-shadow)",
+
+            wordBreak: "break-word",
         },
 
         title: {

@@ -2,7 +2,7 @@ import profile_img from "../assets/person.jpeg"
 import arrow from "../assets/arrow.svg"
 import { useNavigate } from "react-router-dom"
 
-export default function ProfileCard({ name, expertise, company, id, type, image, position }) {
+export default function ProfileCard({ data }) {
 
     const navigate = useNavigate()
 
@@ -47,28 +47,42 @@ export default function ProfileCard({ name, expertise, company, id, type, image,
     }
 
     function handleClick() {
-        navigate("/details", { state: { id: id, type: type } })
+        navigate("/details", {
+            state: {
+                data: data
+            }
+        })
     }
+
+    console.log(data);
     return (
         <div style={styles.card} onClick={handleClick}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
-                <img style={styles.profile_image} src={image ? image: profile_img} alt="" />
-                <p style={styles.name}>{name}</p>
+                <img style={styles.profile_image} src={data.image} alt="profile image" />
+                <p style={styles.name}>{data.name}</p>
             </div>
 
             <div style={{ margin: "5px" }}>
                 {
-                    expertise
+                    data.expertise
                         ? <div>
-                            <p style={styles.text}>{expertise.join(" | ") + " Expert"}</p>
-                            <p style={styles.text}>{position}</p>
+                            <p style={styles.text}>{data.expertise.join(" | ")}</p>
+                            <p style={styles.text}>{data.position}</p>
 
                         </div>
-                        : <></>
+                        : <div>
+                            <p style={styles.text}>{data.roll_no}</p>
+                        </div>
                 }
 
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <p style={styles.text}>{company}</p>
+
+                    {
+                        data.company
+                            ? <p style={styles.text}>{data.company}</p>
+                            : <p style={styles.text}>{`${data.course} ${data.stream}`}</p>
+                    }
+                    
                     <div>
                         <img src={arrow} alt="" />
                         <img src={arrow} alt="" />

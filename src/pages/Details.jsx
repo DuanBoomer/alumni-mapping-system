@@ -8,16 +8,24 @@ import axios from "axios";
 export default function Details() {
 
     const location = useLocation()
-    const [personData, setPersonData] = useState({ "expertise": [] });
+    // console.log();
+    const data = location.state.data
+    const dontShow = ['name', 'desc', 'image', 'student_coordinator', 'alumni']
+    // var data 
+    // if (location.state.data){
+    //     data = location.state.data
+    // }
+    // data = {}
+    // const [personData, setPersonData] = useState({ "expertise": [] });
 
-    console.log(personData);
+    // console.log(personData);
 
-    useEffect(() => {
-        axios.get(`https://ams-backend-bdx5.onrender.com/${location.state.type}/${location.state.id}`)
-            .then((response) => {
-                setPersonData(response.data)
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(`https://ams-backend-bdx5.onrender.com/${location.state.type}/${location.state.id}`)
+    //         .then((response) => {
+    //             setPersonData(response.data)
+    //         })
+    // }, [])
 
     const styles = {
         profile_image: {
@@ -52,28 +60,36 @@ export default function Details() {
             <Header text={"Details"} />
 
             <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5em", marginBottom: "2em" }}>
-                <img style={styles.profile_image} src={person} alt="profile" />
+                <img style={styles.profile_image} src={data.image} alt="profile" />
                 <div>
-                    <p style={styles.name}>{personData.name}</p>
-                    <p style={styles.desc}>{personData.desc}</p>
+                    <p style={styles.name}>{data.name}</p>
+                    <p style={styles.desc}>{data.desc}</p>
                 </div>
             </div>
 
             {
-                location.state.type === "alumni"
-                    ? <div>
-                        <OutputField text={personData.email} title={"Email"} />
-                        <OutputField text={personData.position} title={"Position"} />
-                        <OutputField text={personData.company} title={"Company Name"} />
-                        <OutputField text={personData.expertise.join(', ')} title={"Expertise"} />
-                        <OutputField text={personData.batch} title={"Batch"} />
-                    </div>
+                Object.keys(data).map((key) => {
+                    if (dontShow.includes(key)){
+                        return <></>
+                    }
+                    else{
+                        return <OutputField title={key} text={data[key]} />
+                    }
+                })
+                // location.state.type === "alumni"
+                //     ? <div>
+                //         <OutputField text={personData.email} title={"Email"} />
+                //         <OutputField text={personData.position} title={"Position"} />
+                //         <OutputField text={personData.company} title={"Company Name"} />
+                //         <OutputField text={personData.expertise.join(', ')} title={"Expertise"} />
+                //         <OutputField text={personData.batch} title={"Batch"} />
+                //     </div>
 
-                    : <div>
-                        <OutputField text={personData.email} title={"Email"} />
-                        <OutputField text={personData.course + " " + personData.stream} title={"Course"} />
-                        <OutputField text={personData.roll_no} title={"Roll Number"} />
-                    </div>
+                //     : <div>
+                //         <OutputField text={personData.email} title={"Email"} />
+                //         <OutputField text={personData.course + " " + personData.stream} title={"Course"} />
+                //         <OutputField text={personData.roll_no} title={"Roll Number"} />
+                //     </div>
             }
 
             <div style={{ height: "calc(0.5em + 26px)" }}></div>

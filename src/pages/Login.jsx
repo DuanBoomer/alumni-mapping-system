@@ -1,81 +1,106 @@
 import Header from '../components/Header';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
-import { useState, useEffect } from 'react';
+import { API_BASE } from '../App';
+import { useState, useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function Login() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [err, setErr] = useState(false)
-
-  useEffect(() => {
-    console.log("useEffect", localStorage.getItem("userID"), typeof (localStorage.getItem("userID")));
-    if (localStorage.getItem("userID")) {
-      // console.log("true");
-      navigate("/home")
-    }
-  }, [])
-
-  function loginStudent(email, password){
-    axios.get(`https://ams-backend-bdx5.onrender.com/student/${email}/${password}`)
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          navigate("/home")
-          setErr(false)
-          setEmail("")
-          setPassword("")
-          localStorage.setItem("userID", response.data.alumni);
-          localStorage.setItem("studentID", response.data.email);
-        } else {
-          setErr(true)
-        }
-      })
-      .catch((error) => {
-        setErr(true)
-        console.log(error);
-      })
+function login_reducer(state, action) {
+  switch (action.type) {
+    case "email":
+      return {
+        ...state,
+        email: action.payload
+      }
+    case "password":
+      return {
+        ...state,
+        password: action.payload
+      }
   }
+  return state
+}
 
-  function handleClick() {
-    // console.log("clicked");
-    axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${email}/${password}`)
-      .then((response) => {
+async function getSHA256Hash(input){
+  const textAsBuffer = new TextEncoder().encode(input);
+  const hashBuffer = await window.crypto.subtle.digest("SHA-256", textAsBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hash = hashArray
+    .map((item) => item.toString(16).padStart(2, "0"))
+    .join("");
+  return hash;
+};
+
+function Login({ loginScreen, fetch_data }) {
+  const navigate = useNavigate()
+  const initialUserData = {
+    email: "",
+    password: ""
+  }
+  const [userState, dispatchUser] = useReducer(login_reducer, initialUserData)
+  const [err, setErr] = useState(false)
+  const [displayLoader, setDisplayLoader] = useState(false)
+
+  // useEffect(() => {
+  //   var data = JSON.parse(localStorage.getItem("data"))
+  //   if (data){
+  //     console.log(data);
+  //   }
+  // }, [])
+
+  async function handleClick() {
+    const password_hash = await getSHA256Hash(userState.password);
+    setErr(false)
+    setDisplayLoader(true)
+    axios.post(`${API_BASE}/auth`, userState)
+    .then((response) => {
+      response = response.data
+      if (response){
         console.log(response);
-        if (response.status === 200) {
-          navigate("/home")
-          setErr(false)
-          setEmail("")
-          setPassword("")
-          localStorage.setItem("userID", response.data.email);
-        }
-        else {
-          loginStudent(email, password)
-          setErr(true)
-          
-        }
-      })
-      .catch((error) => {
-        loginStudent(email, password)
+        // localStorage.setItem("data", JSON.stringify(response));
+        loginScreen(true)
+        fetch_data(response)
+        navigate("/home")
+      }
+      else{
         setErr(true)
-        console.log(error);
-      });
+      }
+      setDisplayLoader(false)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   return (
     <div style={{ padding: "1em 1em 3em 1em", display: "flex", flexDirection: "column" }}>
       <Header text={'Login'} />
-      <InputField title={"Email"} placeholder={"enter your email"} type={"email"} state={email} setState={setEmail} />
-      <InputField title={"Password"} placeholder={"something secret"} type={"password"} state={password} setState={setPassword} />
+      <InputField
+        title={"Email"}
+        placeholder={"enter your email"}
+        type={"email"}
+        state={userState.email}
+        setState={(val) => dispatchUser({ type: "email", payload: val })}
+      />
+      <InputField
+        title={"Password"}
+        placeholder={"something secret"}
+        type={"password"}
+        state={userState.password}
+        setState={(val) => dispatchUser({ type: "password", payload: val })}
+      />
       {
         err
           ? <p style={{ color: "red", fontSize: "var(--font-size-sm)" }}>email or password incorrect</p>
           : <></>
       }
       <Button text={"Login"} type={"light"} size={"big"} onClick={handleClick} />
+      {
+        displayLoader
+          ? <p>authing login details</p>
+          : <></>
+      }
     </div>
   )
 }
