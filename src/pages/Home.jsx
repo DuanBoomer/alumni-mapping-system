@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom"
 import Button from '../components/Button'
 function Home({ alumniData, studentsData }) {
 
+  // console.log(alumniData);
+  // console.log(studentsData);
+
   const navigate = useNavigate()
 
   // if (!localStorage.getItem("userID")){

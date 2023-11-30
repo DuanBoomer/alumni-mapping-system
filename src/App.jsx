@@ -13,57 +13,67 @@ import Profile from './pages/Profile';
 import ScheduleMeet from './pages/ScheduleMeet';
 import Navbar from './components/Navbar';
 import Loading from './components/Loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
   const [showLoadingScreen, setShowLoadingScreen] = useState(false)
+  // const [loginData, setLoginData] = useState()
   const [primaryUserData, setPrimaryUserData] = useState()
   const [alumniData, setAlumniData] = useState()
   const [studentsData, setStudentsData] = useState()
 
-  function fetch_data(data) {
+  useEffect(() => {
+    var  data = JSON.parse(localStorage.getItem("data"))
+
     // fetch primary data
-    axios.get(`${API_BASE}/data/${data.email}`)
-      .then((response) => {
-        response = response.data
-        console.log(response);
-        setPrimaryUserData(response)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+    if (data) {
+      axios.get(`${API_BASE}/data/${data.email}`)
+        .then((response) => {
+          response = response.data
+          console.log(response);
+          setPrimaryUserData(response)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
 
-    // fetch alumni data
-    axios.get(`${API_BASE}/data/${data.type == "student" ? data.alumni : data.email}`)
-      .then((response) => {
-        response = response.data
-        console.log(response);
-        setAlumniData(response)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      // fetch alumni data
+      axios.get(`${API_BASE}/data/${data.type == "student" ? data.alumni : data.email}`)
+        .then((response) => {
+          response = response.data
+          console.log(response);
+          setAlumniData(response)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
 
-    // fetch students under alumni data
-    axios.get(`${API_BASE}/data/students/${data.type == "student" ? data.alumni : data.email}`)
-      .then((response) => {
-        response = response.data
-        console.log(response);
-        setStudentsData(response)
-        setShowLoadingScreen(false)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
+      // fetch students under alumni data
+      axios.get(`${API_BASE}/data/students/${data.type == "student" ? data.alumni : data.email}`)
+        .then((response) => {
+          response = response.data
+          console.log(response);
+          setStudentsData(response)
+          setShowLoadingScreen(false)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+
+  }, [showLoadingScreen])
+
+  // function fetch_data(data) {
+    
+  // }
 
   return (
     <>
       <Main>
         <Routes>
-          <Route path='/' element={<Login loginScreen={setShowLoadingScreen} fetch_data={fetch_data} />} />
-          <Route path='/home' element={<Home alumniData={alumniData} studentsData={studentsData}/>} />
+          <Route path='/' element={<Login loadingScreen={setShowLoadingScreen} />} />
+          <Route path='/home' element={<Home alumniData={alumniData} studentsData={studentsData} />} />
           <Route path='/chat' element={<Chat />} />
           <Route path='/details' element={<Details />} />
           <Route path='/docs' element={<Docs />} />
@@ -71,7 +81,7 @@ function App() {
           <Route path='/editprofile' element={<EditProfile />} />
           <Route path='/eventdetails' element={<EventDetails />} />
           <Route path='/history' element={<History />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<Profile primaryUserData={primaryUserData} />} />
           <Route path='/schedulemeet' element={<ScheduleMeet />} />
         </Routes>
 

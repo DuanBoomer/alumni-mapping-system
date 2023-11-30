@@ -32,7 +32,7 @@ async function getSHA256Hash(input){
   return hash;
 };
 
-function Login({ loginScreen, fetch_data }) {
+function Login({ loadingScreen }) {
   const navigate = useNavigate()
   const initialUserData = {
     email: "",
@@ -58,9 +58,9 @@ function Login({ loginScreen, fetch_data }) {
       response = response.data
       if (response){
         console.log(response);
-        // localStorage.setItem("data", JSON.stringify(response));
-        loginScreen(true)
-        fetch_data(response)
+        localStorage.setItem("data", JSON.stringify(response));
+        loadingScreen(true)
+        // setLoginData(response)
         navigate("/home")
       }
       else{
