@@ -5,12 +5,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "../components/Modal";
 import { useState } from "react";
+import { API_BASE } from "../App";
 
 export default function EventDetails() {
 
     const location = useLocation();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false)
+
+    const alumni = location.state.alumni
+    const eventData = location.state.eventData
 
     const styles = {
         small_text: {
@@ -25,12 +29,13 @@ export default function EventDetails() {
     }
 
     function handleJoinClick() {
-        window.open(location.state.link);
+        window.open("https://meet.google.com")
+        // window.open(location.state.link);
         // window.open("https://calendar.google.com/calendar/u/0/r/eventedit?vcon=meet&dates=now&hl=enn")
     }
 
     function handleCancelClick() {
-        axios.delete(`https://ams-backend-bdx5.onrender.com/delete/events/${localStorage.getItem("userID")}/${location.state.title}`)
+        axios.delete(`${API_BASE}/delete/event/${alumni}/${eventData.title}`)
         .then((response) => {
             navigate('/home')
             console.log(response);
@@ -41,16 +46,16 @@ export default function EventDetails() {
     }
 
     function handleEditClick(){
-        navigate("/home")
+        navigate("/schedulemeet", { state: eventData })
     }
 
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
 
             <Header text={"Event Details"} />
-            <EventDetailsFlat time={location.state.time} day={location.state.day} date={location.state.date} title={location.state.title} />
+            <EventDetailsFlat eventData={eventData} />
 
-            <p style={styles.small_text}>{location.state.desc}</p>
+            <p style={styles.small_text}>{eventData.desc}</p>
 
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <Button text={"Join"} type={"light"} size={"big"} onClick={handleJoinClick} />

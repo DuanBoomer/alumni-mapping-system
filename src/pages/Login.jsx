@@ -42,12 +42,14 @@ function Login({ loadingScreen }) {
   const [err, setErr] = useState(false)
   const [displayLoader, setDisplayLoader] = useState(false)
 
-  // useEffect(() => {
-  //   var data = JSON.parse(localStorage.getItem("data"))
-  //   if (data){
-  //     console.log(data);
-  //   }
-  // }, [])
+  useEffect(() => {
+    var data = JSON.parse(localStorage.getItem("data"))
+    if (data.email){
+      loadingScreen(true)
+      navigate("/home")
+      // console.log(data);
+    }
+  }, [])
 
   async function handleClick() {
     const password_hash = await getSHA256Hash(userState.password);

@@ -50,6 +50,8 @@ function Profile({ primaryUserData }) {
     },
     profile_image: {
       height: "150px",
+      width: "150px",
+      objectFit: "cover",
       borderRadius: "10px",
     },
 
@@ -83,6 +85,7 @@ function Profile({ primaryUserData }) {
   function handleLogout() {
     // localStorage.setItem("userID", "")
     // localStorage.setItem("studentID", "")
+    localStorage.setItem("data", JSON.stringify({ type: '', email: '' }));
     navigate("/")
   }
 

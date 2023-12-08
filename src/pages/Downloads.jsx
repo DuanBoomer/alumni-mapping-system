@@ -3,20 +3,20 @@ import Doc from "../components/Doc";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Downloads() {
+export default function Downloads({eventsData}) {
 
-  const [events, setEvents] = useState([{ "docs": [] }])
-  console.log(events);
+  const events = [...eventsData.pending, ...eventsData.done]
+  // console.log(events);
 
-  useEffect(() => {
-    axios.get(`https://ams-backend-bdx5.onrender.com/events/alumni/${localStorage.getItem("userID")}`)
-      .then((response) => {
-        setEvents([...response.data.pending, ...response.data.done])
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+  // useEffect(() => {
+  //   axios.get(`https://ams-backend-bdx5.onrender.com/events/alumni/${localStorage.getItem("userID")}`)
+  //     .then((response) => {
+  //       setEvents([...response.data.pending, ...response.data.done])
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }, [])
 
 
   const styles = {

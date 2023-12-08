@@ -6,7 +6,7 @@ import { useState } from 'react'
 // import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import Button from '../components/Button'
-function Home({ alumniData, studentsData }) {
+function Home({ alumniData, studentsData, eventsData }) {
 
   // console.log(alumniData);
   // console.log(studentsData);
@@ -89,20 +89,30 @@ function Home({ alumniData, studentsData }) {
           ? <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"Home"} />
 
-            <div style={styles.shadow_div}>
+            {/* <div style={styles.shadow_div}>
               <p style={styles.text}>No ongoing Event</p>
               <Button text={"History"} type={"dark"} size={"small"} onClick={() => navigate("/history")} />
-            </div>
+            </div> */}
 
-            {/* {
-        !event
+            {
+        !eventsData.pending
           ? <div style={styles.shadow_div}>
             <p style={styles.text}>No ongoing Event</p>
             <Button text={"History"} type={"dark"} size={"small"} onClick={() => navigate("/history")} />
           </div>
-          : <EventCard time={[event.start_time, event.end_time].join(" to ")} day={event.day} date={event.date} title={event.title} type={event.type} desc={event.desc} link={event.link} />
-
-      } */}
+          : eventsData.pending.map((event) => {
+            return <EventCard eventData = {event}
+              // docs={event.docs}
+              history={eventsData} 
+              alumni={alumniData.email}
+              // time={[event.start_time, event.end_time].join(" to ")} 
+              // day={event.day} date={event.date} 
+              // title={event.title} 
+              // type={event.type} 
+              // desc={event.desc} link={event.link} 
+              />
+          })
+      }
 
             <p style={styles.text}>Alumni</p>
             <ProfileCard data={alumniData} />

@@ -1,4 +1,4 @@
-export default function EventDetailsFlat({ time, day, date, title }) {
+export default function EventDetailsFlat({ eventData }) {
 
     const styles = {
         big_text: {
@@ -25,14 +25,14 @@ export default function EventDetailsFlat({ time, day, date, title }) {
     return (
         <div>
             {/* <Header text={"Event Details"} /> */}
-            <p style={styles.big_text}>{title}</p>
+            <p style={styles.big_text}>{eventData.title}</p>
 
             <div style={{ margin: "1.5em 0" }}>
-                <p style={styles.medium_text}>{time}</p>
+                <p style={styles.medium_text}>{eventData.time}</p>
 
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <p style={styles.medium_text}>{day}</p>
-                    <p style={styles.medium_text}>{date}</p>
+                    <p style={styles.medium_text}>{eventData.day}</p>
+                    <p style={styles.medium_text}>{eventData.date}</p>
                 </div>
             </div>
         </div>

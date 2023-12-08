@@ -9,26 +9,27 @@ import axios from "axios";
 export default function Docs() {
 
     const location = useLocation()
-    const [event, setEvent] = useState({ "docs": [] })
+    const eventData = location.state.eventData
+    // const [event, setEvent] = useState({ "docs": [] })
 
-    useEffect(() => {
-        axios.get(`https://ams-backend-bdx5.onrender.com/eventdetails/alumni/${localStorage.getItem("userID")}/${location.state.title}`)
-            .then((response) => {
-                setEvent(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(`https://ams-backend-bdx5.onrender.com/eventdetails/alumni/${localStorage.getItem("userID")}/${location.state.title}`)
+    //         .then((response) => {
+    //             setEvent(response.data)
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }, [])
 
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"Docs"} />
-            <EventDetailsFlat time={`${event.start_time} to ${event.end_time}`} day={event.day} date={event.date} title={event.title} />
+            <EventDetailsFlat eventData={eventData} />
 
             {
-                event.docs.length !== 0 
-                ? event.docs.map((item) => {
+                eventData.docs.length !== 0 
+                ? eventData.docs.map((item) => {
                     return <Doc text={item} />
                 })
                 : <p>No documents</p>

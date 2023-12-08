@@ -1,7 +1,7 @@
 import Button from "./Button"
 import { useNavigate } from "react-router-dom"
 
-export default function EventCard({ time, day, date, title, type, desc, link }) {
+export default function EventCard({ eventData, alumni, history }) {
 
     const navigate = useNavigate();
 
@@ -80,12 +80,14 @@ export default function EventCard({ time, day, date, title, type, desc, link }) 
     function handleViewClick() {
         navigate("/eventdetails", {
             state: {
-                time: time,
-                day: day,
-                date: date,
-                title: title,
-                desc: desc,
-                link: link,
+                alumni: alumni,
+                eventData: eventData
+                // time: time,
+                // day: day,
+                // date: date,
+                // title: title,
+                // desc: desc,
+                // link: link,
             }
         })
     }
@@ -97,21 +99,22 @@ export default function EventCard({ time, day, date, title, type, desc, link }) 
     function handleDocsClick() {
         navigate("/docs", {
             state: {
-                title: title,
+                eventData: eventData
+                // docs: docs,
             }
         })
     }
     return (
         <div style={styles.card}>
             <div style={styles.partition}>
-                <p style={styles.time}>{time}</p>
+                <p style={styles.time}>{`${eventData.start_time} to ${eventData.end_time}`}</p>
 
                 <div>
-                    <p style={styles.day}>{day}</p>
-                    <p style={styles.date}>{date}</p>
+                    <p style={styles.day}>{eventData.day}</p>
+                    <p style={styles.date}>{eventData.date}</p>
 
                     {
-                        type === "pending"
+                        eventData.type === "pending"
                             ? <Button text={"View"} type={"dark"} size={"small"} onClick={handleViewClick} />
                             : <></>
                     }
@@ -121,10 +124,10 @@ export default function EventCard({ time, day, date, title, type, desc, link }) 
             <div style={styles.line}></div>
 
             <div style={{ ...styles.partition, alignItems: "flex-end" }}>
-                <p style={styles.title}>{title}</p>
+                <p style={styles.title}>{eventData.title}</p>
 
                 {
-                    type === "pending"
+                    eventData.type === "pending"
                         ? <Button text={"History"} type={"dark"} size={"small"} onClick={handleHistoryClick} />
                         : <Button text={"Documents"} type={"dark"} size={"small"} onClick={handleDocsClick} />
                 }

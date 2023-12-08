@@ -30,6 +30,8 @@ export default function Details() {
     const styles = {
         profile_image: {
             width: "179px",
+            height: "179px",
+            objectFit: "cover",
             borderRadius: "10px",
         },
 
