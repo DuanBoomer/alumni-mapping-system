@@ -18,7 +18,7 @@ export default function Docs() {
     //             setEvent(response.data)
     //         })
     //         .catch((error) => {
-    //             console.log(error);
+    //             // console.log(error);
     //         })
     // }, [])
 
@@ -28,11 +28,11 @@ export default function Docs() {
             <EventDetailsFlat eventData={eventData} />
 
             {
-                eventData.docs.length !== 0 
-                ? eventData.docs.map((item) => {
-                    return <Doc text={item} />
-                })
-                : <p>No documents</p>
+                eventData.docs.length !== 0
+                    ? eventData.docs.map((item, index) => {
+                        return <Doc key={index} text={item} />
+                    })
+                    : <p>No documents</p>
             }
 
         </div>

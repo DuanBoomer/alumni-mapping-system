@@ -28,26 +28,26 @@ export default function History({ eventsData }) {
     //             setHistory(response.data)
     //         })
     //         .catch((error) => {
-    //             console.log(error);
+    //             // console.log(error);
     //         })
     // }, [])
 
-    // console.log(history);
+    // // console.log(history);
 
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"History"} />
             <p style={styles.text}>Pending</p>
             {
-                eventsData.pending.map((item) => {
-                    return <EventCard eventData={{...item, type: "done"}} />
+                eventsData.pending.map((item, index) => {
+                    return <EventCard key={index} eventData={{ ...item, type: "done" }} />
                 })
             }
 
             <p style={styles.text}>Done</p>
             {
-                eventsData.done.map((item) => {
-                    return <EventCard eventData={item} />
+                eventsData.done.map((item, index) => {
+                    return <EventCard key={index} eventData={item} />
                 })
             }
         </div>

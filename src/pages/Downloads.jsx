@@ -3,10 +3,10 @@ import Doc from "../components/Doc";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Downloads({eventsData}) {
+export default function Downloads({ eventsData }) {
 
   const events = [...eventsData.pending, ...eventsData.done]
-  // console.log(events);
+  // // console.log(events);
 
   // useEffect(() => {
   //   axios.get(`https://ams-backend-bdx5.onrender.com/events/alumni/${localStorage.getItem("userID")}`)
@@ -14,7 +14,7 @@ export default function Downloads({eventsData}) {
   //       setEvents([...response.data.pending, ...response.data.done])
   //     })
   //     .catch((error) => {
-  //       console.log(error)
+  //       // console.log(error)
   //     })
   // }, [])
 
@@ -45,23 +45,23 @@ export default function Downloads({eventsData}) {
       <Header text={"Download"} />
       {
         events.length != 0
-        ? events.map((event, index) => {
-          return (
-            <div>
-              {
-                event.docs.length == 0
-                  ? <></>
-                  : <p key={index} style={styles.date}>{event.date}</p>
-              }
-              {
-                event.docs.map((doc, index) => {
-                  return <Doc key={index} text={doc} />
-                })
-              }
-            </div>
-          )
-        })
-        : <p style={styles.big_text}>No Documents</p>
+          ? events.map((event, index) => {
+            return (
+              <div>
+                {
+                  event.docs.length == 0
+                    ? <></>
+                    : <p key={index} style={styles.date}>{event.date}</p>
+                }
+                {
+                  event.docs.map((doc, index) => {
+                    return <Doc key={index} text={doc} />
+                  })
+                }
+              </div>
+            )
+          })
+          : <p style={styles.big_text}>No Documents</p>
       }
     </div>
   )

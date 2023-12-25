@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function EditProfile({ primaryUserData }) {
+export default function EditProfile({ primaryUserData, setPrimaryUserData, setAlumniData }) {
 
     const navigate = useNavigate()
     const [userData, setUserData] = useState(primaryUserData)
@@ -21,11 +21,11 @@ export default function EditProfile({ primaryUserData }) {
     //     if (localStorage.getItem("studentID")) {
     //         axios.get(`https://ams-backend-bdx5.onrender.com/student/${localStorage.getItem("studentID")}`)
     //             .then((response) => {
-    //                 console.log(response.data);
+    //                 // console.log(response.data);
     //                 setAlumniData(response.data)
     //             })
     //             .catch((error) => {
-    //                 console.log(error);
+    //                 // console.log(error);
     //             })
     //     }
     //     else {
@@ -34,7 +34,7 @@ export default function EditProfile({ primaryUserData }) {
     //                 setAlumniData(response.data)
     //             })
     //             .catch((error) => {
-    //                 console.log(error);
+    //                 // console.log(error);
     //             })
     //     }
     // }, [])
@@ -81,26 +81,29 @@ export default function EditProfile({ primaryUserData }) {
     }
 
     function handleSubmitClick() {
-        if (userData.alumni){
+        if (userData.alumni) {
             axios.put(`${API_BASE}/update/student/${userData.email}`, userData)
-            .then((response) => {
-                console.log(response);
-                setShowModal(false)
-                navigate("/profile")
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                .then((response) => {
+                    // console.log(response);
+                    setShowModal(false)
+                    setPrimaryUserData(userData)
+                    navigate("/profile")
+                })
+                .catch((error) => {
+                    // console.log(error);
+                })
         }
         else {
             axios.put(`${API_BASE}/update/alumni/${userData.email}`, userData)
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     setShowModal(false)
+                    setPrimaryUserData(userData)
+                    setAlumniData(userData)
                     navigate("/profile")
                 })
                 .catch((error) => {
-                    console.log(error);
+                    // console.log(error);
                 })
         }
         // if (localStorage.getItem("studentID")) {
@@ -110,12 +113,12 @@ export default function EditProfile({ primaryUserData }) {
         //     axios.post(`https://ams-backend-bdx5.onrender.com/update/alumni/${localStorage.getItem("userID")}`,
         //         alumniData
         //     ).then((response) => {
-        //         console.log(response);
+        //         // console.log(response);
         //         navigate("/profile")
         //         // setAlumniData(response.data)
         //     })
         //         .catch((error) => {
-        //             console.log(error);
+        //             // console.log(error);
         //         })
         // }
         // handleImageUpload()
@@ -134,14 +137,15 @@ export default function EditProfile({ primaryUserData }) {
 
                 <div style={styles.partition}>
                     <input style={{
-                        ...styles.long_input, flexGrow: 0}} value={userData.name} onChange={(event) => setUserData({ ...userData, name: event.target.value })} placeholder={"name"} />
+                        ...styles.long_input, flexGrow: 0
+                    }} value={userData.name} onChange={(event) => setUserData({ ...userData, name: event.target.value })} placeholder={"name"} />
                     {/* <InputField style={{ ...styles.long_input }} value={userData.name} onChange={(event) => setUserData({ ...userData, name: event.target.value })} placeholder={"name"} />
                     <InputField type={"textarea"} placeholder={"where you work?"} state={userData.company} setState={(val) => setUserData({ ...userData, company: val })} /> */}
                     <textarea style={styles.long_input} value={userData.desc} onChange={(event) => setUserData({ ...userData, desc: event.target.value })} rows={'3'} placeholder="desc" />
                 </div>
             </div>
 
-          <InputField title={""} placeholder={"profile picture"} type={"file"} state={userData.image} setState={(val) => setUserData({ ...userData, image: val })} />
+            <InputField title={""} placeholder={"profile picture"} type={"file"} state={userData.image} setState={(val) => setUserData({ ...userData, image: val })} />
 
             <OutputField title={"Email"} text={userData.email} />
             <InputField title={"Company Name"} placeholder={"where you work?"} state={userData.company} setState={(val) => setUserData({ ...userData, company: val })} />

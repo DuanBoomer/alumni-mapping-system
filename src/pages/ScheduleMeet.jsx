@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { API_BASE } from "../App";
-export default function ScheduleMeet({ alumni }) {
+export default function ScheduleMeet({ alumni, setEventsData }) {
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -40,10 +40,30 @@ export default function ScheduleMeet({ alumni }) {
                     docs: ["sample_document.pdf"]
                 }
             ).then((response) => {
-                console.log(response);
+                // console.log(response);
+                setEventsData((prev) => {
+                    return {
+                        ...prev,
+                        "pending": prev.pending.map((event) => (
+                            event.title === eventData.title
+                                ? {
+                                    title: title,
+                                    start_time: startTime,
+                                    end_time: endTime,
+                                    day: day_of_week(date),
+                                    date: date,
+                                    desc: desc,
+                                    link: link,
+                                    type: "pending",
+                                    docs: ["sample_document.pdf"]
+                                }
+                                : event
+                        ))
+                    }
+                })
                 navigate("/home")
             }).catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
         }
         else {
@@ -60,10 +80,26 @@ export default function ScheduleMeet({ alumni }) {
                     docs: ["sample_document.pdf"]
                 }
             ).then((response) => {
-                console.log(response);
+                // console.log(response);
+                setEventsData((prev) => {
+                    return {
+                        ...prev,
+                        "pending": [...prev.pending, {
+                            title: title,
+                            start_time: startTime,
+                            end_time: endTime,
+                            day: day_of_week(date),
+                            date: date,
+                            desc: desc,
+                            link: link,
+                            type: "pending",
+                            docs: ["sample_document.pdf"]
+                        }]
+                    }
+                })
                 navigate("/home")
             }).catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
         }
     }

@@ -58,7 +58,7 @@ export default function ProfileCard({ data }) {
         })
     }
 
-    console.log(data);
+    // console.log(data);
     return (
         <div style={styles.card} onClick={handleClick}>
             {data.name == data.student_coordinator ? <img src={star} alt="star" style={{ position: "absolute", top: "1em", right: "1em", margin: "0", padding: "0", width: "18px", height: "18px" }} /> : <></>}

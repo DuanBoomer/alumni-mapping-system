@@ -22,7 +22,7 @@ function login_reducer(state, action) {
   return state
 }
 
-async function getSHA256Hash(input){
+async function getSHA256Hash(input) {
   const textAsBuffer = new TextEncoder().encode(input);
   const hashBuffer = await window.crypto.subtle.digest("SHA-256", textAsBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -44,10 +44,10 @@ function Login({ loadingScreen }) {
 
   useEffect(() => {
     var data = JSON.parse(localStorage.getItem("data"))
-    if (data.email){
+    if (data.email) {
       loadingScreen(true)
       navigate("/home")
-      // console.log(data);
+      // // console.log(data);
     }
   }, [])
 
@@ -56,23 +56,23 @@ function Login({ loadingScreen }) {
     setErr(false)
     setDisplayLoader(true)
     axios.post(`${API_BASE}/auth`, userState)
-    .then((response) => {
-      response = response.data
-      if (response){
-        console.log(response);
-        localStorage.setItem("data", JSON.stringify(response));
-        loadingScreen(true)
-        // setLoginData(response)
-        navigate("/home")
-      }
-      else{
-        setErr(true)
-      }
-      setDisplayLoader(false)
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .then((response) => {
+        response = response.data
+        if (response) {
+          // console.log(response);
+          localStorage.setItem("data", JSON.stringify(response));
+          loadingScreen(true)
+          // setLoginData(response)
+          navigate("/home")
+        }
+        else {
+          setErr(true)
+        }
+        setDisplayLoader(false)
+      })
+      .catch((err) => {
+        // console.log(err);
+      })
   }
 
   return (

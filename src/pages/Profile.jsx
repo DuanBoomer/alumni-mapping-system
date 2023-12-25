@@ -17,11 +17,11 @@ function Profile({ primaryUserData }) {
   //   if (localStorage.getItem("studentID")) {
   //     axios.get(`https://ams-backend-bdx5.onrender.com/student/${localStorage.getItem("studentID")}`)
   //       .then((response) => {
-  //         console.log(response.data);
+  //         // console.log(response.data);
   //         setAlumni(response.data)
   //       })
   //       .catch((error) => {
-  //         console.log(error);
+  //         // console.log(error);
   //       })
   //   }
   //   else {
@@ -30,7 +30,7 @@ function Profile({ primaryUserData }) {
   //         setAlumni(response.data)
   //       })
   //       .catch((error) => {
-  //         console.log(error);
+  //         // console.log(error);
   //       })
   //   }
 
@@ -98,12 +98,12 @@ function Profile({ primaryUserData }) {
         <p style={styles.name}>{primaryUserData.name}</p>
 
         {
-          Object.keys(primaryUserData).map((key) => {
+          Object.keys(primaryUserData).map((key, index) => {
             if (dontShow.includes(key)) {
               return <></>
             }
             else {
-              return <p style={styles.text}>{primaryUserData[key]}</p>
+              return <p key={index} style={styles.text}>{primaryUserData[key]}</p>
             }
           })
         }

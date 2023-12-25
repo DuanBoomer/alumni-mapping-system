@@ -1,6 +1,6 @@
 import download from "../assets/download.svg"
 
-export default function Doc({text, key}){
+export default function Doc({text}){
 
     const styles = {
         text: {
@@ -29,7 +29,7 @@ export default function Doc({text, key}){
     }
 
     return (
-        <div key={key} style={styles.div}>
+        <div style={styles.div}>
             <p style={styles.text}>{text}</p>
             <img style={styles.download_icon} src={download}/>
         </div>

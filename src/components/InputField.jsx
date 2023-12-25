@@ -67,12 +67,12 @@ export default function InputField({ title, placeholder, type, state, setState, 
         var reader = new FileReader()
         reader.readAsDataURL(e.target.files[0])
         reader.onload = () => {
-            // console.log(reader.result);
+            // // console.log(reader.result);
             setState(reader.result)
 
         }
         reader.onerror = (error) => {
-            console.log("File upload error", error);
+            // console.log("File upload error", error);
         }
     }
 

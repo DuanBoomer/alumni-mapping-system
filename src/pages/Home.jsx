@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom"
 import Button from '../components/Button'
 function Home({ alumniData, studentsData, eventsData }) {
 
-  // console.log(alumniData);
-  // console.log(studentsData);
+  // // console.log(alumniData);
+  // // console.log(studentsData);
 
   const navigate = useNavigate()
 
@@ -24,13 +24,13 @@ function Home({ alumniData, studentsData, eventsData }) {
   // useEffect(() => {
   //   axios.get(`https://ams-backend-bdx5.onrender.com/students/alumni/${localStorage.getItem("userID")}`)
   //     .then((response) => {
-  //       // console.log(response);
+  //       // // console.log(response);
   //       if (response.status === 200){
   //         setStudents(response.data)
   //       }
   //     })
   //     .catch((error) => {
-  //       console.log(error);
+  //       // console.log(error);
   //     })
 
   //   axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
@@ -38,7 +38,7 @@ function Home({ alumniData, studentsData, eventsData }) {
   //       setAlumni(response.data)
   //     })
   //     .catch((error) => {
-  //       console.log(error);
+  //       // console.log(error);
   //     })
 
   //   axios.get(`https://ams-backend-bdx5.onrender.com/ongoing_event/alumni/${localStorage.getItem("userID")}`)
@@ -51,12 +51,12 @@ function Home({ alumniData, studentsData, eventsData }) {
   //       // }
   //     })
   //     .catch((error) => {
-  //       console.log(error);
+  //       // console.log(error);
   //     })
 
   // }, [])
 
-  // console.log(event);
+  // // console.log(event);
 
   const styles = {
     text: {
@@ -95,24 +95,24 @@ function Home({ alumniData, studentsData, eventsData }) {
             </div> */}
 
             {
-        !eventsData.pending
-          ? <div style={styles.shadow_div}>
-            <p style={styles.text}>No ongoing Event</p>
-            <Button text={"History"} type={"dark"} size={"small"} onClick={() => navigate("/history")} />
-          </div>
-          : eventsData.pending.map((event) => {
-            return <EventCard eventData = {event}
-              // docs={event.docs}
-              history={eventsData} 
-              alumni={alumniData.email}
-              // time={[event.start_time, event.end_time].join(" to ")} 
-              // day={event.day} date={event.date} 
-              // title={event.title} 
-              // type={event.type} 
-              // desc={event.desc} link={event.link} 
-              />
-          })
-      }
+              !eventsData.pending
+                ? <div style={styles.shadow_div}>
+                  <p style={styles.text}>No ongoing Event</p>
+                  <Button text={"History"} type={"dark"} size={"small"} onClick={() => navigate("/history")} />
+                </div>
+                : eventsData.pending.map((event, index) => {
+                  return <EventCard key={index} eventData={event}
+                    // docs={event.docs}
+                    history={eventsData}
+                    alumni={alumniData.email}
+                  // time={[event.start_time, event.end_time].join(" to ")} 
+                  // day={event.day} date={event.date} 
+                  // title={event.title} 
+                  // type={event.type} 
+                  // desc={event.desc} link={event.link} 
+                  />
+                })
+            }
 
             <p style={styles.text}>Alumni</p>
             <ProfileCard data={alumniData} />

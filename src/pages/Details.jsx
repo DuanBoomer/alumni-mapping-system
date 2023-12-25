@@ -8,7 +8,7 @@ import axios from "axios";
 export default function Details() {
 
     const location = useLocation()
-    // console.log();
+    // // console.log();
     const data = location.state.data
     const dontShow = ['name', 'desc', 'image', 'student_coordinator', 'alumni']
     // var data 
@@ -18,7 +18,7 @@ export default function Details() {
     // data = {}
     // const [personData, setPersonData] = useState({ "expertise": [] });
 
-    // console.log(personData);
+    // // console.log(personData);
 
     // useEffect(() => {
     //     axios.get(`https://ams-backend-bdx5.onrender.com/${location.state.type}/${location.state.id}`)
@@ -70,12 +70,12 @@ export default function Details() {
             </div>
 
             {
-                Object.keys(data).map((key) => {
-                    if (dontShow.includes(key)){
+                Object.keys(data).map((key, index) => {
+                    if (dontShow.includes(key)) {
                         return <></>
                     }
-                    else{
-                        return <OutputField title={key} text={data[key]} />
+                    else {
+                        return <OutputField key={index} title={key} text={data[key]} />
                     }
                 })
                 // location.state.type === "alumni"

@@ -7,7 +7,7 @@ import Modal from "../components/Modal";
 import { useState } from "react";
 import { API_BASE } from "../App";
 
-export default function EventDetails() {
+export default function EventDetails({ setEventsData }) {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -36,16 +36,22 @@ export default function EventDetails() {
 
     function handleCancelClick() {
         axios.delete(`${API_BASE}/delete/event/${alumni}/${eventData.title}`)
-        .then((response) => {
-            navigate('/home')
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+            .then((response) => {
+                navigate('/home')
+                setEventsData((prev) => (
+                    {
+                        ...prev,
+                        "pending": prev.pending.filter((event) => event.title !== eventData.title)
+                    }
+                ))
+                // console.log(response);
+            })
+            .catch((error) => {
+                // console.log(error);
+            })
     }
 
-    function handleEditClick(){
+    function handleEditClick() {
         navigate("/schedulemeet", { state: eventData })
     }
 

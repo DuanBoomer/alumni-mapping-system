@@ -97,7 +97,7 @@ export default function Chat() {
       lineHeight: "normal",
       border: "none",
       outline: "none",
-      
+
       // wordWrap: "break-word",
 
       width: "100%",
@@ -111,7 +111,7 @@ export default function Chat() {
   }
 
   function handleSendClick() {
-    console.log(chatInput)
+    // console.log(chatInput)
     if (chatInput) {
       socket.emit('msg', chatInput)
       // setHistory((prev) => {
@@ -127,7 +127,7 @@ export default function Chat() {
 
   useEffect(() => {
     socket.on("msg", (data) => {
-      console.log(data);
+      // console.log(data);
       setHistory((prev) => {
         return [
           ...prev,
