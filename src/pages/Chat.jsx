@@ -51,21 +51,16 @@ function ChatBox({ text, profile_image, type }) {
   )
 }
 
-export default function Chat() {
+export default function Chat({ primaryUserData }) {
 
   const navigate = useNavigate();
   const btn = useRef(null)
   const chatDiv = useRef(null)
 
-  var dummyChat = [
+  const [dummyChat, setDummyChat] = useState([
     "I just gave swt 16 DBMS they are so many  mistakes in questions even solution are not explained properly",
     "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it! Studetns as well as sir’s time is very precious stop wasting it god dawn it",
-    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    // "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it!",
-    // "Tomorrow sir class is cancelled we all pray for sir and her family "
-  ]
+  ])
   const [history, setHistory] = useState(dummyChat)
   const [chatInput, setChatInput] = useState("")
 
@@ -126,6 +121,8 @@ export default function Chat() {
   }
 
   useEffect(() => {
+    // console.log(socket.emit('fetch', primaryUserData.email))
+
     socket.on("msg", (data) => {
       // console.log(data);
       setHistory((prev) => {

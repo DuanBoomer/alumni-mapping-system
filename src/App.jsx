@@ -92,7 +92,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Login loadingScreen={setShowLoadingScreen} />} />
           <Route path='/home' element={<Home alumniData={alumniData} studentsData={studentsData} eventsData={eventsData} />} />
-          <Route path='/chat' element={<Chat />} />
+          <Route path='/chat' element={<Chat primaryUserData = {primaryUserData}/>} />
           <Route path='/details' element={<Details />} />
           <Route path='/docs' element={<Docs />} />
           <Route path='/downloads' element={<Downloads eventsData={eventsData} />} />
