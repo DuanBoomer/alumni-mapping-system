@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import ScheduleMeet from './pages/ScheduleMeet';
 import Navbar from './components/Navbar';
 import Loading from './components/Loading';
+import Logout from './pages/Logout';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -101,6 +102,8 @@ function App() {
           <Route path='/history' element={<History eventsData={eventsData} />} />
           <Route path='/profile' element={<Profile primaryUserData={primaryUserData} />} />
           <Route path='/schedulemeet' element={<ScheduleMeet alumni={alumniData.email} setEventsData={setEventsData} />} />
+          <Route path='/logout' element={<Logout />} />
+          
         </Routes>
 
         <Loading show={showLoadingScreen} />
