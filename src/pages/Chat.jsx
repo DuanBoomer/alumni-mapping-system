@@ -4,13 +4,17 @@ import profile_image from "../assets/person.jpeg";
 import arrow from "../assets/arrow.svg";
 import back_button from "../assets/back-button.svg"
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../App";
 
 import { socket } from "../socket";
+import axios from "axios";
 
 function ChatBox({ text, profile_image, type }) {
   const styles = {
     profile_image: {
       height: "40px",
+      width: "40px",
+      objectFit: "cover",
       borderRadius: "10px",
     },
 
@@ -51,17 +55,12 @@ function ChatBox({ text, profile_image, type }) {
   )
 }
 
-export default function Chat({ primaryUserData }) {
+export default function Chat({ chatData, setChatData, primaryUserData, alumniData, studentsData }) {
 
   const navigate = useNavigate();
   const btn = useRef(null)
   const chatDiv = useRef(null)
 
-  const [dummyChat, setDummyChat] = useState([
-    "I just gave swt 16 DBMS they are so many  mistakes in questions even solution are not explained properly",
-    "Totally Agreee this has been going on since DBMS. Evryone needs to understand the effort sit puts in and appreciate it! Studetns as well as sir’s time is very precious stop wasting it god dawn it",
-  ])
-  const [history, setHistory] = useState(dummyChat)
   const [chatInput, setChatInput] = useState("")
 
   const styles = {
@@ -108,7 +107,7 @@ export default function Chat({ primaryUserData }) {
   function handleSendClick() {
     // console.log(chatInput)
     if (chatInput) {
-      socket.emit('msg', chatInput)
+      socket.emit('msg', chatInput, primaryUserData.email, alumniData.email)
       // setHistory((prev) => {
       //   return [
       //     ...prev,
@@ -121,11 +120,18 @@ export default function Chat({ primaryUserData }) {
   }
 
   useEffect(() => {
-    // console.log(socket.emit('fetch', primaryUserData.email))
+
+    // axios.get(`${API_BASE}/chat/${primaryUserData.email}`)
+    //   .then((response) => {
+    //     response = response.data
+    //     if (response) {
+    //       setHistory(response)
+    //     }
+    //   })
 
     socket.on("msg", (data) => {
-      // console.log(data);
-      setHistory((prev) => {
+      console.log(data);
+      setChatData((prev) => {
         return [
           ...prev,
           data
@@ -150,10 +156,19 @@ export default function Chat({ primaryUserData }) {
 
       <div style={styles.chat}>
         <div ref={chatDiv} style={{ height: "100%", overflowY: 'scroll' }}>
-          <ChatBox text={"sent by you"} profile_image={profile_image} type={'sent'} />
+          {/* <ChatBox text={"sent by you"} profile_image={profile_image} type={'sent'} /> */}
           {
-            history.map((chat, index) => {
-              return <ChatBox key={index} text={chat} profile_image={profile_image} type={"recieved"} />
+            chatData.map((chat, index) => {
+              var profile_pic;
+              profile_pic = studentsData.find((item) => item.email === chat.sender)
+
+              if (profile_pic){
+                profile_pic = profile_pic.image
+              }
+              else{
+                profile_pic = alumniData.image
+              }
+              return <ChatBox key={index} text={chat.text} profile_image={profile_pic} type={primaryUserData.email === chat.sender ? "sent" : "recieved"} />
             })
           }
         </div>

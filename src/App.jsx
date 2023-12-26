@@ -24,6 +24,7 @@ function App() {
   const [studentsData, setStudentsData] = useState([{ roll_no: "", name: "", email: "", stream: "", student_coordinator: "", alumni: "", desc: "", course: "", image: "" }])
   const [primaryUserData, setPrimaryUserData] = useState({ ...alumniData, ...studentsData[0] })
   const [eventsData, setEventsData] = useState({ "pending": [], "done": [] })
+  const [chatData, setChatData] = useState([{ text: "", sender: "" }])
 
   useEffect(() => {
     // var  data = {
@@ -78,6 +79,13 @@ function App() {
         .catch((err) => {
           // console.log(err);
         })
+
+      // fetch chat data
+      axios.get(`${API_BASE}/chat/${data.type === "student" ? data.alumni : data.email}`)
+        .then((response) => {
+          response = response.data
+          setChatData(response)
+        })
     }
 
     // // console.log(primaryUserData);
@@ -93,7 +101,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Login loadingScreen={setShowLoadingScreen} />} />
           <Route path='/home' element={<Home alumniData={alumniData} studentsData={studentsData} eventsData={eventsData} />} />
-          <Route path='/chat' element={<Chat primaryUserData = {primaryUserData}/>} />
+          <Route path='/chat' element={<Chat chatData={chatData} setChatData={setChatData} primaryUserData={primaryUserData} alumniData={alumniData} studentsData={studentsData} />} />
           <Route path='/details' element={<Details />} />
           <Route path='/docs' element={<Docs />} />
           <Route path='/downloads' element={<Downloads eventsData={eventsData} />} />
@@ -103,7 +111,7 @@ function App() {
           <Route path='/profile' element={<Profile primaryUserData={primaryUserData} />} />
           <Route path='/schedulemeet' element={<ScheduleMeet alumni={alumniData.email} setEventsData={setEventsData} />} />
           <Route path='/logout' element={<Logout />} />
-          
+
         </Routes>
 
         <Loading show={showLoadingScreen} />
