@@ -59,7 +59,7 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
 
   const navigate = useNavigate();
   const btn = useRef(null)
-  const chatDiv = useRef(null)
+  const chatEndDiv = useRef(null)
 
   const [chatInput, setChatInput] = useState("")
 
@@ -106,7 +106,7 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
 
   function handleSendClick() {
     // console.log(chatInput)
-    if (chatInput) {
+    if (chatInput && chatInput.replace(/\s/g, '').length) {
       socket.emit('msg', chatInput, primaryUserData.email, alumniData.email)
       // setHistory((prev) => {
       //   return [
@@ -130,15 +130,22 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
     //   })
 
     socket.on("msg", (data) => {
-      console.log(data);
+      // console.log(data);
       setChatData((prev) => {
         return [
           ...prev,
           data
         ]
       })
+      // chatEndDiv.current?.scrollIntoView()
     })
   }, [])
+
+
+  useEffect(() => {
+    // console.log("chat");
+    chatEndDiv.current?.scrollIntoView()
+  }, [chatData])
 
   return (
 
@@ -155,7 +162,7 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
       <Header text={"Chat"} />
 
       <div style={styles.chat}>
-        <div ref={chatDiv} style={{ height: "100%", overflowY: 'scroll' }}>
+        <div style={{ height: "100%", overflowY: 'scroll' }}>
           {/* <ChatBox text={"sent by you"} profile_image={profile_image} type={'sent'} /> */}
           {
             chatData.map((chat, index) => {
@@ -171,6 +178,8 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
               return <ChatBox key={index} text={chat.text} profile_image={profile_pic} type={primaryUserData.email === chat.sender ? "sent" : "recieved"} />
             })
           }
+          <div ref={chatEndDiv}></div>
+
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1em", padding: "1em 0 0 0" }}>
