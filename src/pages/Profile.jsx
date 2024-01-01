@@ -131,6 +131,7 @@ function Profile({ primaryUserData }) {
             : <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />
         }
 
+        {/* <Button text={"Contact Faculty"} type="light" size="large" onClick={() => handleClick("/contactfaculty")} /> */}
         <Button text={"Log Out"} type="light" size="large" onClick={handleLogout} />
       </div>
     </div>

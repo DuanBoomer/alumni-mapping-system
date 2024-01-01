@@ -7,7 +7,7 @@ import Modal from "../components/Modal";
 import { useState } from "react";
 import { API_BASE } from "../App";
 
-export default function EventDetails({ setEventsData }) {
+export default function EventDetails({ setEventsData, primaryUserData }) {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -65,10 +65,15 @@ export default function EventDetails({ setEventsData }) {
 
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <Button text={"Join"} type={"light"} size={"big"} onClick={handleJoinClick} />
-                <div>
-                    <Button text={"Cancel"} type={"dark"} size={"big"} onClick={() => setShowModal(true)} />
-                    <Button text={"Edit"} type={"dakr"} size={"big"} onClick={handleEditClick} />
-                </div>
+                {
+                    primaryUserData.alumni
+                        ? <></>
+                        : <div>
+                            <Button text={"Cancel"} type={"dark"} size={"big"} onClick={() => setShowModal(true)} />
+                            <Button text={"Edit"} type={"dakr"} size={"big"} onClick={handleEditClick} />
+                        </div>
+                }
+
             </div>
 
             <Modal showModal={showModal} setShowModal={setShowModal}>

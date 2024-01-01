@@ -3,7 +3,7 @@ import eye_closed from "../assets/eye-closed.svg"
 
 import { useState } from "react"
 
-export default function InputField({ title, placeholder, type, state, setState, button }) {
+export default function InputField({ title, placeholder, type, state, setState, button, rows }) {
 
     const [passwordShown, setPasswordShown] = useState(false)
 
@@ -84,7 +84,7 @@ export default function InputField({ title, placeholder, type, state, setState, 
 
     switch (type) {
         case "textarea":
-            InputTag = <textarea style={styles.textarea} rows={'4'} placeholder="desc" value={state} onChange={(event) => setState(event.target.value)} />
+            InputTag = <textarea style={styles.textarea} rows={rows} placeholder="desc" value={state} onChange={(event) => setState(event.target.value)} />
             break;
 
         case "password":
@@ -108,8 +108,8 @@ export default function InputField({ title, placeholder, type, state, setState, 
             InputTag = <input style={styles.input} placeholder={placeholder} type={"url"} value={state} onChange={(event) => setState(event.target.value)} />
             break;
 
-        case "file":
-            InputTag = <input accept="image/" style={{ ...styles.input, ...styles.file }} type={"file"} onChange={convertImageToBase64} />
+        case "imagefile":
+            InputTag = <input accept="image/*" style={{ ...styles.input, ...styles.file }} type={"file"} onChange={convertImageToBase64} />
             break;
 
         default:

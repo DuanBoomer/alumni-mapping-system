@@ -145,7 +145,7 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
                 </div>
             </div>
 
-            <InputField title={""} placeholder={"profile picture"} type={"file"} state={userData.image} setState={(val) => setUserData({ ...userData, image: val })} />
+            <InputField title={""} placeholder={"profile picture"} type={"imagefile"} state={userData.image} setState={(val) => setUserData({ ...userData, image: val })} />
 
             <OutputField title={"Email"} text={userData.email} />
             <InputField title={"Company Name"} placeholder={"where you work?"} state={userData.company} setState={(val) => setUserData({ ...userData, company: val })} />

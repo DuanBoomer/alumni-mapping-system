@@ -14,6 +14,8 @@ import ScheduleMeet from './pages/ScheduleMeet';
 import Navbar from './components/Navbar';
 import Loading from './components/Loading';
 import Logout from './pages/Logout';
+import { socket } from './socket';
+// import ContactFaculty from './pages/ContactFaculty';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -86,6 +88,9 @@ function App() {
           response = response.data
           setChatData(response)
         })
+        .catch((err) => {
+          // console.log(err);
+        })
     }
 
     // // console.log(primaryUserData);
@@ -94,6 +99,12 @@ function App() {
     // // console.log(eventsData);
 
   }, [showLoadingScreen])
+
+  useEffect(() => {
+    socket.on("event_updates", (data) => {
+      setEventsData(data)
+    })
+  }, [])
 
   return (
     <>
@@ -106,11 +117,12 @@ function App() {
           <Route path='/docs' element={<Docs />} />
           <Route path='/downloads' element={<Downloads eventsData={eventsData} />} />
           <Route path='/editprofile' element={<EditProfile primaryUserData={primaryUserData} setPrimaryUserData={setPrimaryUserData} />} setAlumniData={setAlumniData} />
-          <Route path='/eventdetails' element={<EventDetails setEventsData={setEventsData} />} />
+          <Route path='/eventdetails' element={<EventDetails setEventsData={setEventsData} primaryUserData={primaryUserData} />} />
           <Route path='/history' element={<History eventsData={eventsData} />} />
           <Route path='/profile' element={<Profile primaryUserData={primaryUserData} />} />
           <Route path='/schedulemeet' element={<ScheduleMeet alumni={alumniData.email} setEventsData={setEventsData} />} />
           <Route path='/logout' element={<Logout />} />
+          {/* <Route path='/contactfaculty' element={<ContactFaculty primaryUserData={primaryUserData} />} /> */}
 
         </Routes>
 
