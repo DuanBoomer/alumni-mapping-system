@@ -46,6 +46,7 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
             aspectRatio: "1/1",
             objectFit: "cover",
             minWidth: "100px",
+            maxHeight: "400px",
             borderRadius: "10px",
         },
 

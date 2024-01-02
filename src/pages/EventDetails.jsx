@@ -38,12 +38,12 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
         axios.delete(`${API_BASE}/delete/event/${alumni}/${eventData.title}`)
             .then((response) => {
                 navigate('/home')
-                setEventsData((prev) => (
-                    {
-                        ...prev,
-                        "pending": prev.pending.filter((event) => event.title !== eventData.title)
-                    }
-                ))
+                // setEventsData((prev) => (
+                //     {
+                //         ...prev,
+                //         "pending": prev.pending.filter((event) => event.title !== eventData.title)
+                //     }
+                // ))
                 // console.log(response);
             })
             .catch((error) => {
