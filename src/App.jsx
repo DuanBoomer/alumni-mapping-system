@@ -36,7 +36,7 @@ function App() {
     var data = JSON.parse(localStorage.getItem("data"))
 
     // fetch primary data
-    if (data.email) {
+    if (data && data.email) {
       axios.get(`${API_BASE}/data/${data.email}`)
         .then((response) => {
           response = response.data

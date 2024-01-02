@@ -44,7 +44,7 @@ function Login({ loadingScreen }) {
 
   useEffect(() => {
     var data = JSON.parse(localStorage.getItem("data"))
-    if (data.email) {
+    if (data && data.email) {
       loadingScreen(true)
       navigate("/home")
       // // console.log(data);
