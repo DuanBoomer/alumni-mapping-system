@@ -21,7 +21,8 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  const SOCKET_URL = "http://127.0.0.1:8000/"
+  const SOCKET_URL = "https://ams-chat-api.onrender.com/"
+  // const SOCKET_URL = "http://127.0.0.1:8000/"
   const socketRef = useRef(null)
   const [showLoadingScreen, setShowLoadingScreen] = useState(false)
   // const [loginData, setLoginData] = useState()
