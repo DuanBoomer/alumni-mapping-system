@@ -6,7 +6,7 @@ import back_button from "../assets/back-button.svg"
 import { useNavigate } from "react-router-dom";
 import { API_BASE } from "../App";
 
-import { socket } from "../socket";
+// import { socket } from "../socket";
 import axios from "axios";
 
 function ChatBox({ text, profile_image, type }) {
@@ -55,7 +55,7 @@ function ChatBox({ text, profile_image, type }) {
   )
 }
 
-export default function Chat({ chatData, setChatData, primaryUserData, alumniData, studentsData }) {
+export default function Chat({ socket, chatData, setChatData, primaryUserData, alumniData, studentsData }) {
 
   const navigate = useNavigate();
   const btn = useRef(null)
@@ -106,7 +106,7 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
 
   function handleSendClick() {
     // console.log(chatInput)
-    if (chatInput && chatInput.replace(/\s/g, '').length) {
+    if (chatInput && chatInput.replace(/\s/g, '').length && socket) {
       socket.emit('msg', chatInput, primaryUserData.email, alumniData.email)
       // setHistory((prev) => {
       //   return [
@@ -119,27 +119,28 @@ export default function Chat({ chatData, setChatData, primaryUserData, alumniDat
     }
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // axios.get(`${API_BASE}/chat/${primaryUserData.email}`)
-    //   .then((response) => {
-    //     response = response.data
-    //     if (response) {
-    //       setHistory(response)
-    //     }
-    //   })
+  //   // axios.get(`${API_BASE}/chat/${primaryUserData.email}`)
+  //   //   .then((response) => {
+  //   //     response = response.data
+  //   //     if (response) {
+  //   //       setHistory(response)
+  //   //     }
+  //   //   })
 
-    socket.on("msg", (data) => {
-      // console.log(data);
-      setChatData((prev) => {
-        return [
-          ...prev,
-          data
-        ]
-      })
-      // chatEndDiv.current?.scrollIntoView()
-    })
-  }, [])
+  //   socket.on("msg", (data) => {
+  //     // console.log("socket api data");
+  //     // console.log(data);
+  //     setChatData((prev) => {
+  //       return [
+  //         ...prev,
+  //         data
+  //       ]
+  //     })
+  //     // chatEndDiv.current?.scrollIntoView()
+  //   })
+  // }, [])
 
 
   useEffect(() => {

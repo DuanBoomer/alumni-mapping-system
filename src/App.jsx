@@ -14,12 +14,15 @@ import ScheduleMeet from './pages/ScheduleMeet';
 import Navbar from './components/Navbar';
 import Loading from './components/Loading';
 import Logout from './pages/Logout';
-import { socket } from './socket';
+// import { socket } from './socket';
+import { io } from 'socket.io-client';
 // import ContactFaculty from './pages/ContactFaculty';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 function App() {
+  const SOCKET_URL = "http://127.0.0.1:8000/"
+  const socketRef = useRef(null)
   const [showLoadingScreen, setShowLoadingScreen] = useState(false)
   // const [loginData, setLoginData] = useState()
   const [alumniData, setAlumniData] = useState({ name: "", batch: "", company: "", position: "", email: "", desc: "", image: "", expertise: [""] })
@@ -51,8 +54,18 @@ function App() {
       axios.get(`${API_BASE}/data/${data.type === "student" ? data.alumni : data.email}`)
         .then((response) => {
           response = response.data
-          // // console.log(response);
           setAlumniData(response)
+          socketRef.current = io(SOCKET_URL, { auth: response.email });
+
+          socketRef.current.on("msg", (data) => {
+            setChatData((prev) => {
+              return [...prev, data]
+            })
+          })
+
+          socketRef.current.on("event_updates", (data) => {
+            setEventsData(data)
+          })
         })
         .catch((err) => {
           // console.log(err); 
@@ -97,14 +110,16 @@ function App() {
     // // console.log(alumniData);
     // // console.log(studentsData);
     // // console.log(eventsData);
+    // console.log("app data");
+    // console.log(chatData);
 
   }, [showLoadingScreen])
 
-  useEffect(() => {
-    socket.on("event_updates", (data) => {
-      setEventsData(data)
-    })
-  }, [])
+  // useEffect(() => {
+  //   socketRef.current.on("event_updates", (data) => {
+  //     setEventsData(data)
+  //   })
+  // }, [])
 
   return (
     <>
@@ -112,7 +127,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Login loadingScreen={setShowLoadingScreen} />} />
           <Route path='/home' element={<Home alumniData={alumniData} studentsData={studentsData} eventsData={eventsData} />} />
-          <Route path='/chat' element={<Chat chatData={chatData} setChatData={setChatData} primaryUserData={primaryUserData} alumniData={alumniData} studentsData={studentsData} />} />
+          <Route path='/chat' element={<Chat socket={socketRef.current} chatData={chatData} setChatData={setChatData} primaryUserData={primaryUserData} alumniData={alumniData} studentsData={studentsData} />} />
           <Route path='/details' element={<Details />} />
           <Route path='/docs' element={<Docs />} />
           <Route path='/downloads' element={<Downloads eventsData={eventsData} />} />

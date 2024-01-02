@@ -18,6 +18,8 @@ function login_reducer(state, action) {
         ...state,
         password: action.payload
       }
+    default:
+      return state
   }
   return state
 }
