@@ -34,7 +34,7 @@ async function getSHA256Hash(input) {
   return hash;
 };
 
-function Login({ loadingScreen }) {
+function Login({ setShowLoadingScreen }) {
   const navigate = useNavigate()
   const initialUserData = {
     email: "",
@@ -47,7 +47,7 @@ function Login({ loadingScreen }) {
   useEffect(() => {
     var data = JSON.parse(localStorage.getItem("data"))
     if (data && data.email) {
-      loadingScreen(true)
+      setShowLoadingScreen(true)
       navigate("/home")
       // // console.log(data);
     }
@@ -63,7 +63,7 @@ function Login({ loadingScreen }) {
         if (response) {
           // console.log(response);
           localStorage.setItem("data", JSON.stringify(response));
-          loadingScreen(true)
+          setShowLoadingScreen(true)
           // setLoginData(response)
           navigate("/home")
         }

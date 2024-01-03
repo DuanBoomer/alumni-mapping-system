@@ -24,7 +24,7 @@ function App() {
   const SOCKET_URL = "https://ams-chat-api.onrender.com/"
   // const SOCKET_URL = "http://127.0.0.1:8000/"
   const socketRef = useRef(null)
-  const [showLoadingScreen, setShowLoadingScreen] = useState(false)
+  const [showLoadingScreen, setShowLoadingScreen] = useState(window.location.pathname === '/' ? false : true)
   // const [loginData, setLoginData] = useState()
   const [alumniData, setAlumniData] = useState({ name: "", batch: "", company: "", position: "", email: "", desc: "", image: "", expertise: [""] })
   const [studentsData, setStudentsData] = useState([{ roll_no: "", name: "", email: "", stream: "", student_coordinator: "", alumni: "", desc: "", course: "", image: "" }])
@@ -32,15 +32,19 @@ function App() {
   const [eventsData, setEventsData] = useState({ "pending": [], "done": [] })
   const [chatData, setChatData] = useState([{ text: "", sender: "" }])
 
+  // console.log();
+
   useEffect(() => {
     // var  data = {
     //   email: "",
     //   type: ""
     // }
     var data = JSON.parse(localStorage.getItem("data"))
+    // console.log("running app.jsx useEffect");
 
     // fetch primary data
-    if (data && data.email) {
+    if (data && data.email && showLoadingScreen) {
+      // console.log("fetching data inside useEffect app.jsx");
       axios.get(`${API_BASE}/data/${data.email}`)
         .then((response) => {
           response = response.data
@@ -58,7 +62,12 @@ function App() {
           setAlumniData(response)
           socketRef.current = io(SOCKET_URL, { auth: response.email });
 
+          socketRef.current.on("connect", () => {
+            console.log("connected: ", socketRef.current.id); // x8WIv7-mJelg7on_ALbx
+          });
+
           socketRef.current.on("msg", (data) => {
+            // console.log("message: ", data);
             setChatData((prev) => {
               return [...prev, data]
             })
@@ -78,7 +87,6 @@ function App() {
           response = response.data
           // // console.log(response);
           setStudentsData(response)
-          // setShowLoadingScreen(false)
         })
         .catch((err) => {
           // console.log(err);
@@ -90,7 +98,6 @@ function App() {
           response = response.data
           // console.log(response);
           setEventsData(response)
-          setShowLoadingScreen(false)
         })
         .catch((err) => {
           // console.log(err);
@@ -101,10 +108,12 @@ function App() {
         .then((response) => {
           response = response.data
           setChatData(response)
+          setShowLoadingScreen(false)
         })
         .catch((err) => {
           // console.log(err);
         })
+        // console.log("all data fetched");
     }
 
     // // console.log(primaryUserData);
@@ -113,6 +122,7 @@ function App() {
     // // console.log(eventsData);
     // console.log("app data");
     // console.log(chatData);
+
 
   }, [showLoadingScreen])
 
@@ -126,7 +136,7 @@ function App() {
     <>
       <Main>
         <Routes>
-          <Route path='/' element={<Login loadingScreen={setShowLoadingScreen} />} />
+          <Route path='/' element={<Login setShowLoadingScreen={setShowLoadingScreen} />} />
           <Route path='/home' element={<Home alumniData={alumniData} studentsData={studentsData} eventsData={eventsData} />} />
           <Route path='/chat' element={<Chat socket={socketRef.current} chatData={chatData} setChatData={setChatData} primaryUserData={primaryUserData} alumniData={alumniData} studentsData={studentsData} />} />
           <Route path='/details' element={<Details />} />
