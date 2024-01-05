@@ -82,12 +82,6 @@ export default function EventCard({ eventData, alumni, history }) {
             state: {
                 alumni: alumni,
                 eventData: eventData
-                // time: time,
-                // day: day,
-                // date: date,
-                // title: title,
-                // desc: desc,
-                // link: link,
             }
         })
     }
@@ -96,14 +90,6 @@ export default function EventCard({ eventData, alumni, history }) {
         navigate("/history")
     }
 
-    function handleDocsClick() {
-        navigate("/docs", {
-            state: {
-                eventData: eventData
-                // docs: docs,
-            }
-        })
-    }
     return (
         <div style={styles.card}>
             <div style={styles.partition}>
@@ -129,7 +115,7 @@ export default function EventCard({ eventData, alumni, history }) {
                 {
                     eventData.type === "pending"
                         ? <Button text={"History"} type={"dark"} size={"small"} onClick={handleHistoryClick} />
-                        : <Button text={"Documents"} type={"dark"} size={"small"} onClick={handleDocsClick} />
+                        : <></>
                 }
 
             </div>

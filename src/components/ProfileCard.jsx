@@ -1,4 +1,3 @@
-import profile_img from "../assets/person.jpeg"
 import arrow from "../assets/arrow.svg"
 import star from "../assets/star.svg"
 import { useNavigate } from "react-router-dom"
@@ -58,7 +57,6 @@ export default function ProfileCard({ data }) {
         })
     }
 
-    // console.log(data);
     return (
         <div style={styles.card} onClick={handleClick}>
             {data.name == data.student_coordinator ? <img src={star} alt="star" style={{ position: "absolute", top: "1em", right: "1em", margin: "0", padding: "0", width: "18px", height: "18px" }} /> : <></>}

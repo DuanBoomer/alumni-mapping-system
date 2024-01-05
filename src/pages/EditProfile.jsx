@@ -1,44 +1,42 @@
 import Header from "../components/Header";
-import profile_image from "../assets/person.jpeg"
 import Button from "../components/Button";
 import InputField from "../components/InputField";
-import OutputField from "../components/OutputField"
 import Modal from "../components/Modal";
+import OutputField from "../components/OutputField"
+import FormInputField from "../components/FormInputField";
+import { useForm } from "react-hook-form";
 
 import { API_BASE } from "../App";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function EditProfile({ primaryUserData, setPrimaryUserData, setAlumniData }) {
+export default function EditProfile({ primaryUserData, setPrimaryUserData, setAlumniData, setStudentsData }) {
 
     const navigate = useNavigate()
-    const [userData, setUserData] = useState(primaryUserData)
-    // const [image, setImage] = useState("")
+    // const [userData, setUserData] = useState(primaryUserData)
     const [showModal, setShowModal] = useState(false)
+    const [userImage, setUserImage] = useState(primaryUserData.image)
 
-    // useEffect(() => {
-    //     if (localStorage.getItem("studentID")) {
-    //         axios.get(`https://ams-backend-bdx5.onrender.com/student/${localStorage.getItem("studentID")}`)
-    //             .then((response) => {
-    //                 // console.log(response.data);
-    //                 setAlumniData(response.data)
-    //             })
-    //             .catch((error) => {
-    //                 // console.log(error);
-    //             })
-    //     }
-    //     else {
-    //         axios.get(`https://ams-backend-bdx5.onrender.com/alumni/${localStorage.getItem("userID")}`)
-    //             .then((response) => {
-    //                 setAlumniData(response.data)
-    //             })
-    //             .catch((error) => {
-    //                 // console.log(error);
-    //             })
-    //     }
-    // }, [])
+    const { register, getValues, handleSubmit, formState: { errors }, setError } = useForm({
+        defaultValues: primaryUserData
+    })
 
+    function convertImageToBase64(e, setState) {
+        var reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0])
+        reader.onload = () => {
+            setState(reader.result)
+        }
+        reader.onerror = (error) => {
+            console.log("File upload error", error);
+        }
+    }
+
+    function setImage(e) {
+        convertImageToBase64(e, setUserImage)
+        console.log(userImage)
+    }
 
     const styles = {
         profile_image: {
@@ -81,13 +79,24 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
         },
     }
 
-    function handleSubmitClick() {
-        if (userData.alumni) {
-            axios.put(`${API_BASE}/update/student/${userData.email}`, userData)
+    function handleSubmitClick(data) {
+        if (primaryUserData.alumni) {
+            axios.put(`${API_BASE}/update/student/${primaryUserData.email}`, { ...data, image: userImage })
                 .then((response) => {
-                    // console.log(response);
                     setShowModal(false)
-                    setPrimaryUserData(userData)
+                    setPrimaryUserData(data)
+                    setStudentsData((prev) => {
+                        const newArr = prev.map((student) => {
+                            if (student.email === data.email) {
+                                return data
+                            }
+                            else {
+                                return student
+                            }
+                        })
+
+                        return newArr
+                    })
                     navigate("/profile")
                 })
                 .catch((error) => {
@@ -95,71 +104,69 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
                 })
         }
         else {
-            axios.put(`${API_BASE}/update/alumni/${userData.email}`, userData)
+            axios.put(`${API_BASE}/update/alumni/${primaryUserData.email}`, { ...data, image: userImage })
                 .then((response) => {
-                    // console.log(response);
                     setShowModal(false)
-                    setPrimaryUserData(userData)
-                    setAlumniData(userData)
+                    setPrimaryUserData(data)
+                    setAlumniData(data)
                     navigate("/profile")
                 })
                 .catch((error) => {
                     // console.log(error);
                 })
         }
-        // if (localStorage.getItem("studentID")) {
-        //     navigate("/profile")
-        // }
-        // else {
-        //     axios.post(`https://ams-backend-bdx5.onrender.com/update/alumni/${localStorage.getItem("userID")}`,
-        //         alumniData
-        //     ).then((response) => {
-        //         // console.log(response);
-        //         navigate("/profile")
-        //         // setAlumniData(response.data)
-        //     })
-        //         .catch((error) => {
-        //             // console.log(error);
-        //         })
-        // }
-        // handleImageUpload()
     }
 
     return (
         <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"Edit Profile"} />
 
-            <div style={{ display: "flex", gap: "0.5em", marginBottom: "1em" }}>
+            <form onSubmit={handleSubmit(handleSubmitClick)}>
 
-                <div style={styles.partition}>
-                    <img style={styles.profile_image} src={userData.image} alt="profile" />
+                <div style={{ display: "flex", gap: "0.5em", marginBottom: "1em" }}>
 
+                    <div style={styles.partition}>
+                        <img style={styles.profile_image} src={userImage} alt="profile" />
+                    </div>
+
+                    <div style={styles.partition}>
+                        <input style={{ ...styles.long_input, flexGrow: 0 }}
+                            {...register('name')} placeholder="roronoa zoro" />
+                        <textarea style={styles.long_input} rows={'3'} placeholder="desc" {...register('desc')} />
+                    </div>
                 </div>
 
-                <div style={styles.partition}>
-                    <input style={{
-                        ...styles.long_input, flexGrow: 0
-                    }} value={userData.name} onChange={(event) => setUserData({ ...userData, name: event.target.value })} placeholder={"name"} />
-                    {/* <InputField style={{ ...styles.long_input }} value={userData.name} onChange={(event) => setUserData({ ...userData, name: event.target.value })} placeholder={"name"} />
-                    <InputField type={"textarea"} placeholder={"where you work?"} state={userData.company} setState={(val) => setUserData({ ...userData, company: val })} /> */}
-                    <textarea style={styles.long_input} value={userData.desc} onChange={(event) => setUserData({ ...userData, desc: event.target.value })} rows={'3'} placeholder="desc" />
-                </div>
-            </div>
+                <input {...register('image')} onChange={(e) => setImage(e)} accept="image/*" type={"file"} />
 
-            <InputField title={""} placeholder={"profile picture"} type={"imagefile"} state={userData.image} setState={(val) => setUserData({ ...userData, image: val })} />
+                {/* <FormInputField title={'Image'} type={'image'} label={'image'} regex={""} regexErrorMessage={""} placeholder={''} register={register} errors={errors} /> */}
 
-            <OutputField title={"Email"} text={userData.email} />
-            <InputField title={"Company Name"} placeholder={"where you work?"} state={userData.company} setState={(val) => setUserData({ ...userData, company: val })} />
-            <Button text={"Submit"} type={"light"} size={"big"} onClick={() => setShowModal(true)} />
+                {
+                    primaryUserData.alumni
+                        ? <div>
+                            <FormInputField title={'Roll No'} type={'text'} label={'roll_no'} regex={/[A-Z]+\d\d\/\d\d\d/i} regexErrorMessage={"roll no must be of the format CSE21/017"} placeholder={'cse21/017'} register={register} errors={errors} />
+                            <FormInputField title={'Course'} type={'text'} label={'course'} regex={/[A-Z]+/i} regexErrorMessage={"form some"} placeholder={'sdsd'} register={register} errors={errors} />
+                            <FormInputField title={'Stream'} type={'text'} label={'stream'} regex={/[A-Z]+/i} regexErrorMessage={"form some"} placeholder={'cse'} register={register} errors={errors} />
+                        </div>
+                        : <div>
+                            <FormInputField title={'Batch'} type={'text'} label={'batch'} regex={/\d\d\d\d-\d\d/i} regexErrorMessage={"batch must be of the form 1999-24"} placeholder={'1999-24'} register={register} errors={errors} />
+                            <FormInputField title={'Company'} type={'text'} label={'company'} regex={/[A-Za-z0-9]+/i} regexErrorMessage={"company name must only be alphanumeric"} placeholder={'my great company'} register={register} errors={errors} />
+                            <FormInputField title={'Position'} type={'text'} label={'position'} regex={/[A-Za-z0-9]+/i} regexErrorMessage={"position must be only alphanumeric"} placeholder={'ceo of my great company'} register={register} errors={errors} />
+                            <FormInputField title={'Expertise'} type={'text'} label={'expertise'} regex={/[A-Za-z]+/i} regexErrorMessage={"enter some expertise"} placeholder={'ml, ai, bots'} register={register} errors={errors} />
+                        </div>
+                }
 
-            <Modal showModal={showModal} setShowModal={setShowModal}>
-                <p>Are you sure you want to save these changes?</p>
-                <Button text={"yes"} type={"light"} size={"small"} onClick={handleSubmitClick} />
-                <Button text={"no"} type={"dark"} size={"small"} onClick={() => setShowModal(false)} />
-            </Modal>
+                <Button text={"Submit"} type={"light"} size={"big"} onClick={() => setShowModal(true)} />
+
+
+                <Modal showModal={showModal} setShowModal={setShowModal}>
+                    <p>Are you sure you want to save these changes?</p>
+                    <Button text={"yes"} type={"light"} action={'submit'} size={"small"} onClick={handleSubmit(handleSubmitClick)} />
+                    <Button text={"no"} type={"dark"} size={"small"} onClick={() => setShowModal(false)} />
+                </Modal>
+            </form>
 
             <div style={{ height: "calc(0.5em + 26px)" }}></div>
-
         </div>
     )
 }
+// onClick = { handleSubmitClick }

@@ -1,13 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import Header from "../components/Header";
-import profile_image from "../assets/person.jpeg";
 import arrow from "../assets/arrow.svg";
 import back_button from "../assets/back-button.svg"
 import { useNavigate } from "react-router-dom";
-import { API_BASE } from "../App";
-
-// import { socket } from "../socket";
-import axios from "axios";
 
 function ChatBox({ text, profile_image, type }) {
   const styles = {
@@ -74,10 +69,6 @@ export default function Chat({ socket, chatData, setChatData, primaryUserData, a
       padding: "1em",
       background: "#E0E0E0",
       boxShadow: "-8px -8px 16px 0px #FFF, 8px 8px 16px 0px #BEBEBE",
-
-      // position: "absolute",
-      // bottom: "1000px",
-      // top: "0",
     },
 
     input: {
@@ -91,12 +82,8 @@ export default function Chat({ socket, chatData, setChatData, primaryUserData, a
       lineHeight: "normal",
       border: "none",
       outline: "none",
-
-      // wordWrap: "break-word",
-
       width: "100%",
       borderBottom: "2px solid var(--text-color-light)"
-      // padding: "1em 1em 0 0",
     },
 
     send_icon: {
@@ -105,43 +92,11 @@ export default function Chat({ socket, chatData, setChatData, primaryUserData, a
   }
 
   function handleSendClick() {
-    // console.log(chatInput)
     if (chatInput && chatInput.replace(/\s/g, '').length && socket) {
       socket.emit('msg', chatInput, primaryUserData.email, alumniData.email)
-      // setHistory((prev) => {
-      //   return [
-      //     ...prev,
-      //     chatInput
-      //   ]
-      // })
       setChatInput("")
-      // chatDiv.current.scrollTop = chatDiv.current.scrollHeight
     }
   }
-
-  // useEffect(() => {
-
-  //   // axios.get(`${API_BASE}/chat/${primaryUserData.email}`)
-  //   //   .then((response) => {
-  //   //     response = response.data
-  //   //     if (response) {
-  //   //       setHistory(response)
-  //   //     }
-  //   //   })
-
-  //   socket.on("msg", (data) => {
-  //     // console.log("socket api data");
-  //     // console.log(data);
-  //     setChatData((prev) => {
-  //       return [
-  //         ...prev,
-  //         data
-  //       ]
-  //     })
-  //     // chatEndDiv.current?.scrollIntoView()
-  //   })
-  // }, [])
-
 
   useEffect(() => {
     // console.log("chat");
@@ -164,7 +119,6 @@ export default function Chat({ socket, chatData, setChatData, primaryUserData, a
 
       <div style={styles.chat}>
         <div style={{ height: "100%", overflowY: 'scroll' }}>
-          {/* <ChatBox text={"sent by you"} profile_image={profile_image} type={'sent'} /> */}
           {
             chatData.map((chat, index) => {
               var profile_pic;
@@ -192,7 +146,7 @@ export default function Chat({ socket, chatData, setChatData, primaryUserData, a
             onKeyDown={(e) => e.key === "Enter" ? btn.current.click() : {}}
             onChange={(event) => { setChatInput(event.target.value) }} />
 
-          <button ref={btn} style={{ display: "flex" }} onClick={handleSendClick} >
+          <button ref={btn} style={{ display: "flex", background: "none", border: "none" }} onClick={handleSendClick} >
             <img style={styles.send_icon} src={arrow} alt="" />
             <img style={styles.send_icon} src={arrow} alt="" />
           </button>

@@ -1,31 +1,12 @@
 import Header from "../components/Header";
 import OutputField from "../components/OutputField";
-import person from "../assets/person.jpeg"
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function Details() {
 
     const location = useLocation()
-    // // console.log();
     const data = location.state.data
     const dontShow = ['name', 'desc', 'image', 'student_coordinator', 'alumni']
-    // var data 
-    // if (location.state.data){
-    //     data = location.state.data
-    // }
-    // data = {}
-    // const [personData, setPersonData] = useState({ "expertise": [] });
-
-    // // console.log(personData);
-
-    // useEffect(() => {
-    //     axios.get(`https://ams-backend-bdx5.onrender.com/${location.state.type}/${location.state.id}`)
-    //         .then((response) => {
-    //             setPersonData(response.data)
-    //         })
-    // }, [])
 
     const styles = {
         profile_image: {
@@ -78,25 +59,9 @@ export default function Details() {
                         return <OutputField key={index} title={key} text={data[key]} />
                     }
                 })
-                // location.state.type === "alumni"
-                //     ? <div>
-                //         <OutputField text={personData.email} title={"Email"} />
-                //         <OutputField text={personData.position} title={"Position"} />
-                //         <OutputField text={personData.company} title={"Company Name"} />
-                //         <OutputField text={personData.expertise.join(', ')} title={"Expertise"} />
-                //         <OutputField text={personData.batch} title={"Batch"} />
-                //     </div>
-
-                //     : <div>
-                //         <OutputField text={personData.email} title={"Email"} />
-                //         <OutputField text={personData.course + " " + personData.stream} title={"Course"} />
-                //         <OutputField text={personData.roll_no} title={"Roll Number"} />
-                //     </div>
             }
 
             <div style={{ height: "calc(0.5em + 26px)" }}></div>
-
-
         </div>
     )
 }

@@ -30,21 +30,12 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
 
     function handleJoinClick() {
         window.open("https://meet.google.com")
-        // window.open(location.state.link);
-        // window.open("https://calendar.google.com/calendar/u/0/r/eventedit?vcon=meet&dates=now&hl=enn")
     }
 
     function handleCancelClick() {
         axios.delete(`${API_BASE}/delete/event/${alumni}/${eventData.title}`)
             .then((response) => {
                 navigate('/home')
-                // setEventsData((prev) => (
-                //     {
-                //         ...prev,
-                //         "pending": prev.pending.filter((event) => event.title !== eventData.title)
-                //     }
-                // ))
-                // console.log(response);
             })
             .catch((error) => {
                 // console.log(error);

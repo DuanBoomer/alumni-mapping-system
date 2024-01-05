@@ -8,7 +8,7 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const notAllowedRoutes = ['/', '/chat']
+  const notAllowedRoutes = ['/', '/chat', '/firsttimelogin']
 
   const styles = {
     div: {

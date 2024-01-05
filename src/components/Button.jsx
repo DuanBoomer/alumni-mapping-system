@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function Button({ text, type, size, path, onClick }) {
+export default function Button({ text, type, size, path, onClick, action }) {
     const styles = {
         button: {
             width: "fit-content",
@@ -35,20 +35,14 @@ export default function Button({ text, type, size, path, onClick }) {
                 onClick
                     ? <button
                         style={styles.button}
-                        // onMouseEnter={go_in}
-                        // onMouseLeave={come_out}
-                        // onTouchStart={go_in}
-                        // onTouchEnd={come_out}
+                        type={action ? action : "button"}
                         onClick={() => onClick()}>
                         {text}
                     </button>
                     : <Link to={path}>
                         <button
                             style={styles.button}
-                            // onMouseEnter={go_in}
-                            // onMouseLeave={come_out}
-                            // onTouchStart={go_in}
-                            // onTouchEnd={come_out} 
+                            type={action ? action : "button"}
                             >
                             {text}
                         </button>

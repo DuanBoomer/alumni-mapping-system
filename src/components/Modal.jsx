@@ -15,12 +15,9 @@ export default function Modal({ children, showModal, setShowModal }) {
             position: "fixed",
             top: "0",
             left: "0",
-            // transform: "translate(-50%, -50%)",
             width: "100vw",
             height: "100vh",
-            // opacity: "30%",
             backgroundColor: "rgba(55, 53, 47, 0.80)",
-            // zIndex: "-2",
         },
         closeButton: {
             position: "absolute",

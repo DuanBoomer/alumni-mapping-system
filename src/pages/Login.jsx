@@ -21,7 +21,6 @@ function login_reducer(state, action) {
     default:
       return state
   }
-  return state
 }
 
 async function getSHA256Hash(input) {
@@ -49,7 +48,6 @@ function Login({ setShowLoadingScreen }) {
     if (data && data.email) {
       setShowLoadingScreen(true)
       navigate("/home")
-      // // console.log(data);
     }
   }, [])
 
@@ -60,11 +58,9 @@ function Login({ setShowLoadingScreen }) {
     axios.post(`${API_BASE}/auth`, userState)
       .then((response) => {
         response = response.data
-        if (response) {
-          // console.log(response);
+        if (response && response?.login !== "first time") {
           localStorage.setItem("data", JSON.stringify(response));
           setShowLoadingScreen(true)
-          // setLoginData(response)
           navigate("/home")
         }
         else {
@@ -105,6 +101,7 @@ function Login({ setShowLoadingScreen }) {
           ? <p>authing login details</p>
           : <></>
       }
+      <Button text={"first time ?"} type={"dark"} size={"small"} path={"/firsttimelogin"} />
     </div>
   )
 }

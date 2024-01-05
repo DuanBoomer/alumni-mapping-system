@@ -6,7 +6,7 @@ export default function Header({ text }) {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const notAllowedRoutes = ['/']
+    const notAllowedRoutes = ['/', '/firsttimelogin']
 
     const styles = {
         h1: {
@@ -25,7 +25,6 @@ export default function Header({ text }) {
 
         img: {
             width: "60px",
-            // height: "51.608px",
         },
 
         div: {
@@ -33,7 +32,6 @@ export default function Header({ text }) {
             justifyContent: "space-between",
             alignItems: "center",
             marginBottom: "1rem",
-            // margin: "0rem 1rem"
 
         },
 

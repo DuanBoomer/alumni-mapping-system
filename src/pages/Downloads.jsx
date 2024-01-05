@@ -1,24 +1,9 @@
 import Header from "../components/Header";
 import Doc from "../components/Doc";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function Downloads({ eventsData }) {
 
   const events = [...eventsData.pending, ...eventsData.done]
-  // // console.log(events);
-
-  // useEffect(() => {
-  //   axios.get(`https://ams-backend-bdx5.onrender.com/events/alumni/${localStorage.getItem("userID")}`)
-  //     .then((response) => {
-  //       setEvents([...response.data.pending, ...response.data.done])
-  //     })
-  //     .catch((error) => {
-  //       // console.log(error)
-  //     })
-  // }, [])
-
-
   const styles = {
     date: {
       color: "#37352F",
