@@ -20,8 +20,8 @@ function Profile({ primaryUserData }) {
       marginBottom: "1.5em",
 
       borderRadius: "18px",
-      background: "#E0E0E0",
-      boxShadow: "-8px -8px 16px 0px #FFF, 8px 8px 16px 0px #BEBEBE"
+      background: "var(--main-bg-color)",
+      boxShadow: "-8px -8px 16px 0px var(--light-shadow), 8px 8px 16px 0px var(--dark-shadow)"
     },
     profile_image: {
       height: "150px",
@@ -32,7 +32,7 @@ function Profile({ primaryUserData }) {
 
     name: {
       margin: "0",
-      color: "#37352F",
+      color: "var(--text-color-dark)",
       textAlign: "center",
       fontFamily: "Poppins",
       fontSize: "var(--font-size-lg)",
@@ -43,7 +43,7 @@ function Profile({ primaryUserData }) {
 
     text: {
       margin: "0",
-      color: "#5B574E",
+      color: "var(--text-color-light)",
       textAlign: "center",
       fontFamily: "Poppins",
       fontSize: "var(--font-size-sm)",
@@ -91,6 +91,7 @@ function Profile({ primaryUserData }) {
             ? <></>
             : <Button text={"Schedule Meet"} type="light" size="large" onClick={() => handleClick("/schedulemeet")} />
         }
+        <Button text={"Reset Password"} type="light" size="large" onClick={() => handleClick("/resetpassword")} />
         <Button text={"Log Out"} type="light" size="large" onClick={() => setLogoutModal(true)} />
       </div>
       <Modal showModal={logoutModal} setShowModal={setLogoutModal}>

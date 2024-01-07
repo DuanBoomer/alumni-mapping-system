@@ -16,8 +16,8 @@ function Navbar() {
       padding: "0.5em",
       justifyContent: "space-evenly",
       borderRadius: "15px",
-      background: "#E0E0E0",
-      boxShadow: "5px 5px 10px 0px #BEBEBE, -5px -5px 10px 0px #FFF",
+      background: "var(--main-bg-color)",
+      boxShadow: "5px 5px 10px 0px var(--dark-shadow), -5px -5px 10px 0px var(--light-shadow)",
 
       position: "fixed",
       bottom: "1em",

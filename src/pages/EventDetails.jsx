@@ -16,22 +16,6 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
     const alumni = location.state.alumni
     const eventData = location.state.eventData
 
-    const styles = {
-        small_text: {
-            margin: "1em 0",
-            color: "#5B574E",
-            fontFamily: "Poppins",
-            fontSize: "var(--font-size-sm)",
-            fontStyle: "normal",
-            fontWeight: "400",
-            lineHeight: "87%",
-        }
-    }
-
-    function handleJoinClick() {
-        window.open("https://meet.google.com")
-    }
-
     function handleCancelClick() {
         axios.delete(`${API_BASE}/delete/event/${alumni}/${eventData.title}`)
             .then((response) => {
@@ -40,6 +24,19 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
             .catch((error) => {
                 // console.log(error);
             })
+    }
+
+    function handleMarkAsDoneClick(){
+        axios.put(`${API_BASE}/update/event/${alumni}/${eventData.title}`,
+            {
+                ...eventData,
+                type: "done"
+            }
+        ).then((response) => {
+            navigate("/home")
+        }).catch((error) => {
+            // console.log(error);
+        })
     }
 
     function handleEditClick() {
@@ -52,16 +49,14 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
             <Header text={"Event Details"} />
             <EventDetailsFlat eventData={eventData} />
 
-            <p style={styles.small_text}>{eventData.desc}</p>
-
             <div style={{ display: "flex", flexDirection: "column" }}>
-                <Button text={"Join"} type={"light"} size={"big"} onClick={handleJoinClick} />
                 {
                     primaryUserData.alumni
                         ? <></>
                         : <div>
                             <Button text={"Cancel"} type={"dark"} size={"big"} onClick={() => setShowModal(true)} />
-                            <Button text={"Edit"} type={"dakr"} size={"big"} onClick={handleEditClick} />
+                            <Button text={"Edit"} type={"dark"} size={"big"} onClick={handleEditClick} />
+                            <Button text={"Mark as done"} type={"dark"} size={"big"} onClick={handleMarkAsDoneClick} />
                         </div>
                 }
 

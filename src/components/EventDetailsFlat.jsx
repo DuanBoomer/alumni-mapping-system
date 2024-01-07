@@ -1,3 +1,5 @@
+import Button from "./Button"
+
 export default function EventDetailsFlat({ eventData }) {
 
     const styles = {
@@ -21,7 +23,22 @@ export default function EventDetailsFlat({ eventData }) {
             lineHeight: "normal",
             letterSpacing: "-0.333px"
         },
+
+        small_text: {
+            margin: "1em 0",
+            color: "#5B574E",
+            fontFamily: "Poppins",
+            fontSize: "var(--font-size-sm)",
+            fontStyle: "normal",
+            fontWeight: "400",
+            lineHeight: "87%",
+        }
     }
+
+    function handleJoinClick() {
+        window.open(eventData.link)
+    }
+
     return (
         <div>
             {/* <Header text={"Event Details"} /> */}
@@ -34,7 +51,9 @@ export default function EventDetailsFlat({ eventData }) {
                     <p style={styles.medium_text}>{eventData.day}</p>
                     <p style={styles.medium_text}>{eventData.date}</p>
                 </div>
+                <p style={styles.small_text}>{eventData.desc}</p>
             </div>
+            <Button text={"Join"} type={"light"} size={"big"} onClick={handleJoinClick} />
         </div>
     )
 }

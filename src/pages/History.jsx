@@ -19,7 +19,7 @@ export default function History({ eventsData }) {
         <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"History"} />
             {
-                eventsData.done.length === 0
+                eventsData.done.length === 0 && eventsData.pending.length === 0
                     ? <div>
                         <p>No events ever</p>
                     </div>

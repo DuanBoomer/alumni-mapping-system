@@ -56,7 +56,12 @@ export default function Details() {
                         return <></>
                     }
                     else {
-                        return <OutputField key={index} title={key} text={data[key]} />
+                        if (typeof (data[key]) === 'object') {
+                            return <OutputField key={index} title={key} text={data[key].join(", ")} />
+                        }
+                        else {
+                            return <OutputField key={index} title={key} text={data[key]} />
+                        }
                     }
                 })
             }

@@ -1,14 +1,14 @@
 import Header from "../components/Header";
 import Button from "../components/Button";
-import InputField from "../components/InputField";
 import Modal from "../components/Modal";
-import OutputField from "../components/OutputField"
+// import InputField from "../components/InputField";
+// import OutputField from "../components/OutputField"
 import FormInputField from "../components/FormInputField";
 import { useForm } from "react-hook-form";
 
 import { API_BASE } from "../App";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 export default function EditProfile({ primaryUserData, setPrimaryUserData, setAlumniData, setStudentsData }) {
@@ -18,7 +18,7 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
     const [showModal, setShowModal] = useState(false)
     const [userImage, setUserImage] = useState(primaryUserData.image)
 
-    const { register, getValues, handleSubmit, formState: { errors }, setError } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: primaryUserData
     })
 
@@ -104,7 +104,7 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
                 })
         }
         else {
-            axios.put(`${API_BASE}/update/alumni/${primaryUserData.email}`, { ...data, image: userImage })
+            axios.put(`${API_BASE}/update/alumni/${primaryUserData.email}`, { ...data, image: userImage, expertise: data.expertise.split(", ") })
                 .then((response) => {
                     setShowModal(false)
                     setPrimaryUserData(data)
@@ -138,8 +138,6 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
 
                 <input {...register('image')} onChange={(e) => setImage(e)} accept="image/*" type={"file"} />
 
-                {/* <FormInputField title={'Image'} type={'image'} label={'image'} regex={""} regexErrorMessage={""} placeholder={''} register={register} errors={errors} /> */}
-
                 {
                     primaryUserData.alumni
                         ? <div>
@@ -157,7 +155,6 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
 
                 <Button text={"Submit"} type={"light"} size={"big"} onClick={() => setShowModal(true)} />
 
-
                 <Modal showModal={showModal} setShowModal={setShowModal}>
                     <p>Are you sure you want to save these changes?</p>
                     <Button text={"yes"} type={"light"} action={'submit'} size={"small"} onClick={handleSubmit(handleSubmitClick)} />
@@ -169,4 +166,3 @@ export default function EditProfile({ primaryUserData, setPrimaryUserData, setAl
         </div>
     )
 }
-// onClick = { handleSubmitClick }

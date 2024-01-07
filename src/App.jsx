@@ -13,6 +13,7 @@ import Navbar from './components/Navbar';
 import Loading from './components/Loading';
 import Logout from './pages/Logout';
 import FirstTimeLogin from './pages/FirstTimeLogin';
+import ResetPassword from './pages/ResetPassword';
 import { io } from 'socket.io-client';
 // import Docs from './pages/Docs';
 // import Downloads from './pages/Downloads';
@@ -54,6 +55,13 @@ function App() {
           socketRef.current.on("msg", (data) => {
             setChatData((prev) => {
               return [...prev, data]
+            })
+          })
+
+          socketRef.current.on("msgdelete", (data) => {
+            setChatData((prev) => {
+              var newChat = prev.filter((chat) => !(chat.text === data.text && chat.sender === data.sender))
+              return newChat
             })
           })
 
@@ -110,6 +118,7 @@ function App() {
           <Route path='/eventdetails' element={<EventDetails setEventsData={setEventsData} primaryUserData={primaryUserData} />} />
           <Route path='/history' element={<History eventsData={eventsData} />} />
           <Route path='/profile' element={<Profile primaryUserData={primaryUserData} />} />
+          <Route path='/resetpassword' element={<ResetPassword primaryUserData={primaryUserData} />} />
           <Route path='/schedulemeet' element={<ScheduleMeet alumni={alumniData.email} />} />
           <Route path='/logout' element={<Logout />} />
           <Route path='/firsttimelogin' element={<FirstTimeLogin />} />
