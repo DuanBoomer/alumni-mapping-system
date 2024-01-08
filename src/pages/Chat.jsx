@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import Header from "../components/Header";
 import arrow from "../assets/arrow.svg";
+import copy from "../assets/copy-icon.svg";
+import bin from "../assets/delete-icon.svg";
 import back_button from "../assets/back-button.svg"
 import { useNavigate } from "react-router-dom";
 import useLongPress from "../hooks/useLongPress";
@@ -11,6 +13,21 @@ function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
     onLongPress: chatOnLongPress
   })
   const [showModal, setShowModal] = useState(false)
+  let menuRef = useRef(null)
+
+  useEffect(() => {
+    let handler = (e) => {
+      if(!menuRef.current?.contains(e.target)){
+        setShowModal(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handler)
+
+    return () => {
+      document.removeEventListener('mousedown', handler)
+    }
+  })
 
   const styles = {
     profile_image: {
@@ -56,9 +73,10 @@ function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
     modalButton: {
       display: 'flex',
       alignItems: 'center',
+      gap: "10px",
       background: 'none',
       border: 'none',
-      textDecoration: "underline",
+      // textDecoration: "underline",
     }
   }
 
@@ -99,9 +117,9 @@ function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
 
       {
         showModal
-          ? <div style={styles.modal} onBlur={() => setShowModal(false)}>
-            {type === 'sent' ? <button onClick={chatDelete} style={styles.modalButton}><img src={arrow} />delete</button> : <></>}
-            <button onClick={chatCopy} style={styles.modalButton}> <img src={arrow} />copy</button>
+          ? <div style={styles.modal} ref={menuRef} >
+            {type === 'sent' ? <button onClick={chatDelete} style={styles.modalButton}><img src={bin} />delete</button> : <></>}
+            <button onClick={chatCopy} style={styles.modalButton}> <img src={copy} />copy</button>
           </div>
           : <></>
       }
@@ -153,6 +171,7 @@ export default function Chat({ socket, chatData, setChatData, primaryUserData, a
   function handleSendClick() {
     if (chatInput && chatInput.replace(/\s/g, '').length && socket) {
       socket.emit('msg', chatInput, primaryUserData.email, alumniData.email)
+      console.log('chat emit');
       setChatInput("")
     }
   }

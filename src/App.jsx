@@ -53,6 +53,7 @@ function App() {
           setAlumniData(response)
           socketRef.current = io(SOCKET_URL, { auth: response.email });
           socketRef.current.on("msg", (data) => {
+            console.log('chat on');
             setChatData((prev) => {
               return [...prev, data]
             })
@@ -60,12 +61,14 @@ function App() {
 
           socketRef.current.on("msgdelete", (data) => {
             setChatData((prev) => {
+              console.log('chat del');
               var newChat = prev.filter((chat) => !(chat.text === data.text && chat.sender === data.sender))
               return newChat
             })
           })
 
           socketRef.current.on("event_updates", (data) => {
+            console.log('event update');
             setEventsData(data)
           })
         })

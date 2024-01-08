@@ -3,9 +3,11 @@ import EventCard from '../components/EventCard'
 import ProfileCard from '../components/ProfileCard'
 import { useNavigate } from "react-router-dom"
 import Button from '../components/Button'
+import { useEffect, useRef } from 'react'
 function Home({ alumniData, studentsData, eventsData }) {
 
   const navigate = useNavigate()
+  const addbtnRef = useRef()
   const styles = {
     text: {
       margin: "0",
@@ -28,6 +30,30 @@ function Home({ alumniData, studentsData, eventsData }) {
     }
   }
 
+  useEffect(() => {
+    let deferredPrompt;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault()
+      deferredPrompt = e;
+      // addbtnRef.current.style.display = 'block'
+    })
+
+    if (addbtnRef){
+
+      addbtnRef.current.addEventListener("click", (e) => {
+        deferredPrompt?.prompt()
+        deferredPrompt?.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('user accepted');
+          }
+  
+          deferredPrompt = null;
+        }).catch((error) => {console.log(error);})
+  
+      })
+    }
+  }, [])
+
   return (
     <div>
 
@@ -36,6 +62,7 @@ function Home({ alumniData, studentsData, eventsData }) {
           ? <div style={{ padding: "1em 1em 3em 1em" }}>
             <Header text={"Home"} />
 
+            <button ref={addbtnRef} >add to home screen</button>
             {
               eventsData.pending.length === 0
                 ? <div style={styles.shadow_div}>
