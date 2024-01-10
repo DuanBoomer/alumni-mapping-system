@@ -38,7 +38,7 @@ function Home({ alumniData, studentsData, eventsData }) {
       // addbtnRef.current.style.display = 'block'
     })
 
-    if (addbtnRef){
+    if (addbtnRef) {
 
       addbtnRef.current.addEventListener("click", (e) => {
         deferredPrompt?.prompt()
@@ -46,10 +46,10 @@ function Home({ alumniData, studentsData, eventsData }) {
           if (choiceResult.outcome === 'accepted') {
             console.log('user accepted');
           }
-  
+
           deferredPrompt = null;
-        }).catch((error) => {console.log(error);})
-  
+        }).catch((error) => { console.log(error); })
+
       })
     }
   }, [])
