@@ -76,7 +76,7 @@ function Profile({ primaryUserData }) {
 		<div style={{ padding: '1em 1em 3em 1em' }}>
 			<Header text={'Profile'} />
 
-			<div style={styles.profile_div}>
+			{/* <div style={styles.profile_div}>
 				<img
 					style={styles.profile_image}
 					src={primaryUserData.image}
@@ -145,7 +145,7 @@ function Profile({ primaryUserData }) {
 					size={'small'}
 					onClick={() => setLogoutModal(false)}
 				/>
-			</Modal>
+			</Modal> */}
 		</div>
 	);
 }

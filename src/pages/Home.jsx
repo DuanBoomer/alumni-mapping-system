@@ -1,64 +1,53 @@
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import ProfileCard from '../components/ProfileCard';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import { useEffect, useRef } from 'react';
-function Home({ alumniData, studentsData, eventsData }) {
-	const navigate = useNavigate();
-	const addbtnRef = useRef();
-	const styles = {
-		text: {
-			margin: '0',
-			// padding: "0 0.5em",
-			color: 'var(--text-color-dark)',
-			fontFamily: 'Poppins',
-			fontSize: 'var(--font-size-xl)',
-			fontStyle: 'normal',
-			fontWeight: 400,
-			lineHeight: 'normal',
-			letterSpacing: '-0.333px',
-		},
 
-		shadow_div: {
-			margin: '2em 0',
-			padding: '1.5em',
-			borderRadius: '18px',
-			background: 'var(--main-bg-color)',
-			boxShadow:
-				'-11px -11px 22px 0px var(--light-shadow) inset, 11px 11px 22px 0px var(--dark-shadow) inset',
-		},
-	};
+function Home() {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const addbtnRef = useRef();
+
+	console.log(location.state);
 
 	useEffect(() => {
-		let deferredPrompt;
-		window.addEventListener('beforeinstallprompt', (e) => {
-			e.preventDefault();
-			deferredPrompt = e;
-			// addbtnRef.current.style.display = 'block'
-		});
+		console.log('home page');
+	}, [])
 
-		if (addbtnRef) {
-			addbtnRef.current.addEventListener('click', (e) => {
-				deferredPrompt?.prompt();
-				deferredPrompt?.userChoice
-					.then((choiceResult) => {
-						if (choiceResult.outcome === 'accepted') {
-							console.log('user accepted');
-						}
+	// useEffect(() => {
+	// 	let deferredPrompt;
+	// 	window.addEventListener('beforeinstallprompt', (e) => {
+	// 		e.preventDefault();
+	// 		deferredPrompt = e;
+	// 		// addbtnRef.current.style.display = 'block'
+	// 	});
 
-						deferredPrompt = null;
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			});
-		}
-	}, []);
+	// 	if (addbtnRef) {
+	// 		addbtnRef.current.addEventListener('click', (e) => {
+	// 			deferredPrompt?.prompt();
+	// 			deferredPrompt?.userChoice
+	// 				.then((choiceResult) => {
+	// 					if (choiceResult.outcome === 'accepted') {
+	// 						console.log('user accepted');
+	// 					}
+
+	// 					deferredPrompt = null;
+	// 				})
+	// 				.catch((error) => {
+	// 					console.log(error);
+	// 				});
+	// 		});
+	// 	}
+
+	// 	// return addbtnRef.current.removeEventListener('click'); window.removeEventListener('beforeinstallprompt');
+	// }, []);
 
 	return (
-		<div>
-			{alumniData && studentsData ? (
+		<>
+			<Header text={'Home'} />
+			{/* {alumniData && studentsData ? (
 				<div style={{ padding: '1em 1em 3em 1em' }}>
 					<Header text={'Home'} />
 
@@ -110,9 +99,32 @@ function Home({ alumniData, studentsData, eventsData }) {
 				</div>
 			) : (
 				<></>
-			)}
-		</div>
+			)} */}
+		</>
 	);
 }
 
 export default Home;
+
+const styles = {
+	text: {
+		margin: '0',
+		// padding: "0 0.5em",
+		color: 'var(--text-color-dark)',
+		fontFamily: 'Poppins',
+		fontSize: 'var(--font-size-xl)',
+		fontStyle: 'normal',
+		fontWeight: 400,
+		lineHeight: 'normal',
+		letterSpacing: '-0.333px',
+	},
+
+	shadow_div: {
+		margin: '2em 0',
+		padding: '1.5em',
+		borderRadius: '18px',
+		background: 'var(--main-bg-color)',
+		boxShadow:
+			'-11px -11px 22px 0px var(--light-shadow) inset, 11px 11px 22px 0px var(--dark-shadow) inset',
+	},
+};

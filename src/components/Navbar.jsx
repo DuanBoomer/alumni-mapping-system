@@ -43,13 +43,13 @@ function Navbar() {
 						src={home}
 						alt=''
 					/>
-					<img
+					{/* <img
 						onClick={() => {
 							handleClick('/chat');
 						}}
 						src={chats}
 						alt=''
-					/>
+					/> */}
 					<img
 						onClick={() => {
 							handleClick('/profile');
