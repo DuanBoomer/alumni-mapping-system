@@ -3,9 +3,10 @@ import Header from '../components/Header';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 
-export default function ContactFaculty({ primaryUserData }) {
+export default function ContactFaculty() {
 	const [message, setMessage] = useState('');
 	const [subject, setSubject] = useState('');
+	const primaryUserData = JSON.parse(window.localStorage.getItem("PrimaryUserData"))
 	const styles = {
 		big_text: {
 			color: '#37352F',

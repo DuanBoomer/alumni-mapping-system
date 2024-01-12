@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import arrow from '../assets/arrow.svg';
 import copy from '../assets/copy-icon.svg';
@@ -6,6 +6,9 @@ import bin from '../assets/delete-icon.svg';
 import back_button from '../assets/back-button.svg';
 import { useNavigate } from 'react-router-dom';
 import useLongPress from '../hooks/useLongPress';
+import { DataContext } from '../App';
+import axios from 'axios';
+import { API_BASE } from '../App';
 
 function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
 	//
@@ -28,7 +31,7 @@ function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
 		return () => {
 			document.removeEventListener('mousedown', handler);
 		};
-	});
+	}, []);
 
 	const styles = {
 		profile_image: {
@@ -85,17 +88,17 @@ function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
 	};
 
 	function chatOnClick() {
-		console.log('click');
+		// console.log('click');
 	}
 
 	function chatOnLongPress() {
 		setShowModal(true);
-		console.log('long press');
+		// console.log('long press');
 	}
 
 	function chatDelete() {
 		socket.emit('msgdelete', text, sender, alumni);
-		console.log('del click');
+		// console.log('del click');
 		setShowModal(false);
 	}
 
@@ -163,17 +166,16 @@ function ChatBox({ text, profile_image, type, socket, sender, alumni }) {
 	);
 }
 
-export default function Chat({
-	socket,
-	chatData,
-	setChatData,
-	primaryUserData,
-	alumniData,
-	studentsData,
-}) {
+export default function Chat({ socket }) {
 	const navigate = useNavigate();
 	const btn = useRef(null);
 	const chatEndDiv = useRef(null);
+	const { alumniData, studentsData } = useContext(DataContext);
+	const primaryUserData = JSON.parse(
+		window.localStorage.getItem('PrimaryUserData')
+	);
+
+	const [chatData, setChatData] = useState([{ text: '', sender: '' }]);
 
 	const [chatInput, setChatInput] = useState('');
 
@@ -214,10 +216,36 @@ export default function Chat({
 	function handleSendClick() {
 		if (chatInput && chatInput.replace(/\s/g, '').length && socket) {
 			socket.emit('msg', chatInput, primaryUserData.email, alumniData.email);
-			console.log('chat emit');
+			// console.log('chat emit');
 			setChatInput('');
 		}
 	}
+
+	useEffect(() => {
+		axios
+			.get(`${API_BASE}/chat/${alumniData.email}`)
+			.then((response) => {
+				setChatData(response.data);
+
+				socket.on('msg', (data) => {
+					// console.log('chat on');
+					setChatData((prev) => {
+						return [...prev, data];
+					});
+				});
+				socket.on('msgdelete', (data) => {
+					setChatData((prev) => {
+						console.log('chat del');
+						var newChat = prev.filter(
+							(chat) =>
+								!(chat.text === data.text && chat.sender === data.sender)
+						);
+						return newChat;
+					});
+				});
+			})
+			.catch((err) => {});
+	}, []);
 
 	useEffect(() => {
 		chatEndDiv.current?.scrollIntoView();

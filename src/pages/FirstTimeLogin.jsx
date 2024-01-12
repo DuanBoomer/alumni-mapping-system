@@ -45,7 +45,7 @@ export default function FirstTimeLogin() {
 	const navigate = useNavigate();
 
 	function verifyEmail(data) {
-		console.log(data);
+		// console.log(data);
 		axios
 			.post(`${API_BASE}/auth`, {
 				email: data.email,
@@ -53,7 +53,7 @@ export default function FirstTimeLogin() {
 			})
 			.then((response) => {
 				response = response.data;
-				console.log(response);
+				// console.log(response);
 				if (!response) {
 					setProceed(2);
 				}
@@ -71,7 +71,7 @@ export default function FirstTimeLogin() {
 			setUserImage(reader.result);
 		};
 		reader.onerror = (error) => {
-			console.log('File upload error', error);
+			// console.log('File upload error', error);
 		};
 	}
 
