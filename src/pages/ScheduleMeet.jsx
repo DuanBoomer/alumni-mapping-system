@@ -2,14 +2,16 @@ import Header from '../components/Header';
 import InputField from '../components/InputField';
 import OutputField from '../components/OutputField';
 import Button from '../components/Button';
-import { useState } from 'react';
+import { useState, useContext, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE } from '../App';
-export default function ScheduleMeet({ alumni }) {
+import { DataContext } from '../App';
+export default function ScheduleMeet() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const eventData = location.state;
+	const { alumniData } = useContext(DataContext);
 
 	const [startTime, setStartTime] = useState(
 		eventData ? eventData.start_time : ''
@@ -20,7 +22,7 @@ export default function ScheduleMeet({ alumni }) {
 	const [date, setDate] = useState(eventData ? eventData.date : '');
 	const [link, setLink] = useState(eventData ? eventData.link : '');
 
-	function day_of_week(date) {
+	const day_of_week = useCallback((date) => {
 		var weekday = [
 			'Sunday',
 			'Monday',
@@ -32,31 +34,32 @@ export default function ScheduleMeet({ alumni }) {
 		];
 		var date = new Date(date);
 		return weekday[date.getUTCDay()];
-	}
+	}, []);
 
 	function handleSubmitClick() {
 		if (eventData) {
 			axios
-				.put(`${API_BASE}/update/event/${alumni}/${eventData.title}`, {
-					title: title,
-					start_time: startTime,
-					end_time: endTime,
-					day: day_of_week(date),
-					date: date,
-					desc: desc,
-					link: link,
-					type: 'pending',
-					docs: ['sample_document.pdf'],
-				})
+				.put(
+					`${API_BASE}/update/event/${alumniData.email}/${eventData.title}`,
+					{
+						title: title,
+						start_time: startTime,
+						end_time: endTime,
+						day: day_of_week(date),
+						date: date,
+						desc: desc,
+						link: link,
+						type: 'pending',
+						docs: ['sample_document.pdf'],
+					}
+				)
 				.then((response) => {
 					navigate('/home');
 				})
-				.catch((error) => {
-					// console.log(error);
-				});
+				.catch((error) => {});
 		} else {
 			axios
-				.post(`${API_BASE}/schedule/event/${alumni}`, {
+				.post(`${API_BASE}/schedule/event/${alumniData.email}`, {
 					title: title,
 					start_time: startTime,
 					end_time: endTime,
@@ -70,18 +73,16 @@ export default function ScheduleMeet({ alumni }) {
 				.then((response) => {
 					navigate('/home');
 				})
-				.catch((error) => {
-					// console.log(error);
-				});
+				.catch((error) => {});
 		}
 	}
 
-	function get_meet_link() {
+	const get_meet_link = useCallback(() => {
 		window.open('https://meet.google.com/');
-	}
+	}, []);
 
 	return (
-		<div style={{ padding: '1em 1em 3em 1em' }}>
+		<>
 			<Header text={'Schedule Meet'} />
 			<InputField
 				title={'Title'}
@@ -147,6 +148,6 @@ export default function ScheduleMeet({ alumni }) {
 			/>
 
 			<div style={{ height: 'calc(0.5em + 26px)' }}></div>
-		</div>
+		</>
 	);
 }

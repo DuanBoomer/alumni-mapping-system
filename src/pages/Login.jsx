@@ -16,7 +16,7 @@ async function getSHA256Hash(input) {
 	return hash;
 }
 
-export default function Login() {
+export default function Login({ setTrigger }) {
 	const navigate = useNavigate();
 
 	const [email, setEmail] = useState('');
@@ -28,9 +28,10 @@ export default function Login() {
 	const [displayLoader, setDisplayLoader] = useState(false);
 
 	useEffect(() => {
-		var data = JSON.parse(localStorage.getItem('data'));
+		var data = JSON.parse(window.localStorage.getItem('PrimaryUserData'));
 		if (data && data.email !== '') {
-			navigate('/home', { state: data });
+			setTrigger(1);
+			navigate('/home');
 		}
 	}, []);
 
@@ -59,9 +60,13 @@ export default function Login() {
 					axios
 						.get(`${API_BASE}/data/${response.data.email}`)
 						.then((response) => {
-							localStorage.setItem('data', JSON.stringify(response.data));
+							window.localStorage.setItem(
+								'PrimaryUserData',
+								JSON.stringify(response.data)
+							);
 							setDisplayLoader(false);
-							navigate('/home', { state: response.data });
+							setTrigger(1);
+							navigate('/home');
 						})
 						.catch((err) => {
 							setErr({
@@ -77,7 +82,7 @@ export default function Login() {
 					return { ...prev, error: true };
 				});
 			});
-	}, [email, password]);
+	}, [email, password, setTrigger]);
 
 	return (
 		<>

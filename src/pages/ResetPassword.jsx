@@ -5,8 +5,10 @@ import axios from 'axios';
 import Modal from '../components/Modal';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE } from '../App';
-import { useState } from 'react';
-export default function ResetPassword({ primaryUserData }) {
+import { useContext, useState } from 'react';
+import { DataContext } from '../App';
+export default function ResetPassword() {
+	const primaryUserData  = JSON.parse(window.localStorage.getItem("PrimaryUserData"))
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState(false);
@@ -38,7 +40,7 @@ export default function ResetPassword({ primaryUserData }) {
 		}
 	}
 	return (
-		<div style={{ padding: '1em 1em 3em 1em' }}>
+		<>
 			<Header text={'Reset Password'} />
 
 			<InputField
@@ -87,6 +89,6 @@ export default function ResetPassword({ primaryUserData }) {
 					onClick={() => setShowModal(false)}
 				/>
 			</Modal>
-		</div>
+		</>
 	);
 }

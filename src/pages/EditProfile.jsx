@@ -11,14 +11,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function EditProfile({
-	primaryUserData,
-	setPrimaryUserData,
-	setAlumniData,
-	setStudentsData,
-}) {
+export default function EditProfile({ setAlumniData, setStudentsData }) {
 	const navigate = useNavigate();
-	// const [userData, setUserData] = useState(primaryUserData)
+	const primaryUserData = JSON.parse(
+		window.localStorage.getItem('PrimaryUserData')
+	);
 	const [showModal, setShowModal] = useState(false);
 	const [userImage, setUserImage] = useState(primaryUserData.image);
 
@@ -37,56 +34,13 @@ export default function EditProfile({
 			setState(reader.result);
 		};
 		reader.onerror = (error) => {
-			console.log('File upload error', error);
+			// console.log('File upload error', error);
 		};
 	}
 
 	function setImage(e) {
 		convertImageToBase64(e, setUserImage);
-		console.log(userImage);
 	}
-
-	const styles = {
-		profile_image: {
-			width: '100%',
-			aspectRatio: '1/1',
-			objectFit: 'cover',
-			minWidth: '100px',
-			maxHeight: '400px',
-			borderRadius: '10px',
-		},
-
-		long_input: {
-			flexGrow: 1,
-			flexBasis: 0,
-			flexShrink: 0,
-
-			padding: '1rem 2rem',
-			width: 'calc(100% - 4.5em)',
-
-			border: 'none',
-			outline: 'none',
-			color: 'var(--text-color-light)',
-			fontFamily: 'Poppins',
-			fontSize: 'var(--font-size-sm)',
-			fontStyle: 'normal',
-			fontWeight: '400',
-			lineHeight: 'normal',
-			borderRadius: '13px',
-			background: 'var(--main-bg-color)',
-			boxShadow:
-				'-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset',
-		},
-		partition: {
-			flexGrow: 1,
-			flexBasis: 0,
-			flexShrink: 0,
-			gap: '0.5em',
-
-			display: 'flex',
-			flexDirection: 'column',
-		},
-	};
 
 	function handleSubmitClick(data) {
 		if (primaryUserData.alumni) {
@@ -97,7 +51,7 @@ export default function EditProfile({
 				})
 				.then((response) => {
 					setShowModal(false);
-					setPrimaryUserData(data);
+					window.localStorage.setItem('PrimaryUserData', JSON.stringify(data));
 					setStudentsData((prev) => {
 						const newArr = prev.map((student) => {
 							if (student.email === data.email) {
@@ -123,7 +77,7 @@ export default function EditProfile({
 				})
 				.then((response) => {
 					setShowModal(false);
-					setPrimaryUserData(data);
+					window.localStorage.setItem('PrimaryUserData', JSON.stringify(data));
 					setAlumniData(data);
 					navigate('/profile');
 				})
@@ -134,7 +88,7 @@ export default function EditProfile({
 	}
 
 	return (
-		<div style={{ padding: '1em 1em 3em 1em' }}>
+		<>
 			<Header text={'Edit Profile'} />
 
 			<form onSubmit={handleSubmit(handleSubmitClick)}>
@@ -275,6 +229,48 @@ export default function EditProfile({
 			</form>
 
 			<div style={{ height: 'calc(0.5em + 26px)' }}></div>
-		</div>
+		</>
 	);
 }
+
+const styles = {
+	profile_image: {
+		width: '100%',
+		aspectRatio: '1/1',
+		objectFit: 'cover',
+		minWidth: '100px',
+		maxHeight: '400px',
+		borderRadius: '10px',
+	},
+
+	long_input: {
+		flexGrow: 1,
+		flexBasis: 0,
+		flexShrink: 0,
+
+		padding: '1rem 2rem',
+		width: 'calc(100% - 4.5em)',
+
+		border: 'none',
+		outline: 'none',
+		color: 'var(--text-color-light)',
+		fontFamily: 'Poppins',
+		fontSize: 'var(--font-size-sm)',
+		fontStyle: 'normal',
+		fontWeight: '400',
+		lineHeight: 'normal',
+		borderRadius: '13px',
+		background: 'var(--main-bg-color)',
+		boxShadow:
+			'-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset',
+	},
+	partition: {
+		flexGrow: 1,
+		flexBasis: 0,
+		flexShrink: 0,
+		gap: '0.5em',
+
+		display: 'flex',
+		flexDirection: 'column',
+	},
+};

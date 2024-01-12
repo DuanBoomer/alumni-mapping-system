@@ -1,82 +1,41 @@
 import Header from '../components/Header';
 import Button from '../components/Button';
-
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+// import { DataContext } from '../App';
 
-function Profile({ primaryUserData }) {
+const dontShow = [
+	'name',
+	'desc',
+	'image',
+	'student_coordinator',
+	'alumni',
+	'email',
+	'batch',
+	'expertise',
+];
+
+function Profile() {
 	const navigate = useNavigate();
-	const dontShow = [
-		'name',
-		'desc',
-		'image',
-		'student_coordinator',
-		'alumni',
-		'email',
-		'batch',
-		'expertise',
-	];
+	const primaryUserData = JSON.parse(
+		window.localStorage.getItem('PrimaryUserData')
+	);
 	const [logoutModal, setLogoutModal] = useState(false);
 
-	const styles = {
-		profile_div: {
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			padding: '1.5em',
-			marginBottom: '1.5em',
-
-			borderRadius: '18px',
-			background: 'var(--main-bg-color)',
-			boxShadow:
-				'-8px -8px 16px 0px var(--light-shadow), 8px 8px 16px 0px var(--dark-shadow)',
-		},
-		profile_image: {
-			height: '150px',
-			width: '150px',
-			objectFit: 'cover',
-			borderRadius: '10px',
-		},
-
-		name: {
-			margin: '0',
-			color: 'var(--text-color-dark)',
-			textAlign: 'center',
-			fontFamily: 'Poppins',
-			fontSize: 'var(--font-size-lg)',
-			fontStyle: 'normal',
-			fontWeight: '400',
-			lineHeight: 'normal',
-		},
-
-		text: {
-			margin: '0',
-			color: 'var(--text-color-light)',
-			textAlign: 'center',
-			fontFamily: 'Poppins',
-			fontSize: 'var(--font-size-sm)',
-			fontStyle: 'normal',
-			fontWeight: '400',
-			lineHeight: 'normal',
-		},
-	};
-
-	function handleClick(path) {
-		navigate(path);
-	}
-
 	function handleLogout() {
-		setLogoutModal(true);
-		localStorage.setItem('data', JSON.stringify({ type: '', email: '' }));
-		navigate('/');
+		setLogoutModal(false);
+		navigate('/logout');
 	}
+
+	// console.log(primaryUserData);
 
 	return (
-		<div style={{ padding: '1em 1em 3em 1em' }}>
+		<>
 			<Header text={'Profile'} />
 
-			{/* <div style={styles.profile_div}>
+			{/* profile details (image, name, etc...) */}
+			<div style={styles.profile_div}>
 				<img
 					style={styles.profile_image}
 					src={primaryUserData.image}
@@ -86,7 +45,7 @@ function Profile({ primaryUserData }) {
 
 				{Object.keys(primaryUserData).map((key, index) => {
 					if (dontShow.includes(key)) {
-						return <></>;
+						return null;
 					} else {
 						return (
 							<p
@@ -99,28 +58,29 @@ function Profile({ primaryUserData }) {
 				})}
 			</div>
 
+			{/* menu below the user details */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.75em' }}>
 				<Button
 					text={'Edit Profile'}
 					type='light'
 					size='large'
-					onClick={() => handleClick('/editprofile')}
+					onClick={() => navigate('/editprofile')}
 				/>
-				{primaryUserData.alumni ? (
-					<></>
-				) : (
+
+				{primaryUserData.alumni ? null : (
 					<Button
 						text={'Schedule Meet'}
 						type='light'
 						size='large'
-						onClick={() => handleClick('/schedulemeet')}
+						onClick={() => navigate('/schedulemeet')}
 					/>
 				)}
+
 				<Button
 					text={'Reset Password'}
 					type='light'
 					size='large'
-					onClick={() => handleClick('/resetpassword')}
+					onClick={() => navigate('/resetpassword')}
 				/>
 				<Button
 					text={'Log Out'}
@@ -145,9 +105,52 @@ function Profile({ primaryUserData }) {
 					size={'small'}
 					onClick={() => setLogoutModal(false)}
 				/>
-			</Modal> */}
-		</div>
+			</Modal>
+		</>
 	);
 }
 
 export default Profile;
+
+const styles = {
+	profile_div: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: '1.5em',
+		marginBottom: '1.5em',
+
+		borderRadius: '18px',
+		background: 'var(--main-bg-color)',
+		boxShadow:
+			'-8px -8px 16px 0px var(--light-shadow), 8px 8px 16px 0px var(--dark-shadow)',
+	},
+	profile_image: {
+		height: '150px',
+		width: '150px',
+		objectFit: 'cover',
+		borderRadius: '10px',
+	},
+
+	name: {
+		margin: '0',
+		color: 'var(--text-color-dark)',
+		textAlign: 'center',
+		fontFamily: 'Poppins',
+		fontSize: 'var(--font-size-lg)',
+		fontStyle: 'normal',
+		fontWeight: '400',
+		lineHeight: 'normal',
+	},
+
+	text: {
+		margin: '0',
+		color: 'var(--text-color-light)',
+		textAlign: 'center',
+		fontFamily: 'Poppins',
+		fontSize: 'var(--font-size-sm)',
+		fontStyle: 'normal',
+		fontWeight: '400',
+		lineHeight: 'normal',
+	},
+};

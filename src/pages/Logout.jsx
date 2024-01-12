@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 export default function Logout() {
 	const navigate = useNavigate();
 	useEffect(() => {
-		localStorage.setItem('data', null);
+		localStorage.clear()
 		navigate('/');
 	}, []);
 }

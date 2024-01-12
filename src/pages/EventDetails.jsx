@@ -4,40 +4,41 @@ import EventDetailsFlat from '../components/EventDetailsFlat';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../components/Modal';
-import { useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { API_BASE } from '../App';
+import { DataContext } from '../App';
 
-export default function EventDetails({ setEventsData, primaryUserData }) {
+export default function EventDetails() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [showModal, setShowModal] = useState(false);
 
-	const alumni = location.state.alumni;
 	const eventData = location.state.eventData;
+	const { alumniData } = useContext(DataContext);
+	const primaryUserData = JSON.parse(
+		window.localStorage.getItem('PrimaryUserData')
+	);
 
 	function handleCancelClick() {
 		axios
-			.delete(`${API_BASE}/delete/event/${alumni}/${eventData.title}`)
+			.delete(`${API_BASE}/delete/event/${alumniData.email}/${eventData.title}`)
 			.then((response) => {
+				setShowModal(false);
 				navigate('/home');
 			})
-			.catch((error) => {
-				// console.log(error);
-			});
+			.catch((error) => {});
 	}
 
 	function handleMarkAsDoneClick() {
 		axios
-			.put(`${API_BASE}/update/event/${alumni}/${eventData.title}`, {
+			.put(`${API_BASE}/update/event/${alumniData.email}/${eventData.title}`, {
 				...eventData,
 				type: 'done',
 			})
 			.then((response) => {
 				navigate('/home');
 			})
-			.catch((error) => {
-				// console.log(error);
-			});
+			.catch((error) => {});
 	}
 
 	function handleEditClick() {
@@ -45,14 +46,12 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
 	}
 
 	return (
-		<div style={{ padding: '1em 1em 3em 1em' }}>
+		<>
 			<Header text={'Event Details'} />
 			<EventDetailsFlat eventData={eventData} />
 
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				{primaryUserData.alumni ? (
-					<></>
-				) : (
+				{primaryUserData.alumni ? null : (
 					<div>
 						<Button
 							text={'Cancel'}
@@ -93,6 +92,6 @@ export default function EventDetails({ setEventsData, primaryUserData }) {
 					onClick={() => setShowModal(false)}
 				/>
 			</Modal>
-		</div>
+		</>
 	);
 }

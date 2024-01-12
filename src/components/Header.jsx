@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export default function Header({ text }) {
 	var navigate = useNavigate();
 	var location = useLocation();
+	const notAllowedRoutes = ['/', '/firsttimelogin'];
 
 	return (
 		<div style={styles.div}>
@@ -23,7 +24,6 @@ export default function Header({ text }) {
 	);
 }
 
-const notAllowedRoutes = ['/', '/firsttimelogin'];
 const styles = {
 	h1: {
 		color: 'var(--text-color-dark)',

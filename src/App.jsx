@@ -18,13 +18,16 @@ import { io } from 'socket.io-client';
 // import Docs from './pages/Docs';
 // import Downloads from './pages/Downloads';
 // import ContactFaculty from './pages/ContactFaculty';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, createContext } from 'react';
 import axios from 'axios';
 
+const notLoadingPaths = ['/', '/logout'];
+export const DataContext = createContext(null);
+
 function App() {
-	// const SOCKET_URL = 'https://ams-chat-api.onrender.com/';
+	const SOCKET_URL = 'https://ams-chat-api.onrender.com/';
+	const socketRef = useRef(null);
 	// // const SOCKET_URL = "http://127.0.0.1:8000/"
-	// const socketRef = useRef(null);
 	// // const [showLoadingScreen, setShowLoadingScreen] = useState(
 	// // 	window.location.pathname === '/' ||
 	// // 		window.location.pathname === '/firsttimelogin'
@@ -162,92 +165,137 @@ function App() {
 	// 	}
 	// }, []);
 
+	// const [fetch, setFetch] = useState(true);
+
+	// const [loading, setLoading] = useState(
+	// 	!notLoadingPaths.includes(window.location.pathname)
+	// );
+
+	const [trigger, setTrigger] = useState(0);
+	const [alumniData, setAlumniData] = useState();
+	const [eventsData, setEventsData] = useState();
+	const [studentsData, setStudentsData] = useState();
+
+	useEffect(() => {
+		// console.log('effect');
+		if (
+			!(Boolean(alumniData) && Boolean(eventsData) && Boolean(studentsData)) &&
+			!notLoadingPaths.includes(window.location.pathname)
+		) {
+			// console.log('fetching...');
+			let primary_user_data = JSON.parse(
+				window.localStorage.getItem('PrimaryUserData')
+			);
+			var alumni_email;
+			if (primary_user_data?.alumni) {
+				alumni_email = primary_user_data.alumni;
+			} else {
+				alumni_email = primary_user_data.email;
+			}
+			axios
+				.get(`${API_BASE}/data/${alumni_email}`)
+				.then((response) => {
+					setAlumniData(response.data);
+					socketRef.current = io(SOCKET_URL, { auth: response.data.email });
+					socketRef.current.on('event_updates', (data) => {
+						setEventsData(data);
+					});
+					// console.log('alumni-data');
+				})
+				.catch((err) => {});
+			axios
+				.get(`${API_BASE}/data/students/${alumni_email}`)
+				.then((response) => {
+					setStudentsData(response.data);
+					// console.log('students-data');
+				})
+				.catch((err) => {});
+			axios
+				.get(`${API_BASE}/event/history/${alumni_email}`)
+				.then((response) => {
+					setEventsData(response.data);
+					// console.log('event-data');
+				})
+				.catch((err) => {});
+			// console.log('loading false');
+		}
+	}, [trigger]);
+
+	console.log('app');
+
 	return (
 		<>
-			<Main>
-				<Routes>
-					<Route
-						path='/'
-						element={<Login />}
-					/>
-					<Route
-						path='/home'
-						element={<Home />}
-					/>
-					<Route
-						path='/logout'
-						element={<Logout />}
-					/>
-					<Route
-						path='/profile'
-						element={<Profile />}
-					/>
-					{/* <Route
-						path='/chat'
-						element={
-							<Chat
-								socket={socketRef.current}
-								chatData={chatData}
-								setChatData={setChatData}
-								primaryUserData={primaryUserData}
-								alumniData={alumniData}
-								studentsData={studentsData}
-							/>
-						}
-					/>
-					<Route
-						path='/details'
-						element={<Details />}
-					/>
-					<Route
-						path='/editprofile'
-						element={
-							<EditProfile
-								primaryUserData={primaryUserData}
-								setPrimaryUserData={setPrimaryUserData}
-								setAlumniData={setAlumniData}
-								setStudentsData={setStudentsData}
-							/>
-						}
-					/>
-					<Route
-						path='/eventdetails'
-						element={
-							<EventDetails
-								setEventsData={setEventsData}
-								primaryUserData={primaryUserData}
-							/>
-						}
-					/>
-					<Route
-						path='/history'
-						element={<History eventsData={eventsData} />}
-					/>
-					<Route
-						path='/profile'
-						element={<Profile primaryUserData={primaryUserData} />}
-					/>
-					<Route
-						path='/resetpassword'
-						element={<ResetPassword primaryUserData={primaryUserData} />}
-					/>
-					<Route
-						path='/schedulemeet'
-						element={<ScheduleMeet alumni={alumniData.email} />}
-					/>
-					<Route
-						path='/logout'
-						element={<Logout />}
-					/>
-					<Route
-						path='/firsttimelogin'
-						element={<FirstTimeLogin />}
-					/>
-				</Routes> */}
-				</Routes>
-				{/* <Loading show={showLoadingScreen} /> */}
-				<Navbar />
-			</Main>
+			{!(Boolean(alumniData) && Boolean(eventsData) && Boolean(studentsData)) &&
+			!notLoadingPaths.includes(window.location.pathname) ? (
+				<Loading />
+			) : null}
+			<DataContext.Provider
+				value={{
+					alumniData: alumniData,
+					studentsData: studentsData,
+					eventsData: eventsData,
+				}}>
+				<Main>
+					<Routes>
+						<Route
+							path='/'
+							element={<Login setTrigger={setTrigger} />}
+						/>
+						<Route
+							path='/home'
+							element={<Home />}
+						/>
+						<Route
+							path='/logout'
+							element={<Logout />}
+						/>
+						<Route
+							path='/profile'
+							element={<Profile />}
+						/>
+
+						<Route
+							path='/details'
+							element={<Details />}
+						/>
+						<Route
+							path='/editprofile'
+							element={
+								<EditProfile
+									setAlumniData={setAlumniData}
+									setStudentsData={setStudentsData}
+								/>
+							}
+						/>
+						<Route
+							path='/eventdetails'
+							element={<EventDetails setEventsData={setEventsData} />}
+						/>
+						<Route
+							path='/history'
+							element={<History />}
+						/>
+						<Route
+							path='/resetpassword'
+							element={<ResetPassword />}
+						/>
+						<Route
+							path='/schedulemeet'
+							element={<ScheduleMeet />}
+						/>
+						<Route
+							path='/firsttimelogin'
+							element={<FirstTimeLogin />}
+						/>
+						<Route
+							path='/chat'
+							element={<Chat socket={socketRef.current} />}
+						/>
+					</Routes>
+					{/* <Loading show={showLoadingScreen} /> */}
+					<Navbar />
+				</Main>
+			</DataContext.Provider>
 		</>
 	);
 }

@@ -1,86 +1,125 @@
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import ProfileCard from '../components/ProfileCard';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
-import { useEffect, useRef } from 'react';
+import { useEffect, useContext } from 'react';
+import { DataContext } from '../App';
+// useRef, 
 
 function Home() {
 	const navigate = useNavigate();
-	const location = useLocation();
-	const addbtnRef = useRef();
+	// const addbtnRef = useRef();
+	const { alumniData, studentsData, eventsData } = useContext(DataContext);
 
-	console.log(location.state);
-
-	useEffect(() => {
-		console.log('home page');
-	}, [])
+	// console.log(alumniData);
 
 	// useEffect(() => {
-	// 	let deferredPrompt;
-	// 	window.addEventListener('beforeinstallprompt', (e) => {
-	// 		e.preventDefault();
-	// 		deferredPrompt = e;
-	// 		// addbtnRef.current.style.display = 'block'
-	// 	});
-
-	// 	if (addbtnRef) {
-	// 		addbtnRef.current.addEventListener('click', (e) => {
-	// 			deferredPrompt?.prompt();
-	// 			deferredPrompt?.userChoice
-	// 				.then((choiceResult) => {
-	// 					if (choiceResult.outcome === 'accepted') {
-	// 						console.log('user accepted');
-	// 					}
-
-	// 					deferredPrompt = null;
-	// 				})
-	// 				.catch((error) => {
-	// 					console.log(error);
-	// 				});
-	// 		});
-	// 	}
-
-	// 	// return addbtnRef.current.removeEventListener('click'); window.removeEventListener('beforeinstallprompt');
+		// window.addEventListener('beforeinstallprompt', (event) => {
+		// 	// Prevent the mini-infobar from appearing on mobile.
+		// 	event.preventDefault();
+		// 	console.log('👍', 'beforeinstallprompt', event);
+		// 	// Stash the event so it can be triggered later.
+		// 	window.deferredPrompt = event;
+		// 	// Remove the 'hidden' class from the install button container.
+		// 	// divInstall.classList.toggle('hidden', false);
+		// });
+		// addbtnRef.current?.addEventListener('click', async () => {
+		// 	console.log('👍', 'butInstall-clicked');
+		// 	const promptEvent = window.deferredPrompt;
+		// 	if (!promptEvent) {
+		// 		// The deferred prompt isn't available.
+		// 		return;
+		// 	}
+		// 	// Show the install prompt.
+		// 	promptEvent.prompt();
+		// 	// Log the result
+		// 	const result = await promptEvent.userChoice;
+		// 	console.log('👍', 'userChoice', result);
+		// 	// Reset the deferred prompt variable, since
+		// 	// prompt() can only be called once.
+		// 	window.deferredPrompt = null;
+		// 	// Hide the install button.
+		// 	// divInstall.classList.toggle('hidden', true);
+		// });
+		// window.addEventListener('appinstalled', (event) => {
+		// 	console.log('👍', 'appinstalled', event);
+		// 	// Clear the deferredPrompt so it can be garbage collected
+		// 	window.deferredPrompt = null;
+		// });
+		// if (addbtnRef.current) {
+		// 	let deferredPrompt;
+		// 	window.addEventListener('beforeinstallprompt', (e) => {
+		// 		e.preventDefault();
+		// 		deferredPrompt = e;
+		// 	});
+		// 	addbtnRef.current.addEventListener('click', (e) => {
+		// 		deferredPrompt?.prompt();
+		// 		deferredPrompt?.userChoice
+		// 			.then((choiceResult) => {
+		// 				if (choiceResult.outcome === 'accepted') {
+		// 					console.log('user accepted');
+		// 				}
+		// 				deferredPrompt = null;
+		// 			})
+		// 			.catch((error) => {
+		// 				console.log(error);
+		// 			});
+		// 	});
+		// }
+		// return () => {
+		// 	addbtnRef.current?.removeEventListener('click');
+		// 	window.removeEventListener('beforeinstallprompt');
+		// };
 	// }, []);
 
 	return (
 		<>
-			<Header text={'Home'} />
-			{/* {alumniData && studentsData ? (
-				<div style={{ padding: '1em 1em 3em 1em' }}>
+			{alumniData && studentsData && eventsData ? (
+				<>
 					<Header text={'Home'} />
+					{/* <button ref={addbtnRef}>add to home screen</button> */}
 
-					<button ref={addbtnRef}>add to home screen</button>
-					{eventsData.pending.length === 0 ? (
-						<div style={styles.shadow_div}>
-							<p style={styles.text}>No ongoing Event</p>
-							<Button
-								text={'History'}
-								type={'dark'}
-								size={'small'}
-								onClick={() => navigate('/history')}
-							/>
-						</div>
-					) : (
-						eventsData.pending.map((event, index) => {
-							return (
-								<EventCard
-									key={index}
-									eventData={event}
-									history={eventsData}
-									alumni={alumniData.email}
+					{
+						// No events to render
+						eventsData.pending.length === 0 ? (
+							<div style={styles.shadow_div}>
+								<p style={styles.text}>No ongoing Event</p>
+								<Button
+									text={'History'}
+									type={'dark'}
+									size={'small'}
+									onClick={() => navigate('/history')}
 								/>
-							);
-						})
+							</div>
+						) : (
+							// pending events are available
+							eventsData.pending.map((event, index) => {
+								return (
+									<EventCard
+										key={index}
+										eventData={event}
+									/>
+								);
+							})
+						)
+					}
+
+					{/* Alumni Details */}
+					<p style={styles.text}>Alumni</p>
+					{alumniData.name ? (
+						<ProfileCard data={alumniData} />
+					) : (
+						<div style={{ ...styles.shadow_div, width: '75%' }}>
+							<p style={{ margin: 0 }}>Not logged in yet</p>
+						</div>
 					)}
 
-					<p style={styles.text}>Alumni</p>
-					<ProfileCard data={alumniData} />
-
+					{/* Student Details */}
 					<p style={styles.text}>Students</p>
 					{studentsData.map((student, index) => {
 						if (student.name) {
+							// it is a old student / database is populated
 							return (
 								<ProfileCard
 									key={index}
@@ -88,6 +127,7 @@ function Home() {
 								/>
 							);
 						} else {
+							// it is a new student / database is not populated
 							return (
 								<div style={{ ...styles.shadow_div, width: '75%' }}>
 									<p style={{ margin: 0 }}>student has not logged in yet</p>
@@ -96,10 +136,8 @@ function Home() {
 							);
 						}
 					})}
-				</div>
-			) : (
-				<></>
-			)} */}
+				</>
+			) : null}
 		</>
 	);
 }
