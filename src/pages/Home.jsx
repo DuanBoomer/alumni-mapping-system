@@ -11,36 +11,40 @@ function Home() {
 	const navigate = useNavigate();
 	const addbtnRef = useRef();
 	const { alumniData, studentsData, eventsData } = useContext(DataContext);
+	const deferredPrompt = useRef(null);
 
 	useEffect(() => {
-		let deferredPrompt;
+		// var ;
 		// let installed;
 		// window.addEventListener('appinstalled', (e) => {
 		// 	installed = true;
 		// 	console.log('app is installed');
 		// });
 		// if (!installed) {
-			window.addEventListener('beforeinstallprompt', (event) => {
-				event.preventDefault();
-				deferredPrompt = event;
-				addbtnRef.current.style.display = 'block';
-			});
+		window.addEventListener('beforeinstallprompt', (event) => {
+			event.preventDefault();
+			deferredPrompt.current = event;
+			// addbtnRef.current.style.display = 'block';
+		});
+		// function add_to_home_screen(e) {
 
-			addbtnRef.current.addEventListener('click', (e) => {
-				deferredPrompt?.prompt();
-				deferredPrompt?.userChoice
-					.then((choiceResult) => {
-						if (choiceResult.outcome === 'accepted') {
-							console.log('user accepted');
-						}
-						deferredPrompt = null;
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			});
 		// }
-		// return addbtnRef.current.removeEventListener('click');
+
+		addbtnRef.current.addEventListener('click', (e) => {
+			deferredPrompt.current?.prompt();
+			deferredPrompt.current?.userChoice
+				.then((choiceResult) => {
+					if (choiceResult.outcome === 'accepted') {
+						console.log('user accepted');
+					}
+					deferredPrompt.current = null;
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		});
+		// }
+		// return addbtnRef.current.removeEventListener('click', add_to_home_screen);
 	}, []);
 
 	return (
