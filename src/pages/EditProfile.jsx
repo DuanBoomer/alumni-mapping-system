@@ -36,7 +36,7 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		defaultValues: { ...primaryUserData, expertise: primaryUserData?.expertise.join(",")},
+		defaultValues: { ...primaryUserData, expertise: primaryUserData?.expertise?.join(",")},
 	});
 
 	function convertImageToBase64(e, setState) {
