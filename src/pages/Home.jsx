@@ -3,82 +3,56 @@ import EventCard from '../components/EventCard';
 import ProfileCard from '../components/ProfileCard';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { DataContext } from '../App';
-// useRef, 
+// useRef,
 
 function Home() {
 	const navigate = useNavigate();
-	// const addbtnRef = useRef();
+	const addbtnRef = useRef();
 	const { alumniData, studentsData, eventsData } = useContext(DataContext);
 
-	// console.log(alumniData);
+	useEffect(() => {
+		let deferredPrompt;
+		let installed;
+		window.addEventListener('appinstalled', (e) => {
+			installed = true;
+			console.log('app is installed');
+		});
+		if (!installed) {
+			window.addEventListener('beforeinstallprompt', (event) => {
+				event.preventDefault();
+				deferredPrompt = event;
+				addbtnRef.current.style.display = 'block';
+			});
 
-	// useEffect(() => {
-		// window.addEventListener('beforeinstallprompt', (event) => {
-		// 	// Prevent the mini-infobar from appearing on mobile.
-		// 	event.preventDefault();
-		// 	console.log('👍', 'beforeinstallprompt', event);
-		// 	// Stash the event so it can be triggered later.
-		// 	window.deferredPrompt = event;
-		// 	// Remove the 'hidden' class from the install button container.
-		// 	// divInstall.classList.toggle('hidden', false);
-		// });
-		// addbtnRef.current?.addEventListener('click', async () => {
-		// 	console.log('👍', 'butInstall-clicked');
-		// 	const promptEvent = window.deferredPrompt;
-		// 	if (!promptEvent) {
-		// 		// The deferred prompt isn't available.
-		// 		return;
-		// 	}
-		// 	// Show the install prompt.
-		// 	promptEvent.prompt();
-		// 	// Log the result
-		// 	const result = await promptEvent.userChoice;
-		// 	console.log('👍', 'userChoice', result);
-		// 	// Reset the deferred prompt variable, since
-		// 	// prompt() can only be called once.
-		// 	window.deferredPrompt = null;
-		// 	// Hide the install button.
-		// 	// divInstall.classList.toggle('hidden', true);
-		// });
-		// window.addEventListener('appinstalled', (event) => {
-		// 	console.log('👍', 'appinstalled', event);
-		// 	// Clear the deferredPrompt so it can be garbage collected
-		// 	window.deferredPrompt = null;
-		// });
-		// if (addbtnRef.current) {
-		// 	let deferredPrompt;
-		// 	window.addEventListener('beforeinstallprompt', (e) => {
-		// 		e.preventDefault();
-		// 		deferredPrompt = e;
-		// 	});
-		// 	addbtnRef.current.addEventListener('click', (e) => {
-		// 		deferredPrompt?.prompt();
-		// 		deferredPrompt?.userChoice
-		// 			.then((choiceResult) => {
-		// 				if (choiceResult.outcome === 'accepted') {
-		// 					console.log('user accepted');
-		// 				}
-		// 				deferredPrompt = null;
-		// 			})
-		// 			.catch((error) => {
-		// 				console.log(error);
-		// 			});
-		// 	});
-		// }
-		// return () => {
-		// 	addbtnRef.current?.removeEventListener('click');
-		// 	window.removeEventListener('beforeinstallprompt');
-		// };
-	// }, []);
+			addbtnRef.current.addEventListener('click', (e) => {
+				deferredPrompt?.prompt();
+				deferredPrompt?.userChoice
+					.then((choiceResult) => {
+						if (choiceResult.outcome === 'accepted') {
+							console.log('user accepted');
+						}
+						deferredPrompt = null;
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			});
+		}
+		return addbtnRef.current.remove;
+	}, []);
 
 	return (
 		<>
 			{alumniData && studentsData && eventsData ? (
 				<>
 					<Header text={'Home'} />
-					{/* <button ref={addbtnRef}>add to home screen</button> */}
+					<button
+						// style={{ display: 'none' }}
+						ref={addbtnRef}>
+						add to home screen
+					</button>
 
 					{
 						// No events to render
