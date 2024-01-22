@@ -14,12 +14,12 @@ function Home() {
 
 	useEffect(() => {
 		let deferredPrompt;
-		let installed;
-		window.addEventListener('appinstalled', (e) => {
-			installed = true;
-			console.log('app is installed');
-		});
-		if (!installed) {
+		// let installed;
+		// window.addEventListener('appinstalled', (e) => {
+		// 	installed = true;
+		// 	console.log('app is installed');
+		// });
+		// if (!installed) {
 			window.addEventListener('beforeinstallprompt', (event) => {
 				event.preventDefault();
 				deferredPrompt = event;
@@ -39,8 +39,8 @@ function Home() {
 						console.log(error);
 					});
 			});
-		}
-		return addbtnRef.current.remove;
+		// }
+		// return addbtnRef.current.removeEventListener('click');
 	}, []);
 
 	return (
