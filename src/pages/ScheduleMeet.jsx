@@ -7,6 +7,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE } from '../App';
 import { DataContext } from '../App';
+import Modal from '../components/Modal';
+import { BouncyBallsLoader } from 'react-loaders-kit';
+
 export default function ScheduleMeet() {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -21,6 +24,19 @@ export default function ScheduleMeet() {
 	const [desc, setDesc] = useState(eventData ? eventData.desc : '');
 	const [date, setDate] = useState(eventData ? eventData.date : '');
 	const [link, setLink] = useState(eventData ? eventData.link : '');
+
+	const [modal, setModal] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const loaderProps = {
+		loading: loading,
+		size: 40,
+		duration: 0.4,
+		colors: [
+			'var(--text-color-dark)',
+			'var(--text-color-dark)',
+			'var(--text-color-dark)',
+		],
+	};
 
 	const day_of_week = useCallback((date) => {
 		var weekday = [
@@ -37,6 +53,7 @@ export default function ScheduleMeet() {
 	}, []);
 
 	function handleSubmitClick() {
+		setLoading(true);
 		if (eventData) {
 			axios
 				.put(
@@ -54,9 +71,14 @@ export default function ScheduleMeet() {
 					}
 				)
 				.then((response) => {
+					setLoading(false);
+					setModal(false);
 					navigate('/home');
 				})
-				.catch((error) => {});
+				.catch((error) => {
+					setModal(false);
+					setLoading(false);
+				});
 		} else {
 			axios
 				.post(`${API_BASE}/schedule/event/${alumniData.email}`, {
@@ -71,6 +93,8 @@ export default function ScheduleMeet() {
 					docs: ['sample_document.pdf'],
 				})
 				.then((response) => {
+					setLoading(false);
+					setModal(false);
 					navigate('/home');
 				})
 				.catch((error) => {});
@@ -144,8 +168,36 @@ export default function ScheduleMeet() {
 				text={'Schedule'}
 				type={'light'}
 				size={'big'}
-				onClick={handleSubmitClick}
+				onClick={() => {
+					setModal(true);
+					console.log('clicked');
+				}}
 			/>
+			<Modal
+				showModal={modal}
+				setShowModal={setModal}>
+				<p>Do you want to schedule this meet?</p>
+				<div style={{ display: 'flex' }}>
+					<Button
+						text={'yes'}
+						type={'light'}
+						action={'submit'}
+						size={'small'}
+						onClick={handleSubmitClick}
+					/>
+					<BouncyBallsLoader {...loaderProps} />
+				</div>
+				<Button
+					text={'no'}
+					type={'dark'}
+					size={'small'}
+					disabled={loading}
+					onClick={() => {
+						setModal(false);
+						setLoading(false);
+					}}
+				/>
+			</Modal>
 
 			<div style={{ height: 'calc(0.5em + 26px)' }}></div>
 		</>
