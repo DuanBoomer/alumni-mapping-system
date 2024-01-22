@@ -124,7 +124,7 @@ export default function FirstTimeLogin() {
 	}
 
 	return (
-		<div style={{ padding: '1em 1em 3em 1em' }}>
+		<>
 			<Header text={'Sign Up'} />
 			<form onSubmit={handleSubmit(onSubmit)}>
 				{/* <FormInputField title={'Email'} label={'email'} regex={/[a-zA-Z0-9]/i} regexErrorMessage={"email must be of the valid format"} placeholder={'email'} register={register} errors={errors} /> */}
@@ -140,13 +140,20 @@ export default function FirstTimeLogin() {
 					errors={errors}
 				/>
 				{proceed === 0 ? (
-					<Button
-						text={'verify'}
-						onClick={handleSubmit(verifyEmail)}
-					/>
+					<>
+						<Button
+							text={'verify'}
+							onClick={handleSubmit(verifyEmail)}
+						/>
+						<Button
+							text={'go back'}
+							type={'light'}
+							path={'/'}
+						/>
+					</>
 				) : proceed === 1 ? (
 					userType === 'alumni' ? (
-						<div>
+						<>
 							<FormInputField
 								title={'Name'}
 								type={'text'}
@@ -240,7 +247,7 @@ export default function FirstTimeLogin() {
 								size={'big'}
 								onClick={() => handleSubmit(verifyEmail)}
 							/>
-						</div>
+						</>
 					) : (
 						<div>
 							<FormInputField
@@ -329,7 +336,7 @@ export default function FirstTimeLogin() {
 						</div>
 					)
 				) : (
-					<div>
+					<>
 						<p
 							style={{
 								margin: 0,
@@ -347,9 +354,9 @@ export default function FirstTimeLogin() {
 							type={'light'}
 							path={'/'}
 						/>
-					</div>
+					</>
 				)}
 			</form>
-		</div>
+		</>
 	);
 }

@@ -6,6 +6,7 @@ import Modal from '../components/Modal';
 import FormInputField from '../components/FormInputField';
 import { useForm } from 'react-hook-form';
 
+import { BouncyBallsLoader } from 'react-loaders-kit';
 import { API_BASE } from '../App';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -18,13 +19,24 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 	);
 	const [showModal, setShowModal] = useState(false);
 	const [userImage, setUserImage] = useState(primaryUserData.image);
+	const [loading, setLoading] = useState(false);
+	const loaderProps = {
+		loading: loading,
+		size: 40,
+		duration: 0.4,
+		colors: [
+			'var(--text-color-dark)',
+			'var(--text-color-dark)',
+			'var(--text-color-dark)',
+		],
+	};
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		defaultValues: primaryUserData,
+		defaultValues: { ...primaryUserData, expertise: primaryUserData?.expertise.join(",")},
 	});
 
 	function convertImageToBase64(e, setState) {
@@ -43,6 +55,8 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 	}
 
 	function handleSubmitClick(data) {
+		console.log(data);
+		setLoading(true);
 		if (primaryUserData.alumni) {
 			axios
 				.put(`${API_BASE}/update/student/${primaryUserData.email}`, {
@@ -51,11 +65,18 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 				})
 				.then((response) => {
 					setShowModal(false);
-					window.localStorage.setItem('PrimaryUserData', JSON.stringify(data));
+					setLoading(false);
+					window.localStorage.setItem('PrimaryUserData', {
+						...data,
+						image: userImage,
+					});
 					setStudentsData((prev) => {
 						const newArr = prev.map((student) => {
 							if (student.email === data.email) {
-								return data;
+								return {
+									...data,
+									image: userImage,
+								};
 							} else {
 								return student;
 							}
@@ -69,16 +90,29 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 					// console.log(error);
 				});
 		} else {
+			console.log(data);
 			axios
 				.put(`${API_BASE}/update/alumni/${primaryUserData.email}`, {
 					...data,
 					image: userImage,
-					expertise: data.expertise.split(', '),
+					expertise: data.expertise.split(','),
 				})
 				.then((response) => {
 					setShowModal(false);
-					window.localStorage.setItem('PrimaryUserData', JSON.stringify(data));
-					setAlumniData(data);
+					setLoading(false);
+					window.localStorage.setItem(
+						'PrimaryUserData',
+						JSON.stringify({
+							...data,
+							image: userImage,
+							expertise: data.expertise.split(','),
+						})
+					);
+					setAlumniData({
+						...data,
+						image: userImage,
+						expertise: data.expertise.split(','),
+					});
 					navigate('/profile');
 				})
 				.catch((error) => {
@@ -205,25 +239,32 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 					text={'Submit'}
 					type={'light'}
 					size={'big'}
-					onClick={() => setShowModal(true)}
+					onClick={() => {setShowModal(true)}}
 				/>
 
 				<Modal
 					showModal={showModal}
 					setShowModal={setShowModal}>
 					<p>Are you sure you want to save these changes?</p>
-					<Button
-						text={'yes'}
-						type={'light'}
-						action={'submit'}
-						size={'small'}
-						onClick={handleSubmit(handleSubmitClick)}
-					/>
+					<div style={{ display: 'flex' }}>
+						<Button
+							text={'yes'}
+							type={'light'}
+							action={'submit'}
+							size={'small'}
+							onClick={handleSubmit(handleSubmitClick)}
+						/>
+						<BouncyBallsLoader {...loaderProps} />
+					</div>
 					<Button
 						text={'no'}
 						type={'dark'}
 						size={'small'}
-						onClick={() => setShowModal(false)}
+						disabled={loading}
+						onClick={() => {
+							setShowModal(false);
+							setLoading(false);
+						}}
 					/>
 				</Modal>
 			</form>

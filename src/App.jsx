@@ -221,81 +221,80 @@ function App() {
 		}
 	}, [trigger]);
 
-	console.log('app');
-
 	return (
 		<>
 			{!(Boolean(alumniData) && Boolean(eventsData) && Boolean(studentsData)) &&
 			!notLoadingPaths.includes(window.location.pathname) ? (
 				<Loading />
-			) : null}
-			<DataContext.Provider
-				value={{
-					alumniData: alumniData,
-					studentsData: studentsData,
-					eventsData: eventsData,
-				}}>
-				<Main>
-					<Routes>
-						<Route
-							path='/'
-							element={<Login setTrigger={setTrigger} />}
-						/>
-						<Route
-							path='/home'
-							element={<Home />}
-						/>
-						<Route
-							path='/logout'
-							element={<Logout />}
-						/>
-						<Route
-							path='/profile'
-							element={<Profile />}
-						/>
+			) : (
+				<DataContext.Provider
+					value={{
+						alumniData: alumniData,
+						studentsData: studentsData,
+						eventsData: eventsData,
+					}}>
+					<Main>
+						<Routes>
+							<Route
+								path='/'
+								element={<Login setTrigger={setTrigger} />}
+							/>
+							<Route
+								path='/home'
+								element={<Home />}
+							/>
+							<Route
+								path='/logout'
+								element={<Logout />}
+							/>
+							<Route
+								path='/profile'
+								element={<Profile />}
+							/>
 
-						<Route
-							path='/details'
-							element={<Details />}
-						/>
-						<Route
-							path='/editprofile'
-							element={
-								<EditProfile
-									setAlumniData={setAlumniData}
-									setStudentsData={setStudentsData}
-								/>
-							}
-						/>
-						<Route
-							path='/eventdetails'
-							element={<EventDetails setEventsData={setEventsData} />}
-						/>
-						<Route
-							path='/history'
-							element={<History />}
-						/>
-						<Route
-							path='/resetpassword'
-							element={<ResetPassword />}
-						/>
-						<Route
-							path='/schedulemeet'
-							element={<ScheduleMeet />}
-						/>
-						<Route
-							path='/firsttimelogin'
-							element={<FirstTimeLogin />}
-						/>
-						<Route
-							path='/chat'
-							element={<Chat socket={socketRef.current} />}
-						/>
-					</Routes>
-					{/* <Loading show={showLoadingScreen} /> */}
-					<Navbar />
-				</Main>
-			</DataContext.Provider>
+							<Route
+								path='/details'
+								element={<Details />}
+							/>
+							<Route
+								path='/editprofile'
+								element={
+									<EditProfile
+										setAlumniData={setAlumniData}
+										setStudentsData={setStudentsData}
+									/>
+								}
+							/>
+							<Route
+								path='/eventdetails'
+								element={<EventDetails setEventsData={setEventsData} />}
+							/>
+							<Route
+								path='/history'
+								element={<History />}
+							/>
+							<Route
+								path='/resetpassword'
+								element={<ResetPassword />}
+							/>
+							<Route
+								path='/schedulemeet'
+								element={<ScheduleMeet />}
+							/>
+							<Route
+								path='/firsttimelogin'
+								element={<FirstTimeLogin />}
+							/>
+							<Route
+								path='/chat'
+								element={<Chat socket={socketRef.current} />}
+							/>
+						</Routes>
+						{/* <Loading show={showLoadingScreen} /> */}
+						<Navbar />
+					</Main>
+				</DataContext.Provider>
+			)}
 		</>
 	);
 }

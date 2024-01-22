@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function Button({ text, type, size, path, onClick, action }) {
+export default function Button({ text, type, size, path, onClick, action, disabled }) {
 	const styles = {
 		button: {
 			width: 'fit-content',
@@ -27,6 +27,7 @@ export default function Button({ text, type, size, path, onClick, action }) {
 		<>
 			{onClick ? (
 				<button
+					disabled={disabled}
 					style={styles.button}
 					type={action ? action : 'button'}
 					onClick={() => onClick()}>
@@ -37,6 +38,7 @@ export default function Button({ text, type, size, path, onClick, action }) {
 					to={path}
 					style={{ textDecoration: 'none' }}>
 					<button
+						disabled={disabled}
 						style={styles.button}
 						type={action ? action : 'button'}>
 						{text}

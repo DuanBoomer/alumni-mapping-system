@@ -5,6 +5,7 @@ import { API_BASE } from '../App';
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BouncyBallsLoader } from 'react-loaders-kit';
 
 async function getSHA256Hash(input) {
 	const textAsBuffer = new TextEncoder().encode(input);
@@ -26,6 +27,16 @@ export default function Login({ setTrigger }) {
 		text: 'email or password incorrect',
 	});
 	const [displayLoader, setDisplayLoader] = useState(false);
+	const loaderProps = {
+		loading: displayLoader,
+		size: 40,
+		duration: 0.4,
+		colors: [
+			'var(--text-color-dark)',
+			'var(--text-color-dark)',
+			'var(--text-color-dark)',
+		],
+	};
 
 	useEffect(() => {
 		var data = JSON.parse(window.localStorage.getItem('PrimaryUserData'));
@@ -49,11 +60,13 @@ export default function Login({ setTrigger }) {
 						error: true,
 						text: 'email or password incorrect, or unauthorised access',
 					});
+					setDisplayLoader(false);
 				} else if (response.data && response.data?.login === 'first time') {
 					setErr({
 						error: true,
 						text: 'this is your first time logging in, please go to the sign up page first',
 					});
+					setDisplayLoader(false);
 				} else if (response.data && response.data?.login !== 'first time') {
 					// sucessfull login
 					setErr({ error: false, text: 'email or password incorrect' });
@@ -73,6 +86,7 @@ export default function Login({ setTrigger }) {
 								error: true,
 								text: 'unable to fetch data at the moment',
 							});
+							setDisplayLoader(false);
 						});
 				} else {
 				}
@@ -83,6 +97,8 @@ export default function Login({ setTrigger }) {
 				});
 			});
 	}, [email, password, setTrigger]);
+
+	console.log(displayLoader);
 
 	return (
 		<>
@@ -114,12 +130,15 @@ export default function Login({ setTrigger }) {
 					path={'/firsttimelogin'}
 				/>
 			</div>
+			<div style={{ margin: '1em' }}>
+				<BouncyBallsLoader {...loaderProps} />
+			</div>
 
-			{displayLoader ? (
+			{/* {displayLoader ? (
 				<p style={{ fontSize: 'var(--font-size-sm)', margin: '0.5em' }}>
 					authorizing user details
 				</p>
-			) : null}
+			) : null} */}
 			{err.error ? (
 				<p
 					style={{

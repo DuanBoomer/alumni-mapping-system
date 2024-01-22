@@ -14,6 +14,8 @@ export default function ProfileCard({ data }) {
 		});
 	}
 
+	console.log(data);
+
 	return (
 		<div
 			style={styles.card}
