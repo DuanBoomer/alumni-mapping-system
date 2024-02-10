@@ -7,6 +7,7 @@ export default function InputField({
 	title,
 	type,
 	state,
+	placeholder,
 	setState,
 	button,
 	rows,
@@ -46,7 +47,7 @@ export default function InputField({
 				<>
 					<input
 						style={styles.input}
-						placeholder="something secret"
+						placeholder='something secret'
 						type={passwordShown ? 'text' : 'password'}
 						value={state}
 						onChange={(event) => setState(event.target.value)}
@@ -65,7 +66,7 @@ export default function InputField({
 			InputField = (
 				<input
 					style={styles.input}
-					placeholder="give me a email"
+					placeholder='give me a email'
 					type={'email'}
 					value={state}
 					onChange={(event) => setState(event.target.value.toLowerCase())}
@@ -77,7 +78,7 @@ export default function InputField({
 			InputField = (
 				<input
 					style={styles.input}
-					placeholder="a date"
+					placeholder='a date'
 					type={'date'}
 					value={state}
 					onChange={(event) => setState(event.target.value)}
@@ -89,7 +90,7 @@ export default function InputField({
 			InputField = (
 				<input
 					style={styles.input}
-					placeholder="a time"
+					placeholder='a time'
 					type={'time'}
 					value={state}
 					onChange={(event) => setState(event.target.value)}
@@ -101,7 +102,7 @@ export default function InputField({
 			InputField = (
 				<input
 					style={styles.input}
-					placeholder="some awesome link"
+					placeholder='some awesome link'
 					type={'url'}
 					value={state}
 					onChange={(event) => setState(event.target.value)}
@@ -124,6 +125,7 @@ export default function InputField({
 			InputField = (
 				<input
 					style={styles.input}
+					placeholder={placeholder}
 					type={'text'}
 					value={state}
 					onChange={(event) => setState(event.target.value)}
@@ -151,7 +153,7 @@ export default function InputField({
 const styles = {
 	input: {
 		padding: '1rem 2rem',
-		border: 'none',
+		// border: 'none',
 		outline: 'none',
 		marginBottom: '0.5em',
 		color: 'var(--text-color-light)',
@@ -160,10 +162,10 @@ const styles = {
 		fontStyle: 'normal',
 		fontWeight: '400',
 		lineHeight: 'normal',
-		borderRadius: '13px',
+		// borderRadius: '13px',
 		background: 'var(--main-bg-color)',
-		boxShadow:
-			'-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset',
+		// boxShadow:
+		// 	'-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset',
 	},
 
 	title: {
@@ -183,20 +185,20 @@ const styles = {
 		bottom: 'calc(50% - var(--font-size-md))', // half width - title size
 	},
 	textarea: {
-		padding: '1rem 2rem',
-		marginBottom: '0.5em',
+		// padding: '1rem 2rem',
+		// marginBottom: '0.5em',
 		// padding: "0.75rem 1.25rem",
-		border: 'none',
-		outline: 'none',
-		color: 'var(--text-color-light)',
+		// border: 'none',
+		// outline: 'none',
+		// color: 'var(--text-color-light)',
 		fontFamily: 'Poppins',
-		fontSize: 'var(--font-size-sm)',
-		fontStyle: 'normal',
-		fontWeight: '400',
-		lineHeight: 'normal',
-		borderRadius: '13px',
-		background: 'var(--main-bg-color)',
-		boxShadow:
-			'-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset',
+		// fontSize: 'var(--font-size-sm)',
+		// fontStyle: 'normal',
+		// fontWeight: '400',
+		// lineHeight: 'normal',
+		// borderRadius: '13px',
+		// background: 'var(--main-bg-color)',
+		// boxShadow:
+		// 	'-5px -5px 10px 0px var(--light-shadow) inset, 5px 5px 10px 0px var(--dark-shadow) inset',
 	},
 };

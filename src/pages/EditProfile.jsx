@@ -36,7 +36,10 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		defaultValues: { ...primaryUserData, expertise: primaryUserData?.expertise?.join(",")},
+		defaultValues: {
+			...primaryUserData,
+			expertise: primaryUserData?.expertise?.join(','),
+		},
 	});
 
 	function convertImageToBase64(e, setState) {
@@ -137,12 +140,14 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 
 					<div style={styles.partition}>
 						<input
-							style={{ ...styles.long_input, flexGrow: 0 }}
+							className='long_input'
+							style={{ flexGrow: 0 }}
 							{...register('name')}
 							placeholder='roronoa zoro'
 						/>
 						<textarea
-							style={styles.long_input}
+							className='long_input'
+							// style={styles.long_input}
 							rows={'3'}
 							placeholder='desc'
 							{...register('desc')}
@@ -239,7 +244,9 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 					text={'Submit'}
 					type={'light'}
 					size={'big'}
-					onClick={() => {setShowModal(true)}}
+					onClick={() => {
+						setShowModal(true);
+					}}
 				/>
 
 				<Modal

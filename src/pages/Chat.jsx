@@ -66,7 +66,8 @@ const ChatBox = forwardRef(
 				userSelect: 'none',
 				textAlign: 'left',
 				margin: '0',
-				color: 'var(text-color-light)',
+				// color: 'var(text-color-light)',
+				// color: 'red !important',
 				fontSize: 'var(--font-size-sm)',
 				borderRadius:
 					type === 'sent' ? '18px 18px 0px 18px' : '18px 18px 18px 0px',
@@ -103,6 +104,7 @@ const ChatBox = forwardRef(
 				gap: '10px',
 				background: 'none',
 				border: 'none',
+				boxShadow: 'none'
 				// textDecoration: "underline",
 			},
 		};

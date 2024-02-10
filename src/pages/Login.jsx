@@ -98,7 +98,7 @@ export default function Login({ setTrigger }) {
 			});
 	}, [email, password, setTrigger]);
 
-	console.log(displayLoader);
+	// console.log(displayLoader);
 
 	return (
 		<>

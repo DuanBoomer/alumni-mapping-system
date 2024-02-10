@@ -9,9 +9,12 @@ import { DataContext } from '../App';
 
 function Home() {
 	const navigate = useNavigate();
-	const addbtnRef = useRef();
+	// const addbtnRef = useRef();
 	const { alumniData, studentsData, eventsData } = useContext(DataContext);
 	const deferredPrompt = useRef(null);
+
+	console.log('home');
+	console.log(alumniData);
 
 	useEffect(() => {
 		// var ;
@@ -30,7 +33,9 @@ function Home() {
 
 		// }
 
-		addbtnRef.current.addEventListener('click', (e) => {
+		const addbtnRef = document.querySelector('.addbtnRef');
+
+		addbtnRef.addEventListener('click', (e) => {
 			deferredPrompt.current?.prompt();
 			deferredPrompt.current?.userChoice
 				.then((choiceResult) => {
@@ -53,8 +58,8 @@ function Home() {
 				<>
 					<Header text={'Home'} />
 					<button
-						// style={{ display: 'none' }}
-						ref={addbtnRef}>
+					style={{display: "none"}}
+						className='addbtnRef'>
 						add to home screen
 					</button>
 

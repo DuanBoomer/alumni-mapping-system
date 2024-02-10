@@ -39,7 +39,7 @@ function Profile() {
 				<img
 					style={styles.profile_image}
 					src={primaryUserData.image}
-					alt='profile'
+					alt='profile'Profi
 				/>
 				<p style={styles.name}>{primaryUserData.name}</p>
 

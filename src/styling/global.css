@@ -21,10 +21,75 @@ html {
 body {
     padding: 1em;
     padding-bottom: 3em;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.menu__list {
+    --underline-width: 0px;
+    --underline-offset-x: 0px;
+}
+
+.menu__list::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    height: 4px;
+    width: var(--underline-width);
+    transform: translateX(var(--underline-offset-x));
+    background-color: var(--text-color-dark);
+    transition: transform 0.5s, width 0.5s;
+    border-radius: 4px;
+}
+
+button {
+    border: none;
+    box-shadow: 4px 4px 8px 0px var(--dark-shadow),
+        -4px -4px 8px 0px var(--light-shadow);
+    background-color: var(--main-bg-color);
+    color: var(--text-color-dark) !important;
+    border-radius: 9px;
+}
+
+button:focus {
+    border-radius: 10px;
+    box-shadow: none;
 }
 
 input::-ms-reveal {
     display: none;
+}
+
+input, textarea {
+    border: none;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--text-color-dark);
+    outline: none;
+    margin-bottom: 0.5em;
+    color: var(--text-color-light);
+    font-size: var(--font-size-sm);
+    background: var(--main-bg-color);
+    font-size: var(--font-size-sm);
+    /* box-shadow: ; */
+}
+
+.long_input{
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-shrink: 0;
+    width: calc(100% - 4.5em);
+}
+
+input:focus, textarea:focus {
+    /* border: none; */
+    border-radius: 13px;
+    box-shadow: -5px -5px 10px 0px var(--light-shadow) inset,
+        5px 5px 10px 0px var(--dark-shadow) inset;
 }
 
 input[type="file"]::file-selector-button {
@@ -47,5 +112,5 @@ input[type="file"]::file-selector-button {
 }
 
 * {
-    transition: 0.2s;
+    transition: 0.4s;
 }
