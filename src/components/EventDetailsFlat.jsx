@@ -1,10 +1,20 @@
 import Button from './Button';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import Modal from './Modal';
+import InputField from './InputField';
 
 export default function EventDetailsFlat({ eventData }) {
 	const handleJoinClick = useCallback(() => {
 		window.open(eventData.link);
 	}, []);
+
+	const primaryUserData = JSON.parse(
+		window.localStorage.getItem('PrimaryUserData')
+	);
+
+	const [newTalkingPoint, setNewTalkingPoint] = useState();
+	const [talkingPoints, setTalkingPoints] = useState([]);
+	const [enterTalkingPoints, setEnterTalkingPoints] = useState(false);
 
 	return (
 		<>
@@ -19,12 +29,56 @@ export default function EventDetailsFlat({ eventData }) {
 				</div>
 				<p style={styles.small_text}>{eventData.desc}</p>
 			</div>
+
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				<p style={{ ...styles.medium_text, marginRight: '0.5em' }}>
+					Talking Points
+				</p>
+				{primaryUserData.alumni ? null : (
+					<Button
+						text={'+'}
+						onClick={() => {
+							setEnterTalkingPoints(true);
+						}}
+					/>
+				)}
+			</div>
+			<ul style={{ width: 'auto', wordBreak: 'break-word' }}>
+				{talkingPoints.map((text) => {
+					return <li style={styles.small_text}>{text}</li>;
+				})}
+			</ul>
 			<Button
 				text={'Join'}
 				type={'light'}
 				size={'big'}
 				onClick={handleJoinClick}
 			/>
+
+			<Modal
+				showModal={enterTalkingPoints}
+				setShowModal={setEnterTalkingPoints}>
+				<div style={{ margin: '1em' }}>
+					<InputField
+						title={'Add a talking point'}
+						type={'textarea'}
+						rows={5}
+						state={newTalkingPoint}
+						setState={setNewTalkingPoint}>
+						modal
+					</InputField>
+					<Button
+						text={'Add'}
+						onClick={() => {
+							setTalkingPoints((prev) => {
+								return [...prev, newTalkingPoint];
+							});
+							setNewTalkingPoint('');
+							setEnterTalkingPoints(false);
+						}}
+					/>
+				</div>
+			</Modal>
 		</>
 	);
 }

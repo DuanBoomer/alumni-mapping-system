@@ -12,6 +12,7 @@ export default function EventDetails() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [showModal, setShowModal] = useState(false);
+	const [showMarkModal, setShowMarkModal] = useState(false);
 
 	const eventData = location.state.eventData;
 	const { alumniData } = useContext(DataContext);
@@ -36,6 +37,7 @@ export default function EventDetails() {
 				type: 'done',
 			})
 			.then((response) => {
+				setShowMarkModal(false)
 				navigate('/home');
 			})
 			.catch((error) => {});
@@ -69,7 +71,7 @@ export default function EventDetails() {
 							text={'Mark as done'}
 							type={'dark'}
 							size={'big'}
-							onClick={handleMarkAsDoneClick}
+							onClick={() => setShowMarkModal(true)}
 						/>
 					</div>
 				)}
@@ -90,6 +92,24 @@ export default function EventDetails() {
 					type={'dark'}
 					size={'small'}
 					onClick={() => setShowModal(false)}
+				/>
+			</Modal>
+
+			<Modal
+				showModal={showMarkModal}
+				setShowModal={setShowMarkModal}>
+				<p>Are you sure you want to mark this meeting as done?</p>
+				<Button
+					text={'yes'}
+					type={'light'}
+					size={'small'}
+					onClick={handleMarkAsDoneClick}
+				/>
+				<Button
+					text={'no'}
+					type={'dark'}
+					size={'small'}
+					onClick={() => setShowMarkModal(false)}
 				/>
 			</Modal>
 		</>
