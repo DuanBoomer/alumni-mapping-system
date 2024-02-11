@@ -66,6 +66,7 @@ export default function ScheduleMeet() {
 						date: date,
 						desc: desc,
 						link: link,
+						talking_points: "",
 						type: 'pending',
 						docs: ['sample_document.pdf'],
 					}
@@ -89,6 +90,7 @@ export default function ScheduleMeet() {
 					date: date,
 					desc: desc,
 					link: link,
+					talking_points: "",
 					type: 'pending',
 					docs: ['sample_document.pdf'],
 				})

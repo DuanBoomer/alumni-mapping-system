@@ -1,13 +1,12 @@
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function EventCard({ eventData, alumni, history }) {
+export default function EventCard({ eventData }) {
 	const navigate = useNavigate();
 
 	function handleViewClick() {
 		navigate('/eventdetails', {
 			state: {
-				alumni: alumni,
 				eventData: eventData,
 			},
 		});

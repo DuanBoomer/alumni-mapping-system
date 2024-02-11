@@ -221,9 +221,6 @@ function App() {
 		}
 	}, [trigger]);
 
-	console.log('app');
-	console.log(alumniData);
-
 	return (
 		<>
 			{!(Boolean(alumniData) && Boolean(eventsData) && Boolean(studentsData)) &&

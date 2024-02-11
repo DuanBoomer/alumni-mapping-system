@@ -13,9 +13,6 @@ function Home() {
 	const { alumniData, studentsData, eventsData } = useContext(DataContext);
 	const deferredPrompt = useRef(null);
 
-	console.log('home');
-	console.log(alumniData);
-
 	useEffect(() => {
 		// var ;
 		// let installed;

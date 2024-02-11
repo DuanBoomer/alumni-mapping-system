@@ -62,7 +62,7 @@ export default function ProfileCard({ data }) {
 					data: data,
 				},
 			});
-		}, 200);
+		}, 400);
 	}
 
 	return (
