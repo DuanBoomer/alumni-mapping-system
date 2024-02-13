@@ -245,7 +245,14 @@ function App() {
 							/>
 							<Route
 								path='/logout'
-								element={<Logout />}
+								element={
+									<Logout
+										setTrigger={setTrigger}
+										setAlumniData={setAlumniData}
+										setEventsData={setEventsData}
+										setStudentsData={setStudentsData}
+									/>
+								}
 							/>
 							<Route
 								path='/profile'

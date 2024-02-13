@@ -55,5 +55,6 @@ const styles = {
 		font: 'inherit',
 		cursor: 'pointer',
 		outline: 'inherit',
+		boxShadow: 'none'
 	},
 };

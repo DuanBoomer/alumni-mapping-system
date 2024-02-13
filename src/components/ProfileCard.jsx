@@ -1,20 +1,69 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import arrow from '../assets/arrow.svg';
 import star from '../assets/star.svg';
 import { useNavigate } from 'react-router-dom';
 
 export default function ProfileCard({ data }) {
 	const navigate = useNavigate();
+	const [shadowAnimation, setShadowAnimation] = useState(false);
+
+	const styles = {
+		profile_image: {
+			height: '50px',
+			width: '50px',
+			objectFit: 'cover',
+			borderRadius: '10px',
+		},
+
+		card: {
+			position: 'relative',
+			margin: '2em 0',
+			width: '75%',
+			padding: '1em',
+			borderRadius: '18px',
+			background: 'var(--main-bg-color)',
+			boxShadow: shadowAnimation
+				? 'none'
+				: '-11px -11px 22px 0px var(--light-shadow), 11px 11px 22px 0px var(--dark-shadow)',
+
+			// transition: 'transform ease 0.5s, box-shadow ease 0.5s',
+		},
+
+		name: {
+			margin: '0',
+			padding: '0 0.5em',
+			color: 'var(--text-color-dark)',
+			fontFamily: 'Poppins',
+			fontSize: 'var(--font-size-lg)',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: 'normal',
+			letterSpacing: '-0.333px',
+		},
+
+		text: {
+			margin: '0',
+			padding: '0',
+			color: 'var(--text-color-light)',
+			fontFamily: 'Poppins',
+			fontSize: 'var(--font-size-sm)',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: 'normal',
+			letterSpacing: '-0.333px',
+		},
+	};
 
 	function handleDetailsClick() {
-		navigate('/details', {
-			state: {
-				data: data,
-			},
-		});
+		setShadowAnimation(true);
+		const timer = setTimeout(() => {
+			navigate('/details', {
+				state: {
+					data: data,
+				},
+			});
+		}, 400);
 	}
-
-	console.log(data);
 
 	return (
 		<div
@@ -91,47 +140,3 @@ export default function ProfileCard({ data }) {
 		</div>
 	);
 }
-
-const styles = {
-	profile_image: {
-		height: '50px',
-		width: '50px',
-		objectFit: 'cover',
-		borderRadius: '10px',
-	},
-
-	card: {
-		position: 'relative',
-		margin: '2em 0',
-		width: '75%',
-		padding: '1em',
-		borderRadius: '18px',
-		background: 'var(--main-bg-color)',
-		boxShadow:
-			'-11px -11px 22px 0px var(--light-shadow), 11px 11px 22px 0px var(--dark-shadow)',
-	},
-
-	name: {
-		margin: '0',
-		padding: '0 0.5em',
-		color: 'var(--text-color-dark)',
-		fontFamily: 'Poppins',
-		fontSize: 'var(--font-size-lg)',
-		fontStyle: 'normal',
-		fontWeight: 400,
-		lineHeight: 'normal',
-		letterSpacing: '-0.333px',
-	},
-
-	text: {
-		margin: '0',
-		padding: '0',
-		color: 'var(--text-color-light)',
-		fontFamily: 'Poppins',
-		fontSize: 'var(--font-size-sm)',
-		fontStyle: 'normal',
-		fontWeight: 400,
-		lineHeight: 'normal',
-		letterSpacing: '-0.333px',
-	},
-};
