@@ -141,12 +141,24 @@ export default function EditProfile({ setAlumniData, setStudentsData }) {
 					<div style={styles.partition}>
 						<input
 							className='long_input'
-							style={{ flexGrow: 0 }}
+							style={{
+								flexGrow: 0,
+								fontFamily: 'Poppins',
+								fontStyle: 'normal',
+								fontWeight: '400',
+								lineHeight: 'normal',
+							}}
 							{...register('name')}
 							placeholder='roronoa zoro'
 						/>
 						<textarea
 							className='long_input'
+							style={{
+								fontFamily: 'Poppins',
+								fontStyle: 'normal',
+								fontWeight: '400',
+								lineHeight: 'normal',
+							}}
 							// style={styles.long_input}
 							rows={'3'}
 							placeholder='desc'

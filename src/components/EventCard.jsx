@@ -51,7 +51,14 @@ export default function EventCard({ eventData }) {
 						size={'small'}
 						onClick={handleHistoryClick}
 					/>
-				) : null}
+				) : (
+					<Button
+						text={'Details'}
+						type={'dark'}
+						size={'small'}
+						onClick={handleViewClick}
+					/>
+				)}
 			</div>
 		</div>
 	);

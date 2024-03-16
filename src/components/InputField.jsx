@@ -35,7 +35,7 @@ export default function InputField({
 				<textarea
 					style={styles.textarea}
 					rows={rows}
-					placeholder='something long'
+					placeholder={placeholder ? placeholder : 'something long'}
 					value={state}
 					onChange={(event) => setState(event.target.value)}
 				/>
@@ -157,8 +157,8 @@ const styles = {
 		outline: 'none',
 		marginBottom: '0.5em',
 		color: 'var(--text-color-light)',
-		fontFamily: 'Poppins',
 		fontSize: 'var(--font-size-sm)',
+		fontFamily: 'Poppins',
 		fontStyle: 'normal',
 		fontWeight: '400',
 		lineHeight: 'normal',

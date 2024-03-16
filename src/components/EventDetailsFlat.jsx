@@ -15,7 +15,7 @@ export default function EventDetailsFlat({ eventData }) {
 		window.localStorage.getItem('PrimaryUserData')
 	);
 
-	const { alumniData } = useContext(DataContext);
+	const { alumniData, studentsData } = useContext(DataContext);
 
 	const [talkingPoints, setTalkingPoints] = useState(eventData.talking_points);
 
@@ -65,7 +65,9 @@ export default function EventDetailsFlat({ eventData }) {
 				<p style={{ ...styles.medium_text, marginRight: '0.5em' }}>
 					Talking Points
 				</p>
-				{primaryUserData.alumni ? null : (
+				{(primaryUserData.alumni &&
+					primaryUserData.name !== primaryUserData.student_coordinator) ||
+				eventData.type === 'done' ? null : (
 					<Button
 						text={'+'}
 						onClick={() => {
@@ -81,12 +83,44 @@ export default function EventDetailsFlat({ eventData }) {
 					  })
 					: null}
 			</ul>
-			<Button
-				text={'Join'}
-				type={'light'}
-				size={'big'}
-				onClick={handleJoinClick}
-			/>
+
+			{eventData.type === 'done' ? null : (
+				<Button
+					text={'Join'}
+					type={'light'}
+					size={'big'}
+					onClick={handleJoinClick}
+				/>
+			)}
+
+			{eventData.type === 'done' ? (
+				<>
+					<p style={{ ...styles.medium_text, marginRight: '0.5em' }}>Reviews</p>
+					<ul>
+						{studentsData.map((item, index) => {
+							return (
+								<>
+									<li
+										style={{
+											...styles.small_text,
+											color: '#37352F',
+										}}>
+										{item.name} -
+										<span
+											style={{
+												...styles.small_text,
+											}}>
+											{eventData.reviews[index].review
+												? eventData.reviews[index].review
+												: 'not reviewed yet'}
+										</span>
+									</li>
+								</>
+							);
+						})}
+					</ul>
+				</>
+			) : null}
 
 			<Modal
 				showModal={showTalkingPointModal}
@@ -94,6 +128,9 @@ export default function EventDetailsFlat({ eventData }) {
 				<div style={{ margin: '1em' }}>
 					<InputField
 						title={'Add a talking point'}
+						placeholder={
+							'write some talking points here\neach newline adds a new point\nadd as many as you like'
+						}
 						type={'textarea'}
 						rows={5}
 						state={talkingPointInput}
@@ -103,6 +140,7 @@ export default function EventDetailsFlat({ eventData }) {
 					<Button
 						text={'Save'}
 						onClick={() => {
+							console.log(talkingPointInput);
 							setTalkingPoints(talkingPointInput);
 							handleTalkingPointSave(talkingPointInput);
 							setShowTalkingPointModal(false);
