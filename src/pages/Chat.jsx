@@ -470,7 +470,7 @@ export default function Chat({ socket }) {
 					{/* send button */}
 					<button
 						ref={btn}
-						style={{ display: 'flex', background: 'none', border: 'none' }}
+						style={{ display: 'flex', background: 'none', border: 'none', boxShadow: 'none' }}
 						onClick={handleSendClick}>
 						<img
 							style={styles.send_icon}

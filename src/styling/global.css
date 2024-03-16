@@ -20,7 +20,7 @@ html {
 
 body {
     padding: 1em;
-    padding-bottom: 3em;
+    padding-bottom: 4em;
     -ms-overflow-style: none;
 }
 
@@ -65,7 +65,8 @@ input::-ms-reveal {
     display: none;
 }
 
-input, textarea {
+input,
+textarea {
     border: none;
     padding: 1rem 2rem;
     border-bottom: 1px solid var(--text-color-dark);
@@ -78,14 +79,15 @@ input, textarea {
     /* box-shadow: ; */
 }
 
-.long_input{
+.long_input {
     flex-grow: 1;
     flex-basis: 0;
     flex-shrink: 0;
     width: calc(100% - 4.5em);
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     /* border: none; */
     border-radius: 13px;
     box-shadow: -5px -5px 10px 0px var(--light-shadow) inset,

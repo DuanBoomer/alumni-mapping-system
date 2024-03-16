@@ -39,7 +39,8 @@ function Profile() {
 				<img
 					style={styles.profile_image}
 					src={primaryUserData.image}
-					alt='profile'Profi
+					alt='profile'
+					Profi
 				/>
 				<p style={styles.name}>{primaryUserData.name}</p>
 
@@ -67,7 +68,7 @@ function Profile() {
 					onClick={() => navigate('/editprofile')}
 				/>
 
-				{primaryUserData.alumni ? null : (
+				{primaryUserData.alumni && primaryUserData.name !== primaryUserData.student_coordinator ? null : (
 					<Button
 						text={'Schedule Meet'}
 						type='light'
@@ -81,6 +82,12 @@ function Profile() {
 					type='light'
 					size='large'
 					onClick={() => navigate('/resetpassword')}
+				/>
+				<Button
+					text={'Bug Report'}
+					type={'light'}
+					size={'large'}
+					path={'/bugreport'}
 				/>
 				<Button
 					text={'Log Out'}

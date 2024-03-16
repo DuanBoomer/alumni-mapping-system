@@ -37,7 +37,7 @@ export default function EventDetails() {
 				type: 'done',
 			})
 			.then((response) => {
-				setShowMarkModal(false)
+				setShowMarkModal(false);
 				navigate('/home');
 			})
 			.catch((error) => {});
@@ -47,13 +47,19 @@ export default function EventDetails() {
 		navigate('/schedulemeet', { state: eventData });
 	}
 
+	function handleReviewClick() {
+		navigate('/review', { state: eventData });
+	}
+
 	return (
 		<>
 			<Header text={'Event Details'} />
 			<EventDetailsFlat eventData={eventData} />
 
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				{primaryUserData.alumni ? null : (
+				{(primaryUserData.alumni &&
+					primaryUserData.name !== primaryUserData.student_coordinator) ||
+				eventData.type === 'done' ? null : (
 					<div>
 						<Button
 							text={'Cancel'}
@@ -72,6 +78,12 @@ export default function EventDetails() {
 							type={'dark'}
 							size={'big'}
 							onClick={() => setShowMarkModal(true)}
+						/>
+						<Button
+							text={'Review'}
+							type={'dark'}
+							size={'big'}
+							onClick={handleReviewClick}
 						/>
 					</div>
 				)}

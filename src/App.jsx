@@ -18,6 +18,8 @@ import { io } from 'socket.io-client';
 // import Docs from './pages/Docs';
 // import Downloads from './pages/Downloads';
 // import ContactFaculty from './pages/ContactFaculty';
+import Review from './pages/Review';
+import BugReport from './pages/BugReport';
 import { useEffect, useRef, useState, createContext } from 'react';
 import axios from 'axios';
 
@@ -295,6 +297,14 @@ function App() {
 							<Route
 								path='/chat'
 								element={<Chat socket={socketRef.current} />}
+							/>
+							<Route
+								path='/review'
+								element={<Review />}
+							/>
+							<Route
+								path='/bugreport'
+								element={<BugReport />}
 							/>
 						</Routes>
 						{/* <Loading show={showLoadingScreen} /> */}
