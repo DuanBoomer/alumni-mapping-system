@@ -4,7 +4,7 @@ export default function Modal({ children, showModal, setShowModal }) {
 		<div>
 			{showModal ? (
 				<div>
-					<div style={styles.backdrop}></div>
+					{/* <div style={styles.backdrop}></div> */}
 					<div style={styles.modal}>
 						<button
 							style={styles.closeButton}
@@ -34,6 +34,8 @@ const styles = {
 		transform: 'translate(-50%, -50%)',
 		borderRadius: '18px',
 		padding: '1em',
+		boxShadow:
+			'-8px -8px 16px 0px var(--light-shadow), 8px 8px 16px 0px var(--dark-shadow)',
 	},
 	backdrop: {
 		position: 'fixed',
@@ -55,6 +57,6 @@ const styles = {
 		font: 'inherit',
 		cursor: 'pointer',
 		outline: 'inherit',
-		boxShadow: 'none'
+		boxShadow: 'none',
 	},
 };
